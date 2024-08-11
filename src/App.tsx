@@ -1,5 +1,5 @@
 import homeImg from '/home.gif'
-import './App.css'
+import './App.scss'
 
 function App() {
   return (

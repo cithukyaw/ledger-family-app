@@ -1,0 +1,18 @@
+$font-stack: "Noto Serif", serif;
+$primary-color: #000;
+$title-color: #444;
+
+@mixin title-font() {
+    font-family: "Lobster", sans-serif;
+    font-weight: 400;
+    font-size: 2.8em;
+    font-style: normal;
+    color: $title-color;
+}
+
+@mixin flex-center() {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
