@@ -1,7 +1,9 @@
+import { FC } from 'react'
+import { Button } from '@mui/material'
 import homeImg from '/home.gif'
 import './App.scss'
 
-function App() {
+const App: FC = () => {
   return (
     <div className="app">
       <div>
@@ -12,8 +14,15 @@ function App() {
         <p>Track expenses and manage budget effectively</p>
       </div>
       <div className="buttons">
-        <button>Sign In</button>
-        <button>Create Account</button>
+        <Button fullWidth color="warning" className="btn-rounded"
+          variant="contained"
+          size="large"
+        >Sign In</Button>
+        <Button className="btn-outlined-dark btn-rounded"
+          fullWidth
+          variant="outlined"
+          size="large"
+        >Create Account</Button>
       </div>
     </div>
   )
