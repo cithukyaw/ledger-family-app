@@ -1,30 +1,22 @@
 import { FC } from 'react'
-import { Button } from '@mui/material'
-import homeImg from '/home.gif'
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import Home from "./pages/Home/Home.tsx";
+import Registration from "./pages/Register/Registration.tsx";
+import Login from "./pages/Login/Login.tsx";
 import './App.scss'
+import Layout from "./components/Layout.tsx";
 
 const App: FC = () => {
   return (
-    <div className="app">
-      <div>
-        <div>
-            <img src={homeImg} className="logo" alt="" />
-        </div>
-        <h1>Ledger Family</h1>
-        <p>Track expenses and manage budget effectively</p>
-      </div>
-      <div className="buttons">
-        <Button fullWidth color="warning" className="btn-rounded"
-          variant="contained"
-          size="large"
-        >Sign In</Button>
-        <Button className="btn-outlined-dark btn-rounded"
-          fullWidth
-          variant="outlined"
-          size="large"
-        >Create Account</Button>
-      </div>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<Home />}></Route>
+          <Route path="/register" element={<Registration />}></Route>
+          <Route path="/login" element={<Login />}></Route>
+        </Route>
+      </Routes>
+    </BrowserRouter>
   )
 }
 

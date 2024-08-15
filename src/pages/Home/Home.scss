@@ -1,0 +1,26 @@
+@import '../../common.scss';
+
+.app {
+    @include flex-center;
+    justify-content: space-between;
+    min-width: 320px;
+    min-height: calc(100vh - 2.9rem);
+    text-align: center;
+
+    .logo {
+        height: 18em;
+        max-width: 100%;
+    }
+
+    .buttons {
+        @include flex-center;
+        width: 100%;
+
+        a {
+            margin: 0.5em 0;
+            display: block;
+            width: 100%;
+        }
+    }
+}
+

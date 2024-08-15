@@ -3,35 +3,10 @@
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 1.45rem;
-
-  .app {
-    @include flex-center;
-    justify-content: space-between;
-    min-width: 320px;
-    min-height: calc(100vh - 2.9rem);
-    text-align: center;
-
-    .logo {
-      height: 18em;
-      max-width: 100%;
-    }
-
-    h1 {
-      @include title-font;
-      margin: .25em 0;
-    }
-
-    .buttons {
-      @include flex-center;
-      width: 100%;
-
-      button {
-        margin: 0.5em 0;
-        display: block;
-        width: 100%;
-      }
-    }
-  }
+  padding: 1.45rem 0;
 }
 
+h1 {
+    @include title-font;
+    margin: .25em 0;
+}

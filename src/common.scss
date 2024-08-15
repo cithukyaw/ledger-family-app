@@ -1,6 +1,7 @@
 $font-stack: "Noto Serif", serif;
-$primary-color: #000;
-$title-color: #444;
+$primary-color: #000000;
+$title-color: #444444;
+$gray-color: #666666;
 
 @mixin title-font() {
     font-family: "Lobster", sans-serif;
