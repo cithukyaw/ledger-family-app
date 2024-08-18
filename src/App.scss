@@ -10,3 +10,36 @@ h1 {
     @include title-font;
     margin: .25em 0;
 }
+
+form {
+    > div {
+        margin: .75em 0;
+    }
+
+    .form-error {
+        color: $danger-color;
+        margin-top: 0;
+        margin-bottom: .8em;
+    }
+}
+
+.passcode-input {
+    justify-content: center;
+
+    > .MuiFormControl-root {
+        width: 50px !important;
+
+        .MuiInputBase-input {
+            font-size: 1.3em;
+            text-align: center;
+        }
+    }
+
+    > input {
+        border: 1px rgba(0, 0, 0, 0.23) solid;
+        border-radius: 4px;
+        font-size: 1.3em;
+        text-align: center;
+        padding: 16.5px 14px;
+    }
+}

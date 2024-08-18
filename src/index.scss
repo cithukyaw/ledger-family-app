@@ -24,30 +24,31 @@ body {
 
     .MuiButton-root {
         font-weight: bold;
+        line-height: 2;
     }
 
     .btn-orange {
-        background: #ff7f5a;
+        background: $orange-color;
         color: white;
     }
 
     .btn-orange:hover {
-        background: #fe7261;
+        background: $warning-color;
         color: white;
     }
 
     .btn-outlined-dark {
-        border: 1px $gray-color solid !important;
+        border: 1px $dim-color solid !important;
         color: $primary-color !important;
     }
 
     .btn-outlined-dark:hover {
-        background: $gray-color;
+        background: $dim-color;
         color: white !important;
     }
 
     .btn-rounded {
-        border-radius: 15px;
+        border-radius: 25px;
     }
 }
 
