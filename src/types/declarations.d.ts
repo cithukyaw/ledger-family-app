@@ -8,3 +8,8 @@ export type FormActionProps = {
 export type ErrorProps = {
   field: FieldError | undefined
 }
+
+export type UserContextType = {
+  email: string;
+  setEmail: (email: string) => void;
+}

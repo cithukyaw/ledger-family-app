@@ -1,17 +1,19 @@
-import {FC, useState} from "react";
-import {FormActionProps} from "../types/declarations";
+import {FC, useContext, useState} from "react";
+import {FormActionProps, UserContextType} from "../types/declarations";
 import {Box, Button} from "@mui/material";
 import OtpInput from "react-otp-input";
 import Error from "./Error.tsx";
 import {Link, useNavigate} from "react-router-dom";
 import {useForm} from "react-hook-form";
 import {FORM_ACTION} from "../lib/constants.ts";
+import {UserContext} from "../contexts/userContext.tsx";
 
 type FormValues = {
   password: string
 }
 
 const FormPasscode: FC<FormActionProps> = ({ action }: FormActionProps) => {
+  const {email} = useContext<UserContextType>(UserContext);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [visiblePasscode, setVisiblePasscode] = useState(false);
@@ -45,7 +47,7 @@ const FormPasscode: FC<FormActionProps> = ({ action }: FormActionProps) => {
 
   return (
     <>
-      <h4>dummy@example.com</h4>
+      <h4>{email} <Link to={`/${action}`}>[Change]</Link></h4>
       <Box component="form" autoComplete="off">
         <div>
           <Box sx={{py: 2}}>{label}</Box>

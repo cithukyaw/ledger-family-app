@@ -1,16 +1,19 @@
-import {FC} from "react";
+import {FC, useContext, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {useForm} from "react-hook-form";
 import {Box, Button, TextField} from "@mui/material";
 import Error from "./Error.tsx";
 import {FORM_ACTION} from "../lib/constants.ts";
-import {FormActionProps} from "../types/declarations";
+import {FormActionProps, UserContextType} from "../types/declarations";
+import {UserContext} from "../contexts/userContext.tsx";
 
 type FormValues = {
   email: string
 }
 
 const FormEmail: FC<FormActionProps> = ({ action }: FormActionProps) => {
+  const {email, setEmail} = useContext<UserContextType>(UserContext);
+  const [emailInput, setEmailInput] = useState<string>(email); // Pre-fill if already provided
   const navigate = useNavigate();
   const loading = false; // useSelector(state => state.user.loading);
   const {
@@ -24,7 +27,12 @@ const FormEmail: FC<FormActionProps> = ({ action }: FormActionProps) => {
     ? 'Enter an email address'
     : 'Enter your login email address';
 
-  const onSubmit = async () => {
+  const onSubmit = async (data: FormValues) => {
+    console.log(data);
+    setEmail(data.email);
+
+    // TODO: call POST /api/auth/availability
+
     navigate(`/${action}/complete`);
   };
 
@@ -42,6 +50,8 @@ const FormEmail: FC<FormActionProps> = ({ action }: FormActionProps) => {
               },
             })}
             type="email"
+            value={emailInput}
+            onChange={e => setEmailInput(e.target.value)}
             error={!!errors.email}
             id="outlined-email"
             label="Login Email"
