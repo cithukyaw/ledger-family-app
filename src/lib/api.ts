@@ -1,25 +1,25 @@
 import axios, {AxiosError, AxiosResponse} from "axios";
-import {ACCESS_TOKEN} from "./constants.ts";
+// import {ACCESS_TOKEN} from "./constants.ts";
 import {FieldValues, UseFormSetError} from "react-hook-form";
-// import {FormEmailValues} from "../types/declarations";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL
+  baseURL: import.meta.env.VITE_API_URL,
+  withCredentials: true // Include the HTTP-only cookie for access token
 })
 
-api.interceptors.request.use(
-  config => {
-    const token = localStorage.getItem(ACCESS_TOKEN);
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-
-    return config;
-  },
-  error => {
-    return Promise.reject(error);
-  }
-);
+// api.interceptors.request.use(
+//   config => {
+//     const token = localStorage.getItem(ACCESS_TOKEN);
+//     if (token) {
+//       config.headers.Authorization = `Bearer ${token}`;
+//     }
+//
+//     return config;
+//   },
+//   error => {
+//     return Promise.reject(error);
+//   }
+// );
 
 export const apiErrorHandling = <TData extends FieldValues>(err: Error | AxiosError, setError: UseFormSetError<TData>) => {
   console.error('error', err);
