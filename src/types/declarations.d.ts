@@ -1,15 +1,30 @@
 import {FORM_ACTION} from "../lib/constants.ts";
 import {FieldError} from "react-hook-form";
 
-export type FormActionProps = {
+type FormActionProps = {
   action: FORM_ACTION.REGISTER | FORM_ACTION.LOGIN
 }
 
-export type ErrorProps = {
+type ErrorProps = {
   field: FieldError | undefined
 }
 
-export type UserContextType = {
+type UserContextType = {
   email: string;
   setEmail: (email: string) => void;
 }
+
+type ApiValidationError = {
+  field: string;
+  message: string;
+}
+
+type ApiResponse = ApiValidationError | unknown;
+
+type FormEmailValues = {
+  email: string
+}
+
+// type FormErrorType = Omit<ApiValidationError, 'field'> & {
+//   field: keyof FormEmailValues;
+// };

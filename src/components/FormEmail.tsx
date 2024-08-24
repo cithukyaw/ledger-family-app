@@ -4,36 +4,44 @@ import {useForm} from "react-hook-form";
 import {Box, Button, TextField} from "@mui/material";
 import Error from "./Error.tsx";
 import {FORM_ACTION} from "../lib/constants.ts";
-import {FormActionProps, UserContextType} from "../types/declarations";
+import {FormActionProps, FormEmailValues, UserContextType} from "../types/declarations";
 import {UserContext} from "../contexts/userContext.tsx";
-
-type FormValues = {
-  email: string
-}
+import {useLazyQuery} from "../lib/hooks.ts";
+import mQuery from "../queries/mutations.ts";
+import {apiErrorHandling} from "../lib/api.ts";
 
 const FormEmail: FC<FormActionProps> = ({ action }: FormActionProps) => {
   const {email, setEmail} = useContext<UserContextType>(UserContext);
   const [emailInput, setEmailInput] = useState<string>(email); // Pre-fill if already provided
   const navigate = useNavigate();
-  const loading = false; // useSelector(state => state.user.loading);
   const {
     register,
-    // setError,
+    setError,
     formState: {errors},
     handleSubmit
-  } = useForm<FormValues>();
+  } = useForm<FormEmailValues>();
 
   const label = action === FORM_ACTION.REGISTER
     ? 'Enter an email address'
     : 'Enter your login email address';
 
-  const onSubmit = async (data: FormValues) => {
-    console.log(data);
-    setEmail(data.email);
+  const query = useLazyQuery(
+    async (formData: FormEmailValues) => {
+      if (action === FORM_ACTION.REGISTER) {
+        return mQuery.checkAvailability(formData);
+      } else {
+        return mQuery.prerequisiteLogin(formData);
+      }
+    }, {
+      onSuccess: () => navigate(`/${action}/complete`),
+      onError: err => apiErrorHandling(err, setError)
+    }
+  );
 
-    // TODO: call POST /api/auth/availability
-
-    navigate(`/${action}/complete`);
+  const submitForm = async (data: FormEmailValues) => {
+    setEmail(data.email); // update context value
+    const formData = { email: data.email };
+    query.mutate(formData); // call mutate with the correct form data
   };
 
   return (
@@ -64,8 +72,8 @@ const FormEmail: FC<FormActionProps> = ({ action }: FormActionProps) => {
         <div>
           <Button
             className="btn-orange"
-            onClick={handleSubmit(onSubmit)}
-            disabled={loading}
+            onClick={handleSubmit(submitForm)}
+            disabled={query.isPending}
             variant="contained"
             size="large"
             fullWidth
