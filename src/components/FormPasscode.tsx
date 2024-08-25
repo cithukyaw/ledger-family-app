@@ -19,6 +19,7 @@ const FormPasscode: FC<FormActionProps> = ({ action }: FormActionProps) => {
   const {
     formState: {errors},
     setError,
+    clearErrors,
     setValue,
     handleSubmit
   } = useForm<FormUserValues>();
@@ -36,7 +37,8 @@ const FormPasscode: FC<FormActionProps> = ({ action }: FormActionProps) => {
   const handleChange = (otp: string) => {
     if (/^\d*$/.test(otp)) {
       setOtp(otp);
-      setValue("password", otp); // Set OTP value to react-hook-form
+      setValue("password", otp); // Set passcode value to react-hook-form
+      clearErrors('password'); // Clear errors when passcode changes
     }
   };
 
