@@ -1,4 +1,4 @@
-import {FC, useContext, useState} from "react";
+import {FC, useContext, useEffect, useState} from "react";
 import {FormActionProps, FormUserValues, UserContextType, UserWithTokens} from "../types/declarations";
 import {Box, Button} from "@mui/material";
 import OtpInput from "react-otp-input";
@@ -25,6 +25,12 @@ const FormPasscode: FC<FormActionProps> = ({ action }: FormActionProps) => {
   } = useForm<FormUserValues>();
 
   setValue('email', email);  // Set email value to react-hook-form
+
+  useEffect(() => {
+    if (!email) {
+      navigate(`/${action}`);
+    }
+  }, []);
 
   const label = action === FORM_ACTION.REGISTER
     ? 'Enter a 6-digit passcode'
