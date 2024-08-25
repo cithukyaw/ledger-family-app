@@ -17,6 +17,7 @@ const FormEmail: FC<FormActionProps> = ({ action }: FormActionProps) => {
   const {
     register,
     setError,
+    clearErrors,
     formState: {errors},
     handleSubmit
   } = useForm<FormEmailValues>();
@@ -59,7 +60,10 @@ const FormEmail: FC<FormActionProps> = ({ action }: FormActionProps) => {
             })}
             type="email"
             value={emailInput}
-            onChange={e => setEmailInput(e.target.value)}
+            onChange={e => {
+              setEmailInput(e.target.value)
+              clearErrors('email'); // Clear errors when email value changes;
+            }}
             error={!!errors.email}
             id="outlined-email"
             label="Login Email"
