@@ -1,5 +1,5 @@
 import {FC, useContext, useState} from "react";
-import {FormActionProps, UserContextType} from "../types/declarations";
+import {FormActionProps, FormUserValues, UserContextType, UserWithTokens} from "../types/declarations";
 import {Box, Button} from "@mui/material";
 import OtpInput from "react-otp-input";
 import Error from "./Error.tsx";
@@ -7,21 +7,23 @@ import {Link, useNavigate} from "react-router-dom";
 import {useForm} from "react-hook-form";
 import {FORM_ACTION} from "../lib/constants.ts";
 import {UserContext} from "../contexts/userContext.tsx";
-
-type FormValues = {
-  password: string
-}
+import {useLazyQuery} from "../lib/hooks.ts";
+import {apiErrorHandling} from "../lib/api.ts";
+import mQuery from "../queries/mutations.ts";
 
 const FormPasscode: FC<FormActionProps> = ({ action }: FormActionProps) => {
   const {email} = useContext<UserContextType>(UserContext);
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
   const [visiblePasscode, setVisiblePasscode] = useState(false);
   const [otp, setOtp] = useState('');
   const {
     formState: {errors},
+    setError,
+    setValue,
     handleSubmit
-  } = useForm<FormValues>();
+  } = useForm<FormUserValues>();
+
+  setValue('email', email);  // Set email value to react-hook-form
 
   const label = action === FORM_ACTION.REGISTER
     ? 'Enter a 6-digit passcode'
@@ -34,21 +36,39 @@ const FormPasscode: FC<FormActionProps> = ({ action }: FormActionProps) => {
   const handleChange = (otp: string) => {
     if (/^\d*$/.test(otp)) {
       setOtp(otp);
+      setValue("password", otp); // Set OTP value to react-hook-form
     }
   };
 
-  const onSubmit = async () => {
-    setLoading(true);
-    console.log(otp);
-    setLoading(false);
+  const query = useLazyQuery(
+    async (formData: FormUserValues) => {
+      let result: UserWithTokens;
+      if (action == FORM_ACTION.REGISTER) {
+        result = await mQuery.register(formData) as UserWithTokens;
+      } else {
+        result = await mQuery.login(formData) as UserWithTokens;
+      }
+      localStorage.setItem('user', result.user.id.toString());
+    },
+    {
+      onSuccess: () => navigate(`/dashboard`),
+      onError: err => apiErrorHandling(err, setError)
+    }
+  );
 
-    navigate('/dashboard');
+  const submitForm = async () => {
+    const data: FormUserValues = {
+      email,
+      password: otp,
+    }
+    query.mutate(data);
   };
 
   return (
     <>
-      <h4>{email} <Link to={`/${action}`}>[Change]</Link></h4>
       <Box component="form" autoComplete="off">
+        <h4>{email} <Link to={`/${action}`}>[Change]</Link></h4>
+        <Error field={errors.email}/>
         <div>
           <Box sx={{py: 2}}>{label}</Box>
           <OtpInput
@@ -73,9 +93,15 @@ const FormPasscode: FC<FormActionProps> = ({ action }: FormActionProps) => {
           <Link to='#' onClick={handleClickShowPassword}>{visiblePasscode ? 'Hide' : 'Show'} Passcode</Link>
         </Box>
         <div>
-          <Button className="btn-orange" onClick={handleSubmit(onSubmit)} disabled={otp.length < 6 || loading}
-                  variant="contained" size="large" fullWidth>
-            { action === FORM_ACTION.REGISTER ? 'Register' : 'Sign In'}
+          <Button
+            onClick={handleSubmit(submitForm)}
+            disabled={otp.length < 6 || query.isPending}
+            className="btn-orange"
+            variant="contained"
+            size="large"
+            fullWidth
+          >
+            {action === FORM_ACTION.REGISTER ? 'Register' : 'Sign In'}
           </Button>
         </div>
       </Box>

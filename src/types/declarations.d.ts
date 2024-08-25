@@ -25,6 +25,30 @@ type FormEmailValues = {
   email: string
 }
 
+type FormUserValues = {
+  email: string,
+  password: string,
+}
+
 // type FormErrorType = Omit<ApiValidationError, 'field'> & {
 //   field: keyof FormEmailValues;
 // };
+
+type UserTokens = {
+  accessToken: string;
+  refreshToken: string;
+}
+
+export type User = {
+  id: number;
+  name: string | null;
+  email: string;
+  role: string;
+  active: boolean;
+}
+
+export type UserWithTokens = UserTokens & {
+  user: User;
+};
+
+
