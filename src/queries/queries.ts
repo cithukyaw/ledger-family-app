@@ -4,10 +4,12 @@ import api from "../lib/api.ts";
 const users = createQueryKeys('users', {
   detail: (userId: number) => ({
     queryKey: [userId],
-    async queryFn(){
-      const response = await api.post(`users/${userId}`);
-      return response.data;
-    }
+    queryFn: userId
+      ? async () => {
+        const response = await api.get(`users/${userId}`);
+        return response.data;
+      }
+      : async () => Promise.resolve(undefined), // Prevent unnecessary call if no userId
   }),
 });
 

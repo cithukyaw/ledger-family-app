@@ -1,5 +1,6 @@
 import {FORM_ACTION} from "../lib/constants.ts";
 import {FieldError} from "react-hook-form";
+import React from "react";
 
 type FormActionProps = {
   action: FORM_ACTION.REGISTER | FORM_ACTION.LOGIN
@@ -7,6 +8,10 @@ type FormActionProps = {
 
 type ErrorProps = {
   field: FieldError | undefined
+}
+
+type ChildrenProps = {
+  children: React.ReactNode
 }
 
 type UserContextType = {

@@ -56,6 +56,7 @@ const FormPasscode: FC<FormActionProps> = ({ action }: FormActionProps) => {
       } else {
         result = await mQuery.login(formData) as UserWithTokens;
       }
+
       localStorage.setItem('user', result.user.id.toString());
     },
     {

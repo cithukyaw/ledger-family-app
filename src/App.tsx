@@ -10,6 +10,7 @@ import Dashboard from "./pages/Dashboard/Dashboard.tsx";
 import {UserProvider} from "./contexts/userContext.tsx";
 import './App.scss';
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import ProtectedRoute from "./components/ProtectedRoute.tsx";
 
 const queryClient = new QueryClient();
 
@@ -25,7 +26,13 @@ const App: FC = () => {
               <Route path="/register/complete" element={<RegisterPasscode />}></Route>
               <Route path="/login" element={<LoginEmail />}></Route>
               <Route path="/login/complete" element={<LoginPasscode />}></Route>
-              <Route path="/dashboard" element={<Dashboard />}></Route>
+              <Route
+                path="/dashboard" element={
+                  <ProtectedRoute>
+                    <Dashboard />
+                  </ProtectedRoute>
+                }>
+              </Route>
             </Route>
           </Routes>
         </BrowserRouter>
