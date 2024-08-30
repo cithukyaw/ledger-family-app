@@ -1,5 +1,5 @@
 import {FC, useContext, useEffect, useState} from "react";
-import {FormActionProps, FormUserValues, UserContextType, UserWithTokens} from "../types/declarations";
+import {FormActionProps, FormUserValues, JSONValue, User, UserContextType, UserWithTokens} from "../types/declarations";
 import {Box, Button} from "@mui/material";
 import OtpInput from "react-otp-input";
 import Error from "./Error.tsx";
@@ -10,9 +10,10 @@ import {UserContext} from "../contexts/userContext.tsx";
 import {useLazyQuery} from "../lib/hooks.ts";
 import {apiErrorHandling} from "../lib/api.ts";
 import mQuery from "../queries/mutations.ts";
+import {getItemDecrypted, storeItemEncrypted} from "../lib/utils.ts";
 
 const FormPasscode: FC<FormActionProps> = ({ action }: FormActionProps) => {
-  const {email} = useContext<UserContextType>(UserContext);
+  let {email} = useContext<UserContextType>(UserContext);
   const navigate = useNavigate();
   const [visiblePasscode, setVisiblePasscode] = useState(false);
   const [otp, setOtp] = useState('');
@@ -24,6 +25,12 @@ const FormPasscode: FC<FormActionProps> = ({ action }: FormActionProps) => {
     handleSubmit
   } = useForm<FormUserValues>();
 
+  if (!email) {
+    const user = getItemDecrypted('user') as User;
+    if (user) {
+       email = user.email
+    }
+  }
   setValue('email', email);  // Set email value to react-hook-form
 
   useEffect(() => {
@@ -57,7 +64,7 @@ const FormPasscode: FC<FormActionProps> = ({ action }: FormActionProps) => {
         result = await mQuery.login(formData) as UserWithTokens;
       }
 
-      localStorage.setItem('user', result.user.id.toString());
+      storeItemEncrypted('user', result.user as JSONValue)
     },
     {
       onSuccess: () => navigate(`/dashboard`),

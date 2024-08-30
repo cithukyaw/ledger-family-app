@@ -56,4 +56,9 @@ export type UserWithTokens = UserTokens & {
   user: User;
 };
 
-
+type JSONValue =
+  | string
+  | number
+  | boolean
+  | { [x: string]: JSONValue }
+  | Array<JSONValue>;

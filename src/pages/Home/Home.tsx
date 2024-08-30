@@ -1,10 +1,19 @@
-import { FC } from 'react'
+import {FC, useEffect} from 'react'
 import {Button} from '@mui/material'
 import homeImg from '/home.gif'
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import './Home.scss'
+import {isUserLoggedIn} from "../../lib/utils.ts";
 
 const Home: FC = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isUserLoggedIn()) {
+      navigate('/login/complete');
+    }
+  }, []);
+
   return (
     <div className="app">
       <div>
