@@ -12,6 +12,7 @@ import ProtectedRoute from "./components/ProtectedRoute.tsx";
 import Expense from "./pages/Expense/Expense.tsx";
 import SingleLayout from "./components/Layouts/SingleLayout.tsx";
 import BaseLayout from "./components/Layouts/BaseLayout.tsx";
+import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
 import './App.scss';
 
 const queryClient = new QueryClient();
@@ -48,6 +49,7 @@ const App: FC = () => {
           </Routes>
         </BrowserRouter>
       </UserProvider>
+      <ReactQueryDevtools position="top" />
     </QueryClientProvider>
   )
 }
