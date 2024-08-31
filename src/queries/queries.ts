@@ -13,4 +13,24 @@ const users = createQueryKeys('users', {
   }),
 });
 
-export const queries = mergeQueryKeys(users);
+const categories = createQueryKeys('categories', {
+  all: () => ({
+    queryKey: ['categories'],
+    queryFn: async () => {
+      const response = await api.get(`categories`);
+      return response.data
+    }
+  })
+});
+
+const paymentTypes = createQueryKeys('paymentTypes', {
+  all: () => ({
+    queryKey: ['payment_types'],
+    queryFn: async () => {
+      const response = await api.get(`expenses/payment-types`);
+      return response.data;
+    }
+  })
+})
+
+export const queries = mergeQueryKeys(users, categories, paymentTypes);
