@@ -14,6 +14,10 @@ type ChildrenProps = {
   children: React.ReactNode
 }
 
+type HeaderProps = {
+  title: string
+}
+
 type UserContextType = {
   email: string;
   setEmail: (email: string) => void;

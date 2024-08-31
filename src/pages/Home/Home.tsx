@@ -2,8 +2,8 @@ import {FC, useEffect} from 'react'
 import {Button} from '@mui/material'
 import homeImg from '/home.gif'
 import {Link, useNavigate} from "react-router-dom";
-import './Home.scss'
 import {isUserLoggedIn} from "../../lib/utils.ts";
+import './Home.scss'
 
 const Home: FC = () => {
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ const Home: FC = () => {
   }, []);
 
   return (
-    <div className="app">
+    <div className="home">
       <div>
         <div>
           <img src={homeImg} className="logo" alt="" />

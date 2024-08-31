@@ -1,16 +1,18 @@
 import {FC} from "react";
 import Navbar from "../../components/Navbar/Navbar.tsx";
-import {Box} from "@mui/material";
+import {Box, Container} from "@mui/material";
+import Header from "../../components/Header/Header.tsx";
+import ComingSoon from "../../components/ComingSoon.tsx";
 
 const Expense: FC = () => {
   return (
-    <>
-      <Box sx={{textAlign: "center"}}>
-        <h1>Expenses</h1>
-        <div>Coming Soon!</div>
-      </Box>
+    <Box className="app">
+      <Header title="Expenses" />
+      <Container maxWidth="md">
+        <ComingSoon />
+      </Container>
       <Navbar />
-    </>
+    </Box>
   );
 }
 
