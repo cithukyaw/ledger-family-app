@@ -11,6 +11,7 @@ import {UserProvider} from "./contexts/userContext.tsx";
 import './App.scss';
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
+import Expense from "./pages/Expense/Expense.tsx";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +33,13 @@ const App: FC = () => {
                     <Dashboard />
                   </ProtectedRoute>
                 }>
+              </Route>
+              <Route
+                path="/expense" element={
+                <ProtectedRoute>
+                  <Expense />
+                </ProtectedRoute>
+              }>
               </Route>
             </Route>
           </Routes>

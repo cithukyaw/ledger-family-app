@@ -15,7 +15,7 @@ const Navbar: FC = () => {
         <HomeIcon />
         <div>Home</div>
       </NavLink>
-      <NavLink to="/expenses" className={menuActive}>
+      <NavLink to="/expense" className={menuActive}>
         <DashboardIcon />
         <div>Expense</div>
       </NavLink>
