@@ -1,0 +1,34 @@
+@import '../../common.scss';
+
+nav {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background: $warning-color;
+    color: white;
+    display: flex;
+
+    a {
+        display: block;
+        color: white !important;
+        text-align: center;
+        text-decoration: none;
+        width: calc(100% / 3);
+        padding: .45em 0;
+
+        div {
+            font-size: .9em;
+            color: white;
+        }
+    }
+
+    a:hover, a.active,
+    a:hover div, a.active div {
+        color: white !important;
+    }
+
+    a:hover, a.active {
+        background: $primary-color;
+    }
+}
