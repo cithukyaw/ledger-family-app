@@ -1,7 +1,7 @@
 import {useQuery} from "@tanstack/react-query";
 import {queries} from "./queries.ts";
 
-const maxGcTime = 24 * 60 * 60 * 1000; // 24 hours
+const cachedTime = 24 * 60 * 60 * 1000; // 24 hours
 
 export const useUserDetails = (userId: number) => {
   return useQuery({
@@ -14,7 +14,7 @@ export const useCategories = () => {
   return useQuery({
     ...queries.categories.all(),
     retry: false,
-    gcTime: maxGcTime
+    staleTime: cachedTime,
   });
 }
 
@@ -22,6 +22,6 @@ export const usePaymentTypes = () => {
   return useQuery({
     ...queries.paymentTypes.all(),
     retry: false,
-    gcTime: maxGcTime
+    staleTime: cachedTime,
   });
 }
