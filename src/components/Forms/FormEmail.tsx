@@ -2,13 +2,13 @@ import {FC, useContext, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {useForm} from "react-hook-form";
 import {Box, Button, TextField} from "@mui/material";
-import Error from "./Error.tsx";
-import {FORM_ACTION} from "../lib/constants.ts";
-import {FormActionProps, FormEmailValues, UserContextType} from "../types/declarations";
-import {UserContext} from "../contexts/userContext.tsx";
-import {useLazyQuery} from "../lib/hooks.ts";
-import mQuery from "../queries/mutations.ts";
-import {apiErrorHandling} from "../lib/api.ts";
+import Error from "../Error.tsx";
+import {FORM_ACTION} from "../../lib/constants.ts";
+import {FormActionProps, FormEmailValues, UserContextType} from "../../types/declarations";
+import {UserContext} from "../../contexts/userContext.tsx";
+import {useLazyQuery} from "../../lib/hooks.ts";
+import mQuery from "../../queries/mutations.ts";
+import {apiErrorHandling} from "../../lib/api.ts";
 
 const FormEmail: FC<FormActionProps> = ({ action }: FormActionProps) => {
   const {email, setEmail} = useContext<UserContextType>(UserContext);

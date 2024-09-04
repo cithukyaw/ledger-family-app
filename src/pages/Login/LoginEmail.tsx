@@ -1,7 +1,7 @@
 import {FC} from "react";
 import LoginIcon from "@mui/icons-material/Login";
 import {FORM_ACTION} from "../../lib/constants.ts";
-import FormEmail from "../../components/FormEmail.tsx";
+import FormEmail from "../../components/Forms/FormEmail.tsx";
 
 const LoginEmail: FC = () => {
   return (

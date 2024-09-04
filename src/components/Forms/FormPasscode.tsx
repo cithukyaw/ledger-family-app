@@ -1,17 +1,17 @@
 import {FC, useContext, useEffect, useState} from "react";
-import {FormActionProps, FormUserValues, JSONValue, UserContextType, UserWithTokens} from "../types/declarations";
+import {FormActionProps, FormUserValues, JSONValue, UserContextType, UserWithTokens} from "../../types/declarations";
 import {Box, Button} from "@mui/material";
 import OtpInput from "react-otp-input";
-import Error from "./Error.tsx";
+import Error from "../Error.tsx";
 import {Link, useNavigate} from "react-router-dom";
 import {useForm} from "react-hook-form";
-import {FORM_ACTION} from "../lib/constants.ts";
-import {UserContext} from "../contexts/userContext.tsx";
-import {useLazyQuery} from "../lib/hooks.ts";
-import {apiErrorHandling} from "../lib/api.ts";
-import mQuery from "../queries/mutations.ts";
-import {getLoginUser, storeItemEncrypted} from "../lib/utils.ts";
-import config from "../lib/config.ts";
+import {FORM_ACTION} from "../../lib/constants.ts";
+import {UserContext} from "../../contexts/userContext.tsx";
+import {useLazyQuery} from "../../lib/hooks.ts";
+import {apiErrorHandling} from "../../lib/api.ts";
+import mQuery from "../../queries/mutations.ts";
+import {getLoginUser, storeItemEncrypted} from "../../lib/utils.ts";
+import config from "../../lib/config.ts";
 
 const FormPasscode: FC<FormActionProps> = ({ action }: FormActionProps) => {
   let {email} = useContext<UserContextType>(UserContext);

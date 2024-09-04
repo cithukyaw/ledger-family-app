@@ -2,7 +2,7 @@ import {FC} from "react";
 
 import LoginIcon from "@mui/icons-material/Login";
 import {FORM_ACTION} from "../../lib/constants.ts";
-import FormPasscode from "../../components/FormPasscode.tsx";
+import FormPasscode from "../../components/Forms/FormPasscode.tsx";
 
 const LoginPasscode: FC = () => {
   return (

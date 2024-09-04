@@ -1,6 +1,6 @@
 import {FC} from "react";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
-import FormPasscode from "../../components/FormPasscode.tsx";
+import FormPasscode from "../../components/Forms/FormPasscode.tsx";
 import {FORM_ACTION} from "../../lib/constants.ts";
 
 const RegisterPasscode: FC = () => {
