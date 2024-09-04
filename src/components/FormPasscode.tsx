@@ -11,6 +11,7 @@ import {useLazyQuery} from "../lib/hooks.ts";
 import {apiErrorHandling} from "../lib/api.ts";
 import mQuery from "../queries/mutations.ts";
 import {getLoginUser, storeItemEncrypted} from "../lib/utils.ts";
+import config from "../lib/config.ts";
 
 const FormPasscode: FC<FormActionProps> = ({ action }: FormActionProps) => {
   let {email} = useContext<UserContextType>(UserContext);
@@ -64,7 +65,7 @@ const FormPasscode: FC<FormActionProps> = ({ action }: FormActionProps) => {
         result = await mQuery.login(formData) as UserWithTokens;
       }
 
-      storeItemEncrypted('user', result.user as JSONValue)
+      storeItemEncrypted(config.userStoreKey, result.user as JSONValue)
     },
     {
       onSuccess: () => navigate(`/dashboard`),

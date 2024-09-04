@@ -5,6 +5,7 @@ import axios, {AxiosResponse} from "axios";
 import {getLoginUser, storeItemEncrypted} from "../lib/utils.ts";
 import Loading from "./Loading.tsx";
 import {useUserDetails} from "../queries/queries.hook.ts";
+import config from "../lib/config.ts";
 
 const ProtectedRoute: FC<ChildrenProps> = ({ children } : ChildrenProps) => {
   const user = getLoginUser(); // Check user info from localStorage
@@ -31,7 +32,7 @@ const ProtectedRoute: FC<ChildrenProps> = ({ children } : ChildrenProps) => {
   if (isSuccess) {
     // when user details request is successful, update user info in localStorage
     userId = data.id;
-    storeItemEncrypted('user', data);
+    storeItemEncrypted(config.userStoreKey, data);
   }
 
   if (!userId) { // if user is not previously logged in, go the home screen

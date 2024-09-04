@@ -1,5 +1,6 @@
 import {JSONValue, User} from "../types/declarations";
 import CryptoJS from "crypto-js";
+import config from "./config.ts";
 
 export const CryptoJsAesEncrypt = (data: JSONValue | string): string => {
   const encrypted = CryptoJS.AES.encrypt(
@@ -26,10 +27,10 @@ export const getItemDecrypted = (key: string): JSONValue | null => {
 };
 
 export const isUserLoggedIn = (): boolean => {
-  const user = getItemDecrypted('user') as User;
+  const user = getItemDecrypted(config.userStoreKey) as User;
   return !!user;
 }
 
 export const getLoginUser = (): User => {
-  return getItemDecrypted('user') as User;
+  return getItemDecrypted(config.userStoreKey) as User;
 }
