@@ -19,6 +19,7 @@ const ProtectedRoute: FC<ChildrenProps> = ({ children } : ChildrenProps) => {
 
   if (isError && axios.isAxiosError(error))  {
     const response = error.response as AxiosResponse;
+    // TODO: when response === 'undefined, render connection failure component
     if (typeof response === 'undefined' || (typeof response !== 'undefined' && response.status === 401)) {
       // When server connection failed (response is undefined)
       // or when user is not authenticated

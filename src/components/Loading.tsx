@@ -2,6 +2,7 @@ import {FC} from "react";
 import {Box} from "@mui/material";
 
 const Loading: FC = () => {
+  // TODO: style as loading bar
   return <Box sx={{ display: 'flex', justifyContent: 'center' }}>Loading...</Box>
 }
 
