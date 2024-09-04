@@ -1,6 +1,8 @@
 import axios, {AxiosError, AxiosResponse} from "axios";
 // import {ACCESS_TOKEN} from "./constants.ts";
 import {FieldValues, UseFormSetError} from "react-hook-form";
+import config from "./config.ts";
+import {toast} from "react-toastify";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -30,10 +32,10 @@ export const apiErrorHandling = <TData extends FieldValues>(err: Error | AxiosEr
         return setError(err.field, { type: "custom", message: err.message });
       });
     } else {
-      alert(err.message);
+      toast.error(err.message, config.toastOptions);
     }
   } else {
-    alert(err.message);
+    toast.error(err.message, config.toastOptions);
   }
 }
 

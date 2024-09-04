@@ -63,3 +63,9 @@ form {
         padding: 16.5px 14px;
     }
 }
+
+.Toastify__toast-theme--dark .Toastify__toast-body {
+    > div:last-child {
+        color: white;
+    }
+}

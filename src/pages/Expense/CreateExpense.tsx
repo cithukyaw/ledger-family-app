@@ -18,6 +18,8 @@ import {useLazyQuery} from "../../lib/hooks.ts";
 import {apiErrorHandling} from "../../lib/api.ts";
 import mQuery from "../../queries/mutations.ts";
 import {getLoginUser} from "../../lib/utils.ts";
+import {toast} from "react-toastify";
+import config from "../../lib/config.ts";
 
 const CreateExpense: FC = () => {
   const { data: categories, isPending: isPendingCategories, isError: isErrorCategories } = useCategories();
@@ -44,9 +46,9 @@ const CreateExpense: FC = () => {
     },
     {
       onSuccess: () => { // when form submit is succeeded
-        console.log('Expense added!');
         reset(); // form reset
         setCategory(''); // This resets the local state
+        toast.success('Expense added!', config.toastOptions);
       },
       onError: err => { // when validation errors occur
         apiErrorHandling(err, setError)
@@ -78,8 +80,8 @@ const CreateExpense: FC = () => {
   }
 
   if (query.isError) {
-    console.log('Cannot add expense!');
     query.reset();
+    toast.error('Cannot add expense!', config.toastOptions);
   }
 
   return (
