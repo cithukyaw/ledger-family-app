@@ -9,6 +9,14 @@
     padding-bottom: 1.45rem;
 }
 
+.center-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: calc(100vh - (65.431px + 62.375px))
+}
+
 h1 {
     @include title-font;
     margin: .25em 0;
@@ -16,7 +24,16 @@ h1 {
 
 form {
     > div {
-        margin: .75em 0;
+        margin: .75em 0 0 !important;
+
+        label {
+            display: block;
+            padding: .5em 0;
+
+            span {
+                color: $danger-color;
+            }
+        }
     }
 
     .form-error {

@@ -29,3 +29,7 @@ export const isUserLoggedIn = (): boolean => {
   const user = getItemDecrypted('user') as User;
   return !!user;
 }
+
+export const getLoginUser = (): User => {
+  return getItemDecrypted('user') as User;
+}

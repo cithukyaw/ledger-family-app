@@ -18,7 +18,7 @@ const categories = createQueryKeys('categories', {
     queryKey: ['categories'],
     queryFn: async () => {
       const response = await api.get(`categories`);
-      return response.data
+      return response.data || [];
     }
   })
 });
@@ -28,7 +28,7 @@ const paymentTypes = createQueryKeys('paymentTypes', {
     queryKey: ['payment_types'],
     queryFn: async () => {
       const response = await api.get(`expenses/payment-types`);
-      return response.data;
+      return response.data || [];
     }
   })
 })

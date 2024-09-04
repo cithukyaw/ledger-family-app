@@ -2,12 +2,12 @@ import {FC} from "react";
 import {ChildrenProps, User} from "../types/declarations";
 import {Navigate} from "react-router-dom";
 import axios, {AxiosResponse} from "axios";
-import {getItemDecrypted, storeItemEncrypted} from "../lib/utils.ts";
+import {getLoginUser, storeItemEncrypted} from "../lib/utils.ts";
 import Loading from "./Loading.tsx";
 import {useUserDetails} from "../queries/queries.hook.ts";
 
 const ProtectedRoute: FC<ChildrenProps> = ({ children } : ChildrenProps) => {
-  const user = getItemDecrypted('user'); // Check user info from localStorage
+  const user = getLoginUser(); // Check user info from localStorage
   let {id: userId} = user ? user as User : {id: 0};
 
   // Request the server to get user details by id

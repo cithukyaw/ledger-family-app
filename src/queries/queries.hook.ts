@@ -1,7 +1,7 @@
 import {useQuery} from "@tanstack/react-query";
 import {queries} from "./queries.ts";
 
-const cachedTime = 24 * 60 * 60 * 1000; // 24 hours
+const cachedTime = 60 * 60 * 1000; // 1 hour
 
 export const useUserDetails = (userId: number) => {
   return useQuery({

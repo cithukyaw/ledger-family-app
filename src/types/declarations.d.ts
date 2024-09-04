@@ -39,6 +39,16 @@ type FormUserValues = {
   password: string,
 }
 
+type FormExpenseValues = {
+  userId: number,
+  date: string,
+  title: string,
+  amount: number,
+  category: number,
+  type: string,
+  remarks: string,
+}
+
 // type FormErrorType = Omit<ApiValidationError, 'field'> & {
 //   field: keyof FormEmailValues;
 // };
@@ -48,7 +58,7 @@ type UserTokens = {
   refreshToken: string;
 }
 
-export type User = {
+type User = {
   id: number;
   name: string | null;
   email: string;
@@ -56,7 +66,7 @@ export type User = {
   active: boolean;
 }
 
-export type UserWithTokens = UserTokens & {
+type UserWithTokens = UserTokens & {
   user: User;
 };
 
@@ -66,3 +76,8 @@ type JSONValue =
   | boolean
   | { [x: string]: JSONValue }
   | Array<JSONValue>;
+
+type Category = {
+  id: number,
+  name: string,
+}

@@ -1,5 +1,5 @@
 import {FC, useContext, useEffect, useState} from "react";
-import {FormActionProps, FormUserValues, JSONValue, User, UserContextType, UserWithTokens} from "../types/declarations";
+import {FormActionProps, FormUserValues, JSONValue, UserContextType, UserWithTokens} from "../types/declarations";
 import {Box, Button} from "@mui/material";
 import OtpInput from "react-otp-input";
 import Error from "./Error.tsx";
@@ -10,7 +10,7 @@ import {UserContext} from "../contexts/userContext.tsx";
 import {useLazyQuery} from "../lib/hooks.ts";
 import {apiErrorHandling} from "../lib/api.ts";
 import mQuery from "../queries/mutations.ts";
-import {getItemDecrypted, storeItemEncrypted} from "../lib/utils.ts";
+import {getLoginUser, storeItemEncrypted} from "../lib/utils.ts";
 
 const FormPasscode: FC<FormActionProps> = ({ action }: FormActionProps) => {
   let {email} = useContext<UserContextType>(UserContext);
@@ -26,7 +26,7 @@ const FormPasscode: FC<FormActionProps> = ({ action }: FormActionProps) => {
   } = useForm<FormUserValues>();
 
   if (!email) {
-    const user = getItemDecrypted('user') as User;
+    const user = getLoginUser();
     if (user) {
        email = user.email
     }
