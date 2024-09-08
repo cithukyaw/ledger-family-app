@@ -15,6 +15,8 @@ import BaseLayout from "./components/Layouts/BaseLayout.tsx";
 import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
 import CreateExpense from "./pages/Expense/CreateExpense.tsx";
 import './App.scss';
+import Ledger from "./pages/Ledger.tsx";
+import Account from "./pages/Account.tsx";
 
 const queryClient = new QueryClient();
 
@@ -50,6 +52,20 @@ const App: FC = () => {
                 path="/expense/add" element={
                 <ProtectedRoute>
                   <CreateExpense />
+                </ProtectedRoute>
+              }>
+              </Route>
+              <Route
+                path="/ledger" element={
+                <ProtectedRoute>
+                  <Ledger />
+                </ProtectedRoute>
+              }>
+              </Route>
+              <Route
+                path="/account" element={
+                <ProtectedRoute>
+                  <Account />
                 </ProtectedRoute>
               }>
               </Route>

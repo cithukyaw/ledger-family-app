@@ -21,7 +21,7 @@ const Navbar: FC = () => {
       </NavLink>
       <NavLink to="/ledger" className={menuActive}>
         <WalletIcon />
-        <div>Saving</div>
+        <div>Ledger</div>
       </NavLink>
       <NavLink to="/account" className={menuActive}>
         <AccountCircleIcon />
