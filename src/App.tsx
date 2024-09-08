@@ -18,7 +18,14 @@ import './App.scss';
 import Ledger from "./pages/Ledger.tsx";
 import Account from "./pages/Account.tsx";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+      refetchOnWindowFocus: false
+    }
+  }
+});
 
 const App: FC = () => {
   return (
