@@ -30,6 +30,7 @@ const CreateExpense: FC = () => {
   const {
     register,
     setError,
+    setValue,
     clearErrors,
     formState: {errors},
     handleSubmit,
@@ -72,7 +73,7 @@ const CreateExpense: FC = () => {
     handleSubmit(submitForm)();
   };
 
-  const isLoading = isPendingCategories || isPendingTypes || query.isPending;
+  const isLoading = isPendingCategories || isPendingTypes;
   const isError = isErrorCategories || isErrorTypes;
 
   if (isLoading) {
@@ -99,7 +100,10 @@ const CreateExpense: FC = () => {
                   {...register("date", {required: "Select a date."})}
                   label="Expense Date"
                   format="DD/MM/YYYY"
-                  onChange={value => setDate(value)}
+                  onChange={value => {
+                    setDate(value);
+                    setValue("date", dayjs(value).format('DD/MM/YYYY')); // Update form value
+                  }}
                   slotProps={{
                     textField: {
                       ...register('date', {required: 'Select a date.'}),
@@ -186,7 +190,7 @@ const CreateExpense: FC = () => {
                 onClick={handleSubmitBtnClick}
                 variant="contained"
                 size="large"
-                disabled={isLoading}
+                disabled={query.isPending}
                 fullWidth
               >
                 Save Expense
