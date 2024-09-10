@@ -1,5 +1,5 @@
-import {FC} from "react";
-import {Box, Card, List, ListItem, ListItemIcon, ListItemText} from "@mui/material";
+import {FC, useState} from "react";
+import {Box, Card, Collapse, Divider, List, ListItem, ListItemIcon, ListItemText} from "@mui/material";
 import dayjs from "dayjs";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {ListCardProps} from "../types/declarations";
@@ -7,6 +7,16 @@ import {ListCardProps} from "../types/declarations";
 const ListCard: FC<ListCardProps> = ({ title, data }: ListCardProps) => {
   const initialValue = 0;
   const total = data.reduce((accumulator, row) => accumulator + row.amount, initialValue);
+  const [allowDelete] = useState<boolean>(false);
+
+  const twoLinesText = (primaryText: string, secondaryText?: string, className?: string) => {
+    return (
+      <>
+        <Box className={ className ? className : ''}>{ primaryText }</Box>
+        { secondaryText && <Box sx={{ color: 'text.secondary' }}>{ secondaryText}</Box>}
+      </>
+    )
+  }
 
   return (
     <>
@@ -17,21 +27,30 @@ const ListCard: FC<ListCardProps> = ({ title, data }: ListCardProps) => {
           <List>
             {
               data.map(row => (
-                <ListItem key={row.id} secondaryAction={<ListItemText primary={row.amount.toLocaleString()} />}>
-                  <ListItemIcon sx={{ minWidth: "36px" }}>
-                    <DeleteIcon color="error" />
-                  </ListItemIcon>
-                  <ListItemText primary={row.title} secondary={row.remarks} />
-                </ListItem>
+                <>
+                  <ListItem key={row.id} secondaryAction={
+                    <ListItemText sx={{ textAlign: "right" }} primary={twoLinesText(row.amount.toLocaleString(), `(${row.type})`)} />
+                  } alignItems="flex-start">
+
+                    <Collapse orientation="horizontal" in={allowDelete}>
+                      <ListItemIcon sx={{ minWidth: "36px" }}>
+                        <DeleteIcon color="error" />
+                      </ListItemIcon>
+                    </Collapse>
+
+                    <ListItemText primary={row.title} secondary={twoLinesText(row.category.name, row.remarks, 'text-warning')} />
+                  </ListItem>
+                  <Divider />
+                </>
               ))
             }
+
             {/*Total by day*/}
             <ListItem
               className="bold"
               secondaryAction={
                 <ListItemText primary={total.toLocaleString()} />
-              }
-            >
+              }>
               <ListItemText primary="Total" />
             </ListItem>
           </List>
