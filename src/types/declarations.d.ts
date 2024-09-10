@@ -23,6 +23,10 @@ type ListCardProps = {
   data: Array<ExpenseType>;
 }
 
+type LoadingProps = {
+  fullScreen?: boolean
+}
+
 type UserContextType = {
   email: string;
   setEmail: (email: string) => void;

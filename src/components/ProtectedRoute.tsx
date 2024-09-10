@@ -15,7 +15,7 @@ const ProtectedRoute: FC<ChildrenProps> = ({ children } : ChildrenProps) => {
   const { data, error, isPending, isError, isSuccess } = useUserDetails(userId);
 
   if (isPending) {
-    return <Loading />
+    return <Loading fullScreen={true} />
   }
 
   if (isError && axios.isAxiosError(error))  {

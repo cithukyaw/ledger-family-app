@@ -77,7 +77,7 @@ const CreateExpense: FC = () => {
   const isError = isErrorCategories || isErrorTypes;
 
   if (isLoading) {
-    return <Loading />
+    return <Loading fullScreen={true} />
   }
 
   if (query.isError) {
