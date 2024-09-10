@@ -3,11 +3,29 @@ import axios, {AxiosError, AxiosResponse} from "axios";
 import {FieldValues, UseFormSetError} from "react-hook-form";
 import config from "./config.ts";
 import {toast} from "react-toastify";
+import {getLoginUser} from "./utils.ts";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
   withCredentials: true // Include the HTTP-only cookie for access token
 })
+
+api.interceptors.response.use(
+  response => response,
+  error => {
+    if (error.response.status === 401) { // when user is not authenticated
+      const user = getLoginUser(); // Check user info from localStorage
+      // go to the passcode entry screen if user is previously logged in, otherwise go to the home screen
+      if (user) {
+        window.location.href = '/login/complete';
+      } else {
+        window.location.href = '/';
+      }
+    }
+
+    return Promise.reject(error);
+  },
+);
 
 // api.interceptors.request.use(
 //   config => {
