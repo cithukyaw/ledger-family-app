@@ -9,7 +9,7 @@ import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 import dayjs, {Dayjs} from 'dayjs';
 import Error from "../../components/Error.tsx";
-import {Category, FormExpenseValues} from "../../types/declarations";
+import {CategoryType, FormExpenseValues} from "../../types/declarations";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import Loading from "../../components/Loading.tsx";
 import ServerError from "../../components/ServerError.tsx";
@@ -150,7 +150,7 @@ const CreateExpense: FC = () => {
                 value={category}
                 fullWidth
               >
-                {categories && categories.map((cat: Category) => <MenuItem key={cat.id} value={cat.id}>{cat.name}</MenuItem>)}
+                {categories && categories.map((cat: CategoryType) => <MenuItem key={cat.id} value={cat.id}>{cat.name}</MenuItem>)}
               </TextField>
               <Error field={errors.category}/>
             </FormControl>

@@ -2,6 +2,7 @@ import {ToastOptions} from "react-toastify";
 
 const config = {
   "userStoreKey": "user",
+  "currencyUnit": "MMK",
   "toastOptions": {},
 };
 

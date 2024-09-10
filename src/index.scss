@@ -1,6 +1,6 @@
 @import './common.scss';
 
-:root, p, button, div, a {
+:root, p, button, div, a, span {
     font-family: $font-stack !important;
     font-optical-sizing: auto;
     font-style: normal;
@@ -26,6 +26,10 @@ body {
     .btn-orange {
         background: $orange-color;
         color: white;
+
+        span {
+            color: white;
+        }
     }
 
     .btn-orange:hover {
@@ -45,6 +49,11 @@ body {
 
     .btn-rounded {
         border-radius: 25px;
+    }
+
+    .subtitle {
+        font-weight: bold;
+        margin: 1em 0;
     }
 }
 

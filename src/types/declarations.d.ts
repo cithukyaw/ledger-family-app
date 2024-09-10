@@ -18,6 +18,11 @@ type HeaderProps = {
   title: string
 }
 
+type ListCardProps = {
+  title: string,
+  data: Array<ExpenseType>;
+}
+
 type UserContextType = {
   email: string;
   setEmail: (email: string) => void;
@@ -77,7 +82,21 @@ type JSONValue =
   | { [x: string]: JSONValue }
   | Array<JSONValue>;
 
-type Category = {
+type CategoryType = {
   id: number,
   name: string,
+}
+
+type ExpenseType = {
+  id: number,
+  userId: number,
+  categoryId: number,
+  type: string,
+  date: string,
+  title: string,
+  amount: number,
+  remarks?: string,
+  createdAt: string,
+  updatedAt?: string,
+  deletedAt?: string
 }
