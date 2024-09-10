@@ -95,6 +95,7 @@ type ExpenseType = {
   id: number,
   userId: number,
   categoryId: number,
+  category: CategoryType,
   type: string,
   date: string,
   title: string,
