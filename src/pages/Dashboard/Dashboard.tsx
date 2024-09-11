@@ -8,7 +8,7 @@ const Dashboard: FC = () => {
   return (
     <Box className="app">
       <Header title="Dashboard" />
-      <Container maxWidth="md">
+      <Container maxWidth="lg">
         <ComingSoon />
       </Container>
       <Navbar/>

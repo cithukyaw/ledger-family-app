@@ -8,7 +8,7 @@ const Account: FC = () => {
   return (
     <Box className="app">
       <Header title="My Account" />
-      <Container maxWidth="md">
+      <Container maxWidth="lg">
         <ComingSoon />
       </Container>
       <Navbar/>

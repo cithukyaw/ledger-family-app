@@ -88,7 +88,7 @@ const CreateExpense: FC = () => {
   return (
     <Box className="app">
       <Header title="Add Expense" />
-      <Container maxWidth="md">
+      <Container maxWidth="lg">
         { isError ?
           <ServerError /> :
           <Box component="form">

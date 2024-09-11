@@ -5,7 +5,7 @@ import {Container} from "@mui/material";
 
 const SingleLayout: FC = () => {
   return (
-    <Container maxWidth="md" sx={{
+    <Container maxWidth="lg" sx={{
       padding: "1.45rem 0",
       textAlign: "center"
     }}>

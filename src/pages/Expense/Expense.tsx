@@ -60,7 +60,7 @@ const Expense: FC = () => {
   return (
     <Box className="app">
       <Header title="Expenses" />
-      <Container maxWidth="md">
+      <Container maxWidth="lg">
         <Box className="subtitle">Expense Overview</Box>
         <Card>
           <CardContent>

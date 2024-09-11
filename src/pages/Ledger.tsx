@@ -8,7 +8,7 @@ const Ledger: FC = () => {
   return (
     <Box className="app">
       <Header title="Ledger" />
-      <Container maxWidth="md">
+      <Container maxWidth="lg">
         <ComingSoon />
       </Container>
       <Navbar/>
