@@ -4,7 +4,7 @@
     @include flex-center;
     justify-content: space-between;
     min-width: 320px;
-    min-height: calc(100vh - 2.9rem);
+    min-height: calc(100dvh - 2.9rem);
     text-align: center;
 
     .logo {
