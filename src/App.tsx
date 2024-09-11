@@ -17,6 +17,7 @@ import CreateExpense from "./pages/Expense/CreateExpense.tsx";
 import './App.scss';
 import Ledger from "./pages/Ledger.tsx";
 import Account from "./pages/Account.tsx";
+import {createTheme, ThemeProvider} from "@mui/material";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -27,59 +28,73 @@ const queryClient = new QueryClient({
   }
 });
 
+const theme = createTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 375, // overwrite default 600
+      md: 900,
+      lg: 1200,
+      xl: 1536,
+    },
+  },
+});
+
 const App: FC = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <UserProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route element={<BaseLayout />}>
-              <Route element={<SingleLayout />}>
-                <Route path="/" element={<Home />}></Route>
-                <Route path="/register" element={<RegisterEmail />}></Route>
-                <Route path="/register/complete" element={<RegisterPasscode />}></Route>
-                <Route path="/login" element={<LoginEmail />}></Route>
-                <Route path="/login/complete" element={<LoginPasscode />}></Route>
-              </Route>
-              <Route
-                path="/dashboard" element={
+      <ThemeProvider theme={theme}>
+        <UserProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route element={<BaseLayout />}>
+                <Route element={<SingleLayout />}>
+                  <Route path="/" element={<Home />}></Route>
+                  <Route path="/register" element={<RegisterEmail />}></Route>
+                  <Route path="/register/complete" element={<RegisterPasscode />}></Route>
+                  <Route path="/login" element={<LoginEmail />}></Route>
+                  <Route path="/login/complete" element={<LoginPasscode />}></Route>
+                </Route>
+                <Route
+                  path="/dashboard" element={
+                    <ProtectedRoute>
+                      <Dashboard />
+                    </ProtectedRoute>
+                  }>
+                </Route>
+                <Route
+                  path="/expense" element={
                   <ProtectedRoute>
-                    <Dashboard />
+                    <Expense />
                   </ProtectedRoute>
                 }>
+                </Route>
+                <Route
+                  path="/expense/add" element={
+                  <ProtectedRoute>
+                    <CreateExpense />
+                  </ProtectedRoute>
+                }>
+                </Route>
+                <Route
+                  path="/ledger" element={
+                  <ProtectedRoute>
+                    <Ledger />
+                  </ProtectedRoute>
+                }>
+                </Route>
+                <Route
+                  path="/account" element={
+                  <ProtectedRoute>
+                    <Account />
+                  </ProtectedRoute>
+                }>
+                </Route>
               </Route>
-              <Route
-                path="/expense" element={
-                <ProtectedRoute>
-                  <Expense />
-                </ProtectedRoute>
-              }>
-              </Route>
-              <Route
-                path="/expense/add" element={
-                <ProtectedRoute>
-                  <CreateExpense />
-                </ProtectedRoute>
-              }>
-              </Route>
-              <Route
-                path="/ledger" element={
-                <ProtectedRoute>
-                  <Ledger />
-                </ProtectedRoute>
-              }>
-              </Route>
-              <Route
-                path="/account" element={
-                <ProtectedRoute>
-                  <Account />
-                </ProtectedRoute>
-              }>
-              </Route>
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </UserProvider>
+            </Routes>
+          </BrowserRouter>
+        </UserProvider>
+      </ThemeProvider>
       <ReactQueryDevtools position="top" />
     </QueryClientProvider>
   )
