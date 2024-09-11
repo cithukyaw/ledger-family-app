@@ -3,6 +3,8 @@ import Navbar from "../../components/Navbar/Navbar.tsx";
 import {Box, Button, Card, CardContent, Container, ToggleButton, ToggleButtonGroup, Typography} from "@mui/material";
 import Header from "../../components/Header/Header.tsx";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import LocalAtmIcon from '@mui/icons-material/LocalAtm';
+import CreditCardIcon from '@mui/icons-material/CreditCard';
 import {Link} from "react-router-dom";
 import {useExpenses} from "../../queries/queries.hook.ts";
 import Loading from "../../components/Loading.tsx";
@@ -51,6 +53,8 @@ const Expense: FC = () => {
 
   const expenses = isSuccess ? data.data : [];
   const total = isSuccess ? data.meta.total : 0;
+  const totalCash = isSuccess ? data.meta.totalCash : 0;
+  const totalBank = isSuccess ? data.meta.totalBank : 0;
   const months = getMonths();
 
   return (
@@ -74,6 +78,20 @@ const Expense: FC = () => {
             <Typography variant="h5" component="div" sx={{ textAlign: "center", fontWeight: "bold" }}>
               Total {total.toLocaleString()}
             </Typography>
+            <Box sx={{ display: "flex", justifyContent: "center", textAlign: "center", marginTop: "1em" }}>
+              <Box sx={{ margin: "0 2em" }}>
+                <Typography variant="h6" component="div">{totalCash.toLocaleString()}</Typography>
+                <Box sx={{ display: "flex", justifyContent: "center"  }}>
+                  <LocalAtmIcon sx={{ marginRight: ".2em" }} color="warning" /> Cash
+                </Box>
+              </Box>
+              <Box sx={{ margin: "0 2em" }}>
+                <Typography variant="h6" component="div">{totalBank.toLocaleString()}</Typography>
+                <Box sx={{ display: "flex", justifyContent: "center"  }}>
+                  <CreditCardIcon sx={{ marginRight: ".2em" }} color="warning" /> Banking
+                </Box>
+              </Box>
+            </Box>
           </CardContent>
         </Card>
 
