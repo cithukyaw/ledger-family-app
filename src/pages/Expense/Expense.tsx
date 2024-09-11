@@ -17,7 +17,7 @@ const Expense: FC = () => {
   const [filterMonth, setFilterMonth] = useState<string>(dayjs().startOf('month').format('YYYY-MM-DD'))
   const [from, setFrom] = useState(dayjs().startOf('month'));  // First day of current month
   const [to, setTo] = useState(dayjs().endOf('month'));        // Last day of current month
-  const { data, isPending, isSuccess, isError, refetch } = useExpenses(from, to);
+  const { data, isPending, isRefetching, isSuccess, isError, refetch } = useExpenses(from, to);
 
   const getMonths = (count: number = 3): Array<{value: string, label: string}> => {
     const months = [];
@@ -108,7 +108,7 @@ const Expense: FC = () => {
           </Button>
         </Box>
 
-        { isPending
+        { isPending || isRefetching
           ? <Loading />
           : Object.entries(expenses).length ?
               Object.entries(expenses).map(([key, value]) => (
