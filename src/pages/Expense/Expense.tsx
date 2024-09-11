@@ -61,8 +61,7 @@ const Expense: FC = () => {
     <Box className="app">
       <Header title="Expenses" />
       <Container maxWidth="lg">
-        <Box className="subtitle">Expense Overview</Box>
-        <Card>
+        <Card sx={{ marginTop: "1.5em" }}>
           <CardContent>
             <ToggleButtonGroup
               color="warning"
