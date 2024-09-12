@@ -27,8 +27,8 @@ const ListCard: FC<ListCardProps> = ({ title, data }: ListCardProps) => {
           <List>
             {
               data.map(row => (
-                <>
-                  <ListItem key={row.id} secondaryAction={
+                <Box key={row.id}>
+                  <ListItem secondaryAction={
                     <ListItemText sx={{ textAlign: "right" }} primary={twoLinesText(row.amount.toLocaleString(), `(${row.type})`)} />
                   } alignItems="flex-start">
 
@@ -41,7 +41,7 @@ const ListCard: FC<ListCardProps> = ({ title, data }: ListCardProps) => {
                     <ListItemText primary={row.title} secondary={twoLinesText(row.category.name, row.remarks, 'text-warning')} />
                   </ListItem>
                   <Divider />
-                </>
+                </Box>
               ))
             }
 
