@@ -20,7 +20,13 @@ type HeaderProps = {
 
 type ListCardProps = {
   title: string,
-  data: Array<ExpenseType>;
+  data: Array<ExpenseType>,
+}
+
+type InfoCardProps = {
+  title: string,
+  amount: number,
+  icon?: React.ReactNode,
 }
 
 type LoadingProps = {
