@@ -65,6 +65,7 @@ const CreateExpense: FC = () => {
     data.amount = Number(amount);
     data.userId = user.id;
 
+    query.reset();
     query.mutate(data)
   };
 
