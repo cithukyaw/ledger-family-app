@@ -33,6 +33,12 @@ type LoadingProps = {
   fullScreen?: boolean
 }
 
+type ActionDialogProps = {
+  selectedValue: string;
+  open: boolean;
+  onClose: (value: string) => void;
+}
+
 type UserContextType = {
   email: string;
   setEmail: (email: string) => void;
@@ -110,4 +116,9 @@ type ExpenseType = {
   createdAt: string,
   updatedAt?: string,
   deletedAt?: string
+}
+
+type LongPressOptions = {
+  shouldPreventDefault?: boolean;
+  delay?: number;
 }
