@@ -30,12 +30,18 @@ const saveExpense = async <TData = ApiResponse>(formData: FormExpenseValues): Pr
   return response.data;
 }
 
+const deleteExpense = async (expenseId: number): Promise<void> => {
+  const response = await api.delete(`expenses/${expenseId}`);
+  return response.data;
+}
+
 const mQuery = {
   checkAvailability,
   prerequisiteLogin,
   login,
   register,
   saveExpense,
+  deleteExpense,
 }
 
 export default mQuery;

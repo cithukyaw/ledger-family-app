@@ -5,21 +5,45 @@ import dayjs from "dayjs";
 import {ListCardProps} from "../types/declarations";
 import {useLongPress} from "@uidotdev/usehooks";
 import ActionDialog from "./ActionDialog.tsx";
+import {useNavigate} from "react-router-dom";
+import {useLazyQuery} from "../lib/hooks.ts";
+import mQuery from "../queries/mutations.ts";
+import {toast} from "react-toastify";
+import config from "../lib/config.ts";
 
 const ListCard: FC<ListCardProps> = ({ title, data }: ListCardProps) => {
+  const navigate = useNavigate();
   const initialValue = 0;
   const total = data.reduce((accumulator, row) => accumulator + row.amount, initialValue);
   const [editable, setEditable] = useState(false);
   const [selectedId, setSelectedId] = useState(0);
   const [selectedAction, setSelectedAction] = useState('cancel');
+  const [listData, setListData] = useState(data);
+
+  const deleteQuery = useLazyQuery(
+    async (id: number) => {
+      await mQuery.deleteExpense(id); // post to server
+    },
+    {
+      onSuccess: () => {
+        const updatedData = listData.filter(row => row.id !== selectedId);
+        setListData(updatedData);
+
+        toast.success('Expense deleted!', config.toastOptions);
+      },
+      onError: () => {
+        toast.error('Failed to delete!', config.toastOptions);
+      }
+    }
+  );
 
   const longPressAttrs = useLongPress(
     () => setEditable(true),
     {
+      threshold: 1000,
       // onStart: () => console.log('Press started'),
       // onFinish: () => console.log('Press Finished'),
       // onCancel: () => console.log('Press cancelled'),
-      threshold: 1000,
     }
   );
 
@@ -29,9 +53,9 @@ const ListCard: FC<ListCardProps> = ({ title, data }: ListCardProps) => {
     console.log(action, selectedId);
 
     if (action === 'edit') {
-      // TODO: go to edit screen
+      navigate(`/expense/${selectedId}`)
     } else if (action === 'delete') {
-      // TODO: delete query
+      deleteQuery.mutate(selectedId);
     }
   };
 
@@ -50,13 +74,13 @@ const ListCard: FC<ListCardProps> = ({ title, data }: ListCardProps) => {
 
   return (
     <>
-    {data.length > 0 &&
+    {listData.length > 0 &&
       <>
         <Box className="subtitle">{ dayjs(title).format("MMM D, YYYY (ddd)") }</Box>
         <Card>
           <List>
             {
-              data.map(row => (
+              listData.map(row => (
                 <Box key={row.id}>
                   <ListItem
                     secondaryAction={
