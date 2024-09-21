@@ -11,7 +11,7 @@ import mQuery from "../queries/mutations.ts";
 import {toast} from "react-toastify";
 import config from "../lib/config.ts";
 
-const ListCard: FC<ListCardProps> = ({ title, data }: ListCardProps) => {
+const ListCard: FC<ListCardProps> = ({ title, data, setBackdropOpen }: ListCardProps) => {
   const navigate = useNavigate();
   const initialValue = 0;
   const total = data.reduce((accumulator, row) => accumulator + row.amount, initialValue);
@@ -28,11 +28,12 @@ const ListCard: FC<ListCardProps> = ({ title, data }: ListCardProps) => {
       onSuccess: () => {
         const updatedData = listData.filter(row => row.id !== selectedId);
         setListData(updatedData);
-
         toast.success('Expense deleted!', config.toastOptions);
+        setBackdropOpen(false);
       },
       onError: () => {
         toast.error('Failed to delete!', config.toastOptions);
+        setBackdropOpen(false);
       }
     }
   );
@@ -50,11 +51,11 @@ const ListCard: FC<ListCardProps> = ({ title, data }: ListCardProps) => {
   const handleActionDialogClose = (action: string) => {
     setEditable(false);
     setSelectedAction(action);
-    console.log(action, selectedId);
 
     if (action === 'edit') {
       navigate(`/expense/${selectedId}`)
     } else if (action === 'delete') {
+      setBackdropOpen(true);
       deleteQuery.mutate(selectedId);
     }
   };

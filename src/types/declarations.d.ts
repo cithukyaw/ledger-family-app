@@ -21,6 +21,7 @@ type HeaderProps = {
 type ListCardProps = {
   title: string,
   data: Array<ExpenseType>,
+  setBackdropOpen?: Dispatch<SetStateAction<boolean>>
 }
 
 type InfoCardProps = {
@@ -31,6 +32,10 @@ type InfoCardProps = {
 
 type LoadingProps = {
   fullScreen?: boolean
+}
+
+type LoadingBackdropProps = {
+  open: boolean
 }
 
 type ActionDialogProps = {

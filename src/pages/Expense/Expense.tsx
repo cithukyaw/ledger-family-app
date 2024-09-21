@@ -12,12 +12,15 @@ import ServerError from "../../components/ServerError.tsx";
 import dayjs from "dayjs";
 import ListCard from "../../components/ListCard.tsx";
 import {ExpenseType} from "../../types/declarations";
+import LoadingBackdrop from "../../components/LoadingBackdrop.tsx";
 
 const Expense: FC = () => {
   const [filterMonth, setFilterMonth] = useState<string>(dayjs().startOf('month').format('YYYY-MM-DD'))
   const [from, setFrom] = useState(dayjs().startOf('month'));  // First day of current month
   const [to, setTo] = useState(dayjs().endOf('month'));        // Last day of current month
+  const [backdropOpen, setBackdropOpen] = useState(false);
   const { data, isPending, isRefetching, isSuccess, isError, refetch } = useExpenses(from, to);
+
 
   const getMonths = (count: number = 3): Array<{value: string, label: string}> => {
     const months = [];
@@ -112,7 +115,7 @@ const Expense: FC = () => {
           ? <Loading />
           : Object.entries(expenses).length ?
               Object.entries(expenses).map(([key, value]) => (
-                <ListCard key={key} title={key} data={value as ExpenseType[]} />
+                <ListCard key={key} title={key} data={value as ExpenseType[]} setBackdropOpen={setBackdropOpen} />
               ))
             : <Box sx={{ textAlign: "center", marginTop: "4em" }}>
                 <p>Congrats!</p>
@@ -121,6 +124,7 @@ const Expense: FC = () => {
         }
       </Container>
       <Navbar />
+      <LoadingBackdrop open={backdropOpen} />
     </Box>
   );
 }
