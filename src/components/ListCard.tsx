@@ -19,7 +19,7 @@ const ListCard: FC<ListCardProps> = ({ title, data }: ListCardProps) => {
       // onStart: () => console.log('Press started'),
       // onFinish: () => console.log('Press Finished'),
       // onCancel: () => console.log('Press cancelled'),
-      threshold: 500,
+      threshold: 1000,
     }
   );
 
