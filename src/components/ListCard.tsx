@@ -75,7 +75,7 @@ const ListCard: FC<ListCardProps> = ({ title, data }: ListCardProps) => {
                     {/*</Collapse>*/}
 
                     <ListItemText
-                      primary={`${row.title}: ${row.id}`}
+                      primary={row.title}
                       secondary={TwoLinesText(row.category.name, row.remarks, 'text-warning')}
                     />
                   </ListItem>
