@@ -1,5 +1,14 @@
 import {FC} from "react";
-import {Avatar, Dialog, DialogTitle, List, ListItem, ListItemAvatar, ListItemButton, ListItemText} from "@mui/material";
+import {
+  Avatar,
+  Dialog, DialogContent, DialogContentText,
+  DialogTitle,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemButton,
+  ListItemText
+} from "@mui/material";
 import {orange} from "@mui/material/colors";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -7,10 +16,10 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {ActionDialogProps} from "../types/declarations";
 
 const ActionDialog: FC<ActionDialogProps> = (props: ActionDialogProps) => {
-  const { selectedValue, open, onClose } = props;
+  const { selectedAction, open, onClose, title } = props;
 
   const handleClose = () => {
-    onClose(selectedValue);
+    onClose(selectedAction);
   };
 
   const handleListItemClick = (value: string) => {
@@ -20,6 +29,9 @@ const ActionDialog: FC<ActionDialogProps> = (props: ActionDialogProps) => {
   return (
     <Dialog onClose={handleClose} open={open}>
       <DialogTitle>Select Your Action</DialogTitle>
+      <DialogContent>
+        <DialogContentText sx={{ textAlign: "center" }}>{ title }</DialogContentText>
+      </DialogContent>
       <List sx={{ pt: 0 }}>
         <ListItem disableGutters>
           <ListItemButton onClick={() => handleListItemClick('edit')}>

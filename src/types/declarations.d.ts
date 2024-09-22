@@ -39,9 +39,10 @@ type LoadingBackdropProps = {
 }
 
 type ActionDialogProps = {
-  selectedValue: string;
+  selectedAction: string;
   open: boolean;
   onClose: (value: string) => void;
+  title?: string;
 }
 
 type UserContextType = {

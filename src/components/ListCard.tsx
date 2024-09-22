@@ -17,6 +17,7 @@ const ListCard: FC<ListCardProps> = ({ title, data, setBackdropOpen }: ListCardP
   const total = data.reduce((accumulator, row) => accumulator + row.amount, initialValue);
   const [editable, setEditable] = useState(false);
   const [selectedId, setSelectedId] = useState(0);
+  const [selectedTitle, setSelectedTitle] = useState('');
   const [selectedAction, setSelectedAction] = useState('cancel');
   const [listData, setListData] = useState(data);
 
@@ -51,6 +52,7 @@ const ListCard: FC<ListCardProps> = ({ title, data, setBackdropOpen }: ListCardP
   const handleActionDialogClose = (action: string) => {
     setEditable(false);
     setSelectedAction(action);
+    console.log(action, selectedId, selectedTitle);
 
     if (action === 'edit') {
       navigate(`/expense/${selectedId}`)
@@ -60,8 +62,9 @@ const ListCard: FC<ListCardProps> = ({ title, data, setBackdropOpen }: ListCardP
     }
   };
 
-  const handleItemClick = (id: number) => {
+  const handleItemClick = (id: number, title: string) => {
     setSelectedId(id);
+    setSelectedTitle(title);
   }
 
   const TwoLinesText = (primaryText: string, secondaryText?: string, className?: string) => {
@@ -89,7 +92,7 @@ const ListCard: FC<ListCardProps> = ({ title, data, setBackdropOpen }: ListCardP
                     }
                     alignItems="flex-start"
                     {...longPressAttrs}
-                    onMouseUp={() => handleItemClick(row.id)}
+                    onMouseUp={() => handleItemClick(row.id, row.title)}
                     sx={ editable && row.id === selectedId ? { bgcolor: grey[200] } : null}
                   >
 
@@ -121,7 +124,8 @@ const ListCard: FC<ListCardProps> = ({ title, data, setBackdropOpen }: ListCardP
         </Card>
 
         <ActionDialog
-            selectedValue={selectedAction}
+            selectedAction={selectedAction}
+            title={selectedTitle}
             open={editable}
             onClose={handleActionDialogClose}
         />
