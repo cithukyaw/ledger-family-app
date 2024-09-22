@@ -32,7 +32,7 @@ const theme = createTheme({
   breakpoints: {
     values: {
       xs: 0,
-      sm: 375, // overwrite default 600
+      sm: 365, // overwrite default 600
       md: 900,
       lg: 1200,
       xl: 1536,
