@@ -12,6 +12,7 @@ import {apiErrorHandling} from "../../lib/api.ts";
 import mQuery from "../../queries/mutations.ts";
 import {getLoginUser, storeItemEncrypted} from "../../lib/utils.ts";
 import config from "../../lib/config.ts";
+import LoadingBackdrop from "../LoadingBackdrop.tsx";
 
 const FormPasscode: FC<FormActionProps> = ({ action }: FormActionProps) => {
   let {email} = useContext<UserContextType>(UserContext);
@@ -125,6 +126,7 @@ const FormPasscode: FC<FormActionProps> = ({ action }: FormActionProps) => {
       <Box sx={{my: 2}}>
         <Link to={`/${action}`}>Back</Link>
       </Box>
+      <LoadingBackdrop open={query.isPending} />
     </>
   );
 }

@@ -20,6 +20,7 @@ import mQuery from "../../queries/mutations.ts";
 import {getLoginUser} from "../../lib/utils.ts";
 import {toast} from "react-toastify";
 import config from "../../lib/config.ts";
+import LoadingBackdrop from "../../components/LoadingBackdrop.tsx";
 
 const CreateExpense: FC = () => {
   const { data: categories, isPending: isPendingCategories, isError: isErrorCategories } = useCategories();
@@ -204,6 +205,7 @@ const CreateExpense: FC = () => {
         }
       </Container>
       <Navbar/>
+      <LoadingBackdrop open={query.isPending} />
     </Box>
   );
 }

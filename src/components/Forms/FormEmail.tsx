@@ -9,6 +9,7 @@ import {UserContext} from "../../contexts/userContext.tsx";
 import {useLazyQuery} from "../../lib/hooks.ts";
 import mQuery from "../../queries/mutations.ts";
 import {apiErrorHandling} from "../../lib/api.ts";
+import LoadingBackdrop from "../LoadingBackdrop.tsx";
 
 const FormEmail: FC<FormActionProps> = ({ action }: FormActionProps) => {
   const {email, setEmail} = useContext<UserContextType>(UserContext);
@@ -92,6 +93,7 @@ const FormEmail: FC<FormActionProps> = ({ action }: FormActionProps) => {
           : <Link to="/register">If you don't have an account, <br />please sign up here</Link>
         }
       </Box>
+      <LoadingBackdrop open={query.isPending} />
     </>
   );
 };
