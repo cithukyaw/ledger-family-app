@@ -1,5 +1,5 @@
 import {FC} from "react";
-import {Box, Container} from "@mui/material";
+import {Box, Button, Container, IconButton} from "@mui/material";
 import Navbar from "../../components/Navbar/Navbar.tsx";
 import Header from "../../components/Header/Header.tsx";
 import InfoCard from "../../components/InfoCard.tsx";
@@ -14,13 +14,23 @@ import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 const Dashboard: FC = () => {
   return (
     <Box className="app">
       <Header title="Dashboard" />
       <Container maxWidth="lg">
-        <Box className="subtitle">{ dayjs().format('MMM YYYY') }</Box>
+        <Box className="subtitle" sx={{ display: "flex", justifyContent: "space-between" }}>
+          <IconButton aria-label="previous" className="btn-icon">
+            <ArrowBackIcon />
+          </IconButton>
+          <Button variant="outlined" className="btn-rounded btn-outlined-orange">{ dayjs().format('MMM YYYY') }</Button>
+          <IconButton aria-label="next" className="btn-icon" disabled>
+            <ArrowForwardIcon />
+          </IconButton>
+        </Box>
         <InfoCard title="Current" amount={9999999} icon={<AccountBalanceIcon/>} />
         <InfoCard title="Income" amount={9999999} icon={<BusinessCenterIcon/>} />
         <InfoCard title="Budget" amount={999999} icon={<CalculateIcon/>} />

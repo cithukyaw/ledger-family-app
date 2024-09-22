@@ -41,6 +41,12 @@ body {
         color: white;
     }
 
+    .btn-outlined-orange {
+        color: $warning-color;
+        background: rgba(237, 108, 2, 0.08);
+        border: 1px solid rgba(0, 0, 0, 0.12);
+    }
+
     .btn-outlined-dark {
         border: 1px $dim-color solid !important;
         color: $primary-color !important;
@@ -51,8 +57,17 @@ body {
         color: white !important;
     }
 
+    .btn-dark {
+        background: $primary-color !important;
+        color: white;
+    }
+
     .btn-rounded {
         border-radius: 25px;
+    }
+
+    .btn-icon {
+        border: 1px solid rgba(0, 0, 0, 0.2);
     }
 
     .subtitle {
