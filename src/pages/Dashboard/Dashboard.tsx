@@ -1,9 +1,8 @@
 import {FC} from "react";
-import {Box, Button, Container, IconButton} from "@mui/material";
+import {Box, Container} from "@mui/material";
 import Navbar from "../../components/Navbar/Navbar.tsx";
 import Header from "../../components/Header/Header.tsx";
 import InfoCard from "../../components/InfoCard.tsx";
-import dayjs from "dayjs";
 import SavingsIcon from '@mui/icons-material/Savings';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import PaymentIcon from '@mui/icons-material/Payment';
@@ -14,27 +13,18 @@ import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import MonthNavigator from "../../components/MonthNavigator.tsx";
 
 const Dashboard: FC = () => {
   return (
     <Box className="app">
       <Header title="Dashboard" />
       <Container maxWidth="lg">
-        <Box className="subtitle" sx={{ display: "flex", justifyContent: "space-between" }}>
-          <IconButton aria-label="previous" className="btn-icon">
-            <ArrowBackIcon />
-          </IconButton>
-          <Button variant="outlined" className="btn-rounded btn-outlined-orange">{ dayjs().format('MMM YYYY') }</Button>
-          <IconButton aria-label="next" className="btn-icon" disabled>
-            <ArrowForwardIcon />
-          </IconButton>
-        </Box>
+        <MonthNavigator />
         <InfoCard title="Current" amount={9999999} icon={<AccountBalanceIcon/>} />
         <InfoCard title="Income" amount={9999999} icon={<BusinessCenterIcon/>} />
-        <InfoCard title="Budget" amount={999999} icon={<CalculateIcon/>} />
         <InfoCard title="Parent Support" amount={300000} icon={<FamilyRestroomIcon/>} />
+        <InfoCard title="Budget" amount={999999} icon={<CalculateIcon/>} />
         <InfoCard title="Gross Saving" amount={999999} icon={<SavingsIcon/>} />
         <InfoCard title="Expense (Cash)" amount={999999} icon={<LocalAtmIcon/>} />
         <InfoCard title="Expense (Bank)" amount={999999} icon={<PaymentIcon/>} />

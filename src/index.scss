@@ -47,6 +47,11 @@ body {
         border: 1px solid rgba(0, 0, 0, 0.12);
     }
 
+    .btn-outlined-orange:hover {
+        background: rgba(237, 108, 2, 0.18);
+        border: 1px solid rgba(237, 108, 2, 0.2);
+    }
+
     .btn-outlined-dark {
         border: 1px $dim-color solid !important;
         color: $primary-color !important;

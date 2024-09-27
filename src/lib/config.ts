@@ -4,6 +4,7 @@ const config = {
   "userStoreKey": "user",
   "currencyUnit": "MMK",
   "toastOptions": {},
+  "dateFormat": "YYYY-MM-DD",
 };
 
 const toastOptions: ToastOptions = {
