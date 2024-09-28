@@ -14,25 +14,36 @@ import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import MonthNavigator from "../../components/MonthNavigator.tsx";
+import {useUserLedger} from "../../queries/queries.hook.ts";
+import dayjs from "dayjs";
+import config from "../../lib/config.ts";
+import {getLoginUser} from "../../lib/utils.ts";
+import Loading from "../../components/Loading.tsx";
 
 const Dashboard: FC = () => {
-  const [, setSelectedMonth] = useState('');
+  const [selectedMonth, setSelectedMonth] = useState(dayjs().startOf('month').format(config.dateFormat));
+  const user = getLoginUser();
+  const {data: ledger, isPending} = useUserLedger(user.id, selectedMonth);
+
+  if (isPending) {
+    return <Loading fullScreen={true} />
+  }
 
   return (
     <Box className="app">
       <Header title="Dashboard" />
       <Container maxWidth="lg">
         <MonthNavigator setSelectedMonth={setSelectedMonth} />
-        <InfoCard title="Current" amount={9999999} icon={<AccountBalanceIcon/>} />
-        <InfoCard title="Income" amount={9999999} icon={<BusinessCenterIcon/>} />
-        <InfoCard title="Parent Support" amount={300000} icon={<FamilyRestroomIcon/>} />
-        <InfoCard title="Budget" amount={999999} icon={<CalculateIcon/>} />
-        <InfoCard title="Gross Saving" amount={999999} icon={<SavingsIcon/>} />
-        <InfoCard title="Expense (Cash)" amount={999999} icon={<LocalAtmIcon/>} />
-        <InfoCard title="Expense (Bank)" amount={999999} icon={<PaymentIcon/>} />
-        <InfoCard title="Total Cost" amount={999999} icon={<MonetizationOnIcon/>} />
-        <InfoCard title="Net Saving" amount={99999} icon={<WalletIcon/>} />
-        <InfoCard title="Balance" amount={999999} icon={<AccountBalanceWalletIcon/>} />
+        <InfoCard title="Current" amount={ledger ? ledger.current : 0} icon={<AccountBalanceIcon/>} />
+        <InfoCard title="Income" amount={ledger ? ledger.income : 0} icon={<BusinessCenterIcon/>} />
+        <InfoCard title="Parent Support" amount={ledger ? ledger.parentSupport : 0} icon={<FamilyRestroomIcon/>} />
+        <InfoCard title="Budget" amount={ledger ? ledger.budget : 0} icon={<CalculateIcon/>} />
+        <InfoCard title="Gross Saving" amount={ledger ? ledger.grossSaving : 0} icon={<SavingsIcon/>} />
+        <InfoCard title="Expense (Cash)" amount={ledger ? ledger.expenseCash : 0} icon={<LocalAtmIcon/>} />
+        <InfoCard title="Expense (Bank)" amount={ledger ? ledger.expenseBank : 0} icon={<PaymentIcon/>} />
+        <InfoCard title="Total Cost" amount={ledger ? ledger.cost : 0} icon={<MonetizationOnIcon/>} />
+        <InfoCard title="Net Saving" amount={ledger ? ledger.netSaving : 0} icon={<WalletIcon/>} />
+        <InfoCard title="Balance" amount={ledger ? ledger.balance : 0} icon={<AccountBalanceWalletIcon/>} />
       </Container>
       <Navbar/>
     </Box>
