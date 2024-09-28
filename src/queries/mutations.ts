@@ -1,5 +1,5 @@
 import api from "../lib/api.ts";
-import {ApiResponse, FormEmailValues, FormExpenseValues, FormUserValues} from "../types/declarations";
+import {ApiResponse, FormEmailValues, FormExpenseValues, FormLedgerValues, FormUserValues} from "../types/declarations";
 
 const checkAvailability = async <TData = ApiResponse>(formData: FormEmailValues): Promise<TData> => {
   const response = await api.post('auth/availability', formData);
@@ -35,6 +35,11 @@ const deleteExpense = async (expenseId: number): Promise<void> => {
   return response.data;
 }
 
+const saveLedger = async <TData = ApiResponse>(formData: FormLedgerValues): Promise<TData> => {
+  const response = await api.post('ledgers', formData);
+  return response.data;
+}
+
 const mQuery = {
   checkAvailability,
   prerequisiteLogin,
@@ -42,6 +47,7 @@ const mQuery = {
   register,
   saveExpense,
   deleteExpense,
+  saveLedger,
 }
 
 export default mQuery;

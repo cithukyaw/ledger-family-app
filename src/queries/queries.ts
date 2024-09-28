@@ -5,6 +5,7 @@ import {getLoginUser} from "../lib/utils.ts";
 import {ExpenseType} from "../types/declarations";
 
 const users = createQueryKeys('users', {
+  // Get user details by userId
   detail: (userId: number) => ({
     queryKey: [userId],
     queryFn: userId
@@ -14,6 +15,16 @@ const users = createQueryKeys('users', {
       }
       : async () => Promise.resolve(undefined), // Prevent unnecessary call if no userId
   }),
+  // Get ledger by userId and date
+  ledgers: (userId: number, date: string) => ({
+    queryKey: [userId, dayjs(date).format('YYYYMMDD')],
+    queryFn: userId
+      ? async () => {
+        const response = await api.get(`users/${userId}/ledgers?date=${date}`);
+        return response.data;
+      }
+      : async () => Promise.resolve(undefined), // Prevent unnecessary call if no userId
+  })
 });
 
 const categories = createQueryKeys('categories', {
@@ -38,7 +49,7 @@ const paymentTypes = createQueryKeys('paymentTypes', {
 
 const expenses = createQueryKeys('expenses', {
   all: (from: Dayjs, to: Dayjs) => ({
-    queryKey: ['expenses'],
+    queryKey: ['expenses', dayjs(from).format('YYYYMMDD'), dayjs(to).format('YYYYMMDD')],
     queryFn: async () => {
       const user = getLoginUser();
       const queryStr = `userId=${user.id}&from=${dayjs(from).format('YYYY-MM-DD')}&to=${dayjs(to).format('YYYY-MM-DD')}`;

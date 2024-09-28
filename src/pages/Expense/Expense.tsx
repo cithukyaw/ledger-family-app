@@ -21,7 +21,6 @@ const Expense: FC = () => {
   const [backdropOpen, setBackdropOpen] = useState(false);
   const { data, isPending, isRefetching, isSuccess, isError, refetch } = useExpenses(from, to);
 
-
   const getMonths = (count: number = 3): Array<{value: string, label: string}> => {
     const months = [];
     const currentDate = dayjs();

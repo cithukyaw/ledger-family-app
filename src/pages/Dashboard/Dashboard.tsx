@@ -1,4 +1,4 @@
-import {FC} from "react";
+import {FC, useState} from "react";
 import {Box, Container} from "@mui/material";
 import Navbar from "../../components/Navbar/Navbar.tsx";
 import Header from "../../components/Header/Header.tsx";
@@ -16,11 +16,13 @@ import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import MonthNavigator from "../../components/MonthNavigator.tsx";
 
 const Dashboard: FC = () => {
+  const [, setSelectedMonth] = useState('');
+
   return (
     <Box className="app">
       <Header title="Dashboard" />
       <Container maxWidth="lg">
-        <MonthNavigator />
+        <MonthNavigator setSelectedMonth={setSelectedMonth} />
         <InfoCard title="Current" amount={9999999} icon={<AccountBalanceIcon/>} />
         <InfoCard title="Income" amount={9999999} icon={<BusinessCenterIcon/>} />
         <InfoCard title="Parent Support" amount={300000} icon={<FamilyRestroomIcon/>} />

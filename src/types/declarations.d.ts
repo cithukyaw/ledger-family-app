@@ -45,6 +45,10 @@ type ActionDialogProps = {
   title?: string;
 }
 
+type MonthNavigatorProps = {
+  setSelectedMonth?: Dispatch<SetStateAction<boolean>>
+}
+
 type UserContextType = {
   email: string;
   setEmail: (email: string) => void;
@@ -74,6 +78,16 @@ type FormExpenseValues = {
   category: number,
   type: string,
   remarks: string,
+}
+
+type FormLedgerValues = {
+  id?: number,
+  userId: number,
+  date: string,
+  current: number,
+  income: number,
+  parentSupport: number,
+  budget: number,
 }
 
 // type FormErrorType = Omit<ApiValidationError, 'field'> & {

@@ -24,6 +24,13 @@ export const usePaymentTypes = () => {
   });
 }
 
+export const useUserLedger = (userId: number, date: string) => {
+  return useQuery({
+    ...queries.users.ledgers(userId, date),
+    staleTime: cachedTime,
+  });
+}
+
 export const useExpenses = (from: Dayjs, to: Dayjs) => {
   return useQuery({
     ...queries.expenses.all(from, to),
