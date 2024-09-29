@@ -1,35 +1,31 @@
-import {FC, useEffect, useState} from "react";
+import {FC} from "react";
 import {Box, Button, IconButton} from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import dayjs from "dayjs";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import config from "../lib/config.ts";
 import {MonthNavigatorProps} from "../types/declarations";
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch, RootState} from "../state/store.ts";
+import {setActiveMonth, setNextDisabled} from "../state/slices/MonthNavSlice.ts";
+import config from "../lib/config.ts";
 
-const MonthNavigator: FC<MonthNavigatorProps> = ({ setSelectedMonth }: MonthNavigatorProps) => {
-  const [activeMonth, setActiveMonth] = useState(dayjs().startOf('month').format(config.dateFormat));
-  const [nextDisabled, setNextDisabled] = useState(true);
-
-  useEffect(() => {
-    setSelectedMonth(activeMonth);
-  }, [])
+const MonthNavigator: FC<MonthNavigatorProps> = () => {
+  const {activeMonth, nextDisabled} = useSelector((state: RootState) => state.monthNav);
+  const dispatch = useDispatch<AppDispatch>();
 
   const goPrev = () => {
-    const prevMonth = dayjs(activeMonth).subtract(1, 'month');
+    const prevMonth = dayjs(activeMonth).subtract(1, 'month').startOf('month');
 
-    setActiveMonth(prevMonth.format(config.dateFormat));
-    setSelectedMonth(prevMonth.format(config.dateFormat));
-    setNextDisabled(false);
+    dispatch(setActiveMonth(prevMonth.format(config.dateFormat)));
+    dispatch(setNextDisabled(false));
   };
 
   const goNext = () => {
-    const nextMonth = dayjs(activeMonth).add(1, 'month');
+    const nextMonth = dayjs(activeMonth).add(1, 'month').startOf('month');
 
-    setActiveMonth(nextMonth.format(config.dateFormat));
-    setSelectedMonth(nextMonth.format(config.dateFormat));
-
+    dispatch(setActiveMonth(nextMonth.format(config.dateFormat)));
     if (dayjs().startOf('month').isSame(nextMonth)) {
-      setNextDisabled(true);
+      dispatch(setNextDisabled(true));
     }
   };
 

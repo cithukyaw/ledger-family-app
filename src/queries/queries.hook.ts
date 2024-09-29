@@ -27,7 +27,6 @@ export const usePaymentTypes = () => {
 export const useUserLedger = (userId: number, date: string) => {
   return useQuery({
     ...queries.users.ledgers(userId, date),
-    staleTime: cachedTime,
   });
 }
 

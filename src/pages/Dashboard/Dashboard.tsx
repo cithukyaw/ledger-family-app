@@ -1,4 +1,4 @@
-import {FC, useState} from "react";
+import {FC} from "react";
 import {Box, Container} from "@mui/material";
 import Navbar from "../../components/Navbar/Navbar.tsx";
 import Header from "../../components/Header/Header.tsx";
@@ -15,15 +15,15 @@ import CalculateIcon from '@mui/icons-material/Calculate';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import MonthNavigator from "../../components/MonthNavigator.tsx";
 import {useUserLedger} from "../../queries/queries.hook.ts";
-import dayjs from "dayjs";
-import config from "../../lib/config.ts";
 import {getLoginUser} from "../../lib/utils.ts";
 import Loading from "../../components/Loading.tsx";
+import {useSelector} from "react-redux";
+import {RootState} from "../../state/store.ts";
 
 const Dashboard: FC = () => {
-  const [selectedMonth, setSelectedMonth] = useState(dayjs().startOf('month').format(config.dateFormat));
+  const { activeMonth } = useSelector((state: RootState) => state.monthNav);
   const user = getLoginUser();
-  const {data: ledger, isPending} = useUserLedger(user.id, selectedMonth);
+  const {data: ledger, isPending} = useUserLedger(user.id, activeMonth);
 
   if (isPending) {
     return <Loading fullScreen={true} />
@@ -33,7 +33,7 @@ const Dashboard: FC = () => {
     <Box className="app">
       <Header title="Dashboard" />
       <Container maxWidth="lg">
-        <MonthNavigator setSelectedMonth={setSelectedMonth} />
+        <MonthNavigator />
         <InfoCard title="Current" amount={ledger ? ledger.current : 0} icon={<AccountBalanceIcon/>} />
         <InfoCard title="Income" amount={ledger ? ledger.income : 0} icon={<BusinessCenterIcon/>} />
         <InfoCard title="Parent Support" amount={ledger ? ledger.parentSupport : 0} icon={<FamilyRestroomIcon/>} />

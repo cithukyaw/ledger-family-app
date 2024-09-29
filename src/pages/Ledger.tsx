@@ -1,4 +1,4 @@
-import {FC, useState} from "react";
+import {FC, useEffect} from "react";
 import {Box, Button, Container, FormControl, TextField} from "@mui/material";
 import Header from "../components/Header/Header.tsx";
 import Navbar from "../components/Navbar/Navbar.tsx";
@@ -15,24 +15,23 @@ import {toast} from "react-toastify";
 import config from "../lib/config.ts";
 import {apiErrorHandling} from "../lib/api.ts";
 import {useUserLedger} from "../queries/queries.hook.ts";
-import dayjs from "dayjs";
 import Loading from "../components/Loading.tsx";
-import {useQueryClient} from "@tanstack/react-query";
-import {queries} from "../queries/queries.ts";
+import {useSelector} from "react-redux";
+import {RootState} from "../state/store.ts";
 
 const Ledger: FC = () => {
-  const [selectedMonth, setSelectedMonth] = useState(dayjs().startOf('month').format(config.dateFormat));
-  const queryClient = useQueryClient();
+  const { activeMonth } = useSelector((state: RootState) => state.monthNav);
   const user = getLoginUser();
   const {
     register,
     handleSubmit,
     formState: {errors},
     clearErrors,
-    setError
+    setError,
+    setValue,
   } = useForm<FormLedgerValues>();
 
-  const {data: ledger, isPending} = useUserLedger(user.id, selectedMonth);
+  const {data: ledger, isPending} = useUserLedger(user.id, activeMonth);
 
   const mutateQuery = useLazyQuery(
     async (formData: FormLedgerValues) => {
@@ -41,15 +40,19 @@ const Ledger: FC = () => {
     {
       onSuccess: async () => { // when form submit is succeeded
         toast.success('Ledger saved!', config.toastOptions);
-        await queryClient.invalidateQueries({
-          queryKey: queries.users.ledgers(user.id, selectedMonth).queryKey
-        });
       },
       onError: err => { // when validation errors occur
         apiErrorHandling(err, setError)
       }
     }
   );
+
+  useEffect(() => {
+    setValue('current', ledger ? ledger.current : '');
+    setValue('income', ledger ? ledger.income : '');
+    setValue('parentSupport', ledger ? ledger.parentSupport : '');
+    setValue('budget', ledger ? ledger.budget : '');
+  }, [ledger, setValue]);
 
   const handleSubmitBtnClick = () => {
     clearErrors(); // Clear validation errors before submit trigger
@@ -61,7 +64,7 @@ const Ledger: FC = () => {
       data.id = ledger.id;
     }
     data.userId         = user.id;
-    data.date           = selectedMonth;
+    data.date           = activeMonth;
     data.current        = Number(data.current);
     data.income         = Number(data.income);
     data.parentSupport  = Number(data.parentSupport);
@@ -84,7 +87,7 @@ const Ledger: FC = () => {
     <Box className="app">
       <Header title="Ledger" />
       <Container maxWidth="lg">
-        <MonthNavigator setSelectedMonth={setSelectedMonth} />
+        <MonthNavigator />
         <Box component="form">
 
           <FormControl fullWidth>
@@ -99,7 +102,6 @@ const Ledger: FC = () => {
               }}
               variant="outlined"
               required fullWidth
-              defaultValue={ledger ? ledger.current : ''}
             />
             <Error field={errors.current}/>
           </FormControl>
@@ -116,7 +118,6 @@ const Ledger: FC = () => {
               }}
               variant="outlined"
               required fullWidth
-              defaultValue={ledger ? ledger.income : ''}
             />
             <Error field={errors.income}/>
           </FormControl>
@@ -133,7 +134,6 @@ const Ledger: FC = () => {
               }}
               variant="outlined"
               required fullWidth
-              defaultValue={ledger ? ledger.parentSupport : ''}
             />
             <Error field={errors.parentSupport}/>
           </FormControl>
@@ -150,7 +150,6 @@ const Ledger: FC = () => {
               }}
               variant="outlined"
               required fullWidth
-              defaultValue={ledger ? ledger.budget : ''}
             />
             <Error field={errors.budget}/>
           </FormControl>

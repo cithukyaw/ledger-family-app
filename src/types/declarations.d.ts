@@ -142,3 +142,8 @@ type LongPressOptions = {
   shouldPreventDefault?: boolean;
   delay?: number;
 }
+
+type MonthNavState = {
+  activeMonth: string,
+  nextDisabled: boolean,
+}
