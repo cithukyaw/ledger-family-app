@@ -1,6 +1,6 @@
 import {useQuery} from "@tanstack/react-query";
 import {queries} from "./queries.ts";
-import {Dayjs} from "dayjs";
+import dayjs from "dayjs";
 
 const cachedTime = 60 * 60 * 1000; // 1 hour
 
@@ -30,7 +30,9 @@ export const useUserLedger = (userId: number, date: string) => {
   });
 }
 
-export const useExpenses = (from: Dayjs, to: Dayjs) => {
+export const useExpenses = (dt: string) => {
+  const from = dayjs(dt).startOf('month');
+  const to = dayjs(dt).endOf('month');
   return useQuery({
     ...queries.expenses.all(from, to),
   })
