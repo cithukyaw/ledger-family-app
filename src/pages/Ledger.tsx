@@ -31,7 +31,7 @@ const Ledger: FC = () => {
     setValue,
   } = useForm<FormLedgerValues>();
 
-  const {data: ledger, isPending} = useUserLedger(user.id, activeMonth);
+  const {data: ledger, isPending, isSuccess} = useUserLedger(user.id, activeMonth);
 
   const mutateQuery = useLazyQuery(
     async (formData: FormLedgerValues) => {
@@ -74,10 +74,6 @@ const Ledger: FC = () => {
     mutateQuery.mutate(data);
   };
 
-  if (isPending) {
-    return <Loading fullScreen={true} />
-  }
-
   if (mutateQuery.isError) {
     mutateQuery.reset();
     toast.error('Cannot save ledger!', config.toastOptions);
@@ -88,85 +84,87 @@ const Ledger: FC = () => {
       <Header title="Ledger" />
       <Container maxWidth="lg">
         <MonthNavigator />
-        <Box component="form">
+        { isPending && <Loading/>}
+        { isSuccess &&
+          <Box component="form">
+            <FormControl fullWidth>
+              <Box component="label">Current <span>*</span></Box>
+              <TextField
+                label="Enter your current value"
+                {...register('current', {required: 'Enter current value.'})}
+                inputProps={{
+                  type: "number",
+                  inputMode: "numeric",
+                  pattern: "[0-9]*",
+                }}
+                variant="outlined"
+                required fullWidth
+              />
+              <Error field={errors.current}/>
+            </FormControl>
 
-          <FormControl fullWidth>
-            <Box component="label">Current <span>*</span></Box>
-            <TextField
-              label="Enter your current value"
-              {...register('current', {required: 'Enter current value.'})}
-              inputProps={{
-                type: "number",
-                inputMode: "numeric",
-                pattern: "[0-9]*",
-              }}
-              variant="outlined"
-              required fullWidth
-            />
-            <Error field={errors.current}/>
-          </FormControl>
+            <FormControl fullWidth>
+              <Box component="label">Income <span>*</span></Box>
+              <TextField
+                label="Enter your income amount"
+                {...register('income', {required: 'Enter income amount.'})}
+                inputProps={{
+                  type: "number",
+                  inputMode: "numeric",
+                  pattern: "[0-9]*",
+                }}
+                variant="outlined"
+                required fullWidth
+              />
+              <Error field={errors.income}/>
+            </FormControl>
 
-          <FormControl fullWidth>
-            <Box component="label">Income <span>*</span></Box>
-            <TextField
-              label="Enter your income amount"
-              {...register('income', {required: 'Enter income amount.'})}
-              inputProps={{
-                type: "number",
-                inputMode: "numeric",
-                pattern: "[0-9]*",
-              }}
-              variant="outlined"
-              required fullWidth
-            />
-            <Error field={errors.income}/>
-          </FormControl>
+            <FormControl fullWidth>
+              <Box component="label">Parent Support <span>*</span></Box>
+              <TextField
+                label="Enter your parent support amount"
+                {...register('parentSupport', {required: 'Enter parent support amount.'})}
+                inputProps={{
+                  type: "number",
+                  inputMode: "numeric",
+                  pattern: "[0-9]*",
+                }}
+                variant="outlined"
+                required fullWidth
+              />
+              <Error field={errors.parentSupport}/>
+            </FormControl>
 
-          <FormControl fullWidth>
-            <Box component="label">Parent Support <span>*</span></Box>
-            <TextField
-              label="Enter your parent support amount"
-              {...register('parentSupport', {required: 'Enter parent support amount.'})}
-              inputProps={{
-                type: "number",
-                inputMode: "numeric",
-                pattern: "[0-9]*",
-              }}
-              variant="outlined"
-              required fullWidth
-            />
-            <Error field={errors.parentSupport}/>
-          </FormControl>
+            <FormControl fullWidth>
+              <Box component="label">Budget <span>*</span></Box>
+              <TextField
+                label="Enter your budget amount"
+                {...register('budget', {required: 'Enter budget amount.'})}
+                inputProps={{
+                  type: "number",
+                  inputMode: "numeric",
+                  pattern: "[0-9]*",
+                }}
+                variant="outlined"
+                required fullWidth
+              />
+              <Error field={errors.budget}/>
+            </FormControl>
 
-          <FormControl fullWidth>
-            <Box component="label">Budget <span>*</span></Box>
-            <TextField
-              label="Enter your budget amount"
-              {...register('budget', {required: 'Enter budget amount.'})}
-              inputProps={{
-                type: "number",
-                inputMode: "numeric",
-                pattern: "[0-9]*",
-              }}
-              variant="outlined"
-              required fullWidth
-            />
-            <Error field={errors.budget}/>
-          </FormControl>
-
-          <FormControl fullWidth>
-            <Button
-              startIcon={<AddCircleOutlineIcon/>}
-              className="btn-orange"
-              onClick={handleSubmitBtnClick}
-              variant="contained"
-              size="large"
-              fullWidth
-            >
-              Save
-            </Button>
-          </FormControl>
-        </Box>
+            <FormControl fullWidth>
+              <Button
+                startIcon={<AddCircleOutlineIcon/>}
+                className="btn-orange"
+                onClick={handleSubmitBtnClick}
+                variant="contained"
+                size="large"
+                fullWidth
+              >
+                Save
+              </Button>
+            </FormControl>
+          </Box>
+        }
       </Container>
       <Navbar/>
       <LoadingBackdrop open={mutateQuery.isPending} />

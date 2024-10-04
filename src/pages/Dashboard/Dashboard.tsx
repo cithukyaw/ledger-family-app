@@ -23,27 +23,28 @@ import {RootState} from "../../state/store.ts";
 const Dashboard: FC = () => {
   const { activeMonth } = useSelector((state: RootState) => state.monthNav);
   const user = getLoginUser();
-  const {data: ledger, isPending} = useUserLedger(user.id, activeMonth);
-
-  if (isPending) {
-    return <Loading fullScreen={true} />
-  }
+  const {data: ledger, isPending, isSuccess} = useUserLedger(user.id, activeMonth);
 
   return (
     <Box className="app">
       <Header title="Dashboard" />
       <Container maxWidth="lg">
         <MonthNavigator />
-        <InfoCard title="Current" amount={ledger ? ledger.current : 0} icon={<AccountBalanceIcon/>} />
-        <InfoCard title="Income" amount={ledger ? ledger.income : 0} icon={<BusinessCenterIcon/>} />
-        <InfoCard title="Parent Support" amount={ledger ? ledger.parentSupport : 0} icon={<FamilyRestroomIcon/>} />
-        <InfoCard title="Budget" amount={ledger ? ledger.budget : 0} icon={<CalculateIcon/>} />
-        <InfoCard title="Gross Saving" amount={ledger ? ledger.grossSaving : 0} icon={<SavingsIcon/>} />
-        <InfoCard title="Expense (Cash)" amount={ledger ? ledger.expenseCash : 0} icon={<LocalAtmIcon/>} />
-        <InfoCard title="Expense (Bank)" amount={ledger ? ledger.expenseBank : 0} icon={<PaymentIcon/>} />
-        <InfoCard title="Total Cost" amount={ledger ? ledger.cost : 0} icon={<MonetizationOnIcon/>} />
-        <InfoCard title="Net Saving" amount={ledger ? ledger.netSaving : 0} icon={<WalletIcon/>} />
-        <InfoCard title="Balance" amount={ledger ? ledger.balance : 0} icon={<AccountBalanceWalletIcon/>} />
+        { isPending && <Loading/>}
+        { isSuccess &&
+          <>
+            <InfoCard title="Current" amount={ledger ? ledger.current : 0} icon={<AccountBalanceIcon/>} />
+            <InfoCard title="Income" amount={ledger ? ledger.income : 0} icon={<BusinessCenterIcon/>} />
+            <InfoCard title="Parent Support" amount={ledger ? ledger.parentSupport : 0} icon={<FamilyRestroomIcon/>} />
+            <InfoCard title="Budget" amount={ledger ? ledger.budget : 0} icon={<CalculateIcon/>} />
+            <InfoCard title="Gross Saving" amount={ledger ? ledger.grossSaving : 0} icon={<SavingsIcon/>} />
+            <InfoCard title="Expense (Cash)" amount={ledger ? ledger.expenseCash : 0} icon={<LocalAtmIcon/>} />
+            <InfoCard title="Expense (Bank)" amount={ledger ? ledger.expenseBank : 0} icon={<PaymentIcon/>} />
+            <InfoCard title="Total Cost" amount={ledger ? ledger.cost : 0} icon={<MonetizationOnIcon/>} />
+            <InfoCard title="Net Saving" amount={ledger ? ledger.netSaving : 0} icon={<WalletIcon/>} />
+            <InfoCard title="Balance" amount={ledger ? ledger.balance : 0} icon={<AccountBalanceWalletIcon/>} />
+          </>
+        }
       </Container>
       <Navbar/>
     </Box>
