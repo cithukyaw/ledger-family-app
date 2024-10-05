@@ -13,6 +13,7 @@ import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
+import BalanceIcon from '@mui/icons-material/Balance';
 import MonthNavigator from "../../components/MonthNavigator.tsx";
 import {useUserLedger} from "../../queries/queries.hook.ts";
 import {getLoginUser} from "../../lib/utils.ts";
@@ -41,6 +42,7 @@ const Dashboard: FC = () => {
             <InfoCard title="Expense (Cash)" amount={ledger ? ledger.expenseCash : 0} icon={<LocalAtmIcon/>} />
             <InfoCard title="Expense (Bank)" amount={ledger ? ledger.expenseBank : 0} icon={<PaymentIcon/>} />
             <InfoCard title="Total Cost" amount={ledger ? ledger.cost : 0} icon={<MonetizationOnIcon/>} />
+            <InfoCard title="Budget Balance" amount={ledger ? ledger.budget - ledger.expenseCash : 0} icon={<BalanceIcon/>} />
             <InfoCard title="Net Saving" amount={ledger ? ledger.netSaving : 0} icon={<WalletIcon/>} />
             <InfoCard title="Balance" amount={ledger ? ledger.balance : 0} icon={<AccountBalanceWalletIcon/>} />
           </>
