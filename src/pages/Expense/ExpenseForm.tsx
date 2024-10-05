@@ -1,8 +1,8 @@
-import {FC, useState} from "react";
+import {FC, useEffect, useState} from "react";
 import {Box, Button, Container, FormControl, MenuItem, Select, TextField} from "@mui/material";
 import Header from "../../components/Header/Header.tsx";
 import Navbar from "../../components/Navbar/Navbar.tsx";
-import {useCategories, usePaymentTypes} from "../../queries/queries.hook.ts";
+import {useCategories, useExpenseDetails, usePaymentTypes} from "../../queries/queries.hook.ts";
 import {useForm} from "react-hook-form";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
@@ -13,7 +13,7 @@ import {CategoryType, FormExpenseValues} from "../../types/declarations";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import Loading from "../../components/Loading.tsx";
 import ServerError from "../../components/ServerError.tsx";
-import {Link} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import {useLazyQuery} from "../../lib/hooks.ts";
 import {apiErrorHandling} from "../../lib/api.ts";
 import mQuery from "../../queries/mutations.ts";
@@ -22,9 +22,14 @@ import {toast} from "react-toastify";
 import config from "../../lib/config.ts";
 import LoadingBackdrop from "../../components/LoadingBackdrop.tsx";
 
-const CreateExpense: FC = () => {
+const ExpenseForm: FC = () => {
+  const { id } = useParams<{ id: string }>();
+  const expenseId = id ? Number(id) : undefined;
+  const dateFormat = 'DD/MM/YYYY';
+
   const { data: categories, isPending: isPendingCategories, isError: isErrorCategories } = useCategories();
   const { data: types, isPending: isPendingTypes, isError: isErrorTypes } = usePaymentTypes();
+  const { data: expense, isPending: isPendingExpense, isError: isErrorExpense } = useExpenseDetails(expenseId);
 
   const [date, setDate] = useState<Dayjs | null>(dayjs());
   const [category, setCategory] = useState<string>('');
@@ -42,15 +47,44 @@ const CreateExpense: FC = () => {
   const user = getLoginUser();
   const defaultPayType = 'cash';
 
+  useEffect(() => {
+    const expDate = expense ? dayjs(expense.date).format(dateFormat) : dayjs().format(dateFormat);
+    const category = expense ? expense.categoryId : '';
+
+    setValue('date', expDate);
+    setValue('title', expense ? expense.title : '');
+    setValue('amount', expense ? expense.amount : '');
+    setValue('category', category);
+    setValue('type', expense ? expense.type : defaultPayType);
+    setValue('remarks', expense && expense.remarks ? expense.remarks : '');
+
+    setCategory(category);
+    if (expense) {
+      setDate(dayjs(expense.date));
+    }
+
+  }, [expense, setDate, setCategory, setValue]);
+
   const query = useLazyQuery(
     async (formData: FormExpenseValues) => {
-      await mQuery.saveExpense(formData); // post to server
+      // post to server
+      if (formData.id) {
+        const { id } = formData;
+        delete formData.id;
+        await mQuery.updateExpense(id, formData);
+      } else {
+        await mQuery.createExpense(formData);
+      }
     },
     {
       onSuccess: () => { // when form submit is succeeded
-        reset(); // form reset
-        setCategory(''); // This resets the local state
-        toast.success('Expense added!', config.toastOptions);
+        if (expenseId) {
+          toast.success('Expense updated!', config.toastOptions);
+        } else {
+          reset(); // form reset
+          setCategory(''); // This resets the local state
+          toast.success('Expense added!', config.toastOptions);
+        }
       },
       onError: err => { // when validation errors occur
         apiErrorHandling(err, setError)
@@ -61,12 +95,18 @@ const CreateExpense: FC = () => {
   const submitForm = async (data: FormExpenseValues) => {
     const { date, amount } = data;
     const expDate: string[] = date.split('/');
+    console.log(date);
 
     data.date = `${expDate[2]}-${expDate[1]}-${expDate[0]}`;
     data.amount = Number(amount);
     data.userId = user.id;
 
+    if (expenseId) {
+      data.id = expenseId;
+    }
+
     query.reset();
+    console.log(data);
     query.mutate(data)
   };
 
@@ -75,8 +115,8 @@ const CreateExpense: FC = () => {
     handleSubmit(submitForm)();
   };
 
-  const isLoading = isPendingCategories || isPendingTypes;
-  const isError = isErrorCategories || isErrorTypes;
+  const isLoading = isPendingCategories || isPendingTypes || (expenseId ? isPendingExpense : false);
+  const isError = isErrorCategories || isErrorTypes || (expenseId ? isErrorExpense : false);
 
   if (isLoading) {
     return <Loading fullScreen={true} />
@@ -84,7 +124,7 @@ const CreateExpense: FC = () => {
 
   if (query.isError) {
     query.reset();
-    toast.error('Cannot add expense!', config.toastOptions);
+    toast.error('Cannot save expense!', config.toastOptions);
   }
 
   return (
@@ -100,6 +140,7 @@ const CreateExpense: FC = () => {
                 dateAdapter={AdapterDayjs}>
                 <DatePicker
                   {...register("date", {required: "Select a date."})}
+                  value={date} // Bind the DatePicker to the date state
                   label="Expense Date"
                   format="DD/MM/YYYY"
                   onChange={value => {
@@ -110,11 +151,9 @@ const CreateExpense: FC = () => {
                     textField: {
                       ...register('date', {required: 'Select a date.'}),
                       fullWidth: true,
-                      value: date
                     },
                   }}
                   maxDate={today}
-                  defaultValue={date}
                 />
               </LocalizationProvider>
               <Error field={errors.date}/>
@@ -198,7 +237,7 @@ const CreateExpense: FC = () => {
                 Save Expense
               </Button>
             </FormControl>
-            <Box sx={{my: 2, textAlign: 'center'}}>
+            <Box sx={{ mt: 3, mb: 1, textAlign: 'center'}} component="p">
               <Link to={`/expense`}>Cancel</Link>
             </Box>
           </Box>
@@ -210,4 +249,4 @@ const CreateExpense: FC = () => {
   );
 }
 
-export default CreateExpense;
+export default ExpenseForm;

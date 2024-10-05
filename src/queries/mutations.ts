@@ -25,13 +25,18 @@ const register = async<TData = ApiResponse>(formData: FormUserValues): Promise<T
   return response.data;
 }
 
-const saveExpense = async <TData = ApiResponse>(formData: FormExpenseValues): Promise<TData> => {
+const createExpense = async <TData = ApiResponse>(formData: FormExpenseValues): Promise<TData> => {
   const response = await api.post('expenses', formData);
   return response.data;
 }
 
-const deleteExpense = async (expenseId: number): Promise<void> => {
-  const response = await api.delete(`expenses/${expenseId}`);
+const updateExpense = async <TData = ApiResponse>(id: number, formData: FormExpenseValues): Promise<TData> => {
+  const response = await api.put(`expenses/${id}`, formData);
+  return response.data;
+}
+
+const deleteExpense = async (id: number): Promise<void> => {
+  const response = await api.delete(`expenses/${id}`);
   return response.data;
 }
 
@@ -45,7 +50,8 @@ const mQuery = {
   prerequisiteLogin,
   login,
   register,
-  saveExpense,
+  createExpense,
+  updateExpense,
   deleteExpense,
   saveLedger,
 }

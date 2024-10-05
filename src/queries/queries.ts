@@ -70,7 +70,17 @@ const expenses = createQueryKeys('expenses', {
         meta: response.data.meta
       }
     }
-  })
+  }),
+  // Get expense details by id
+  detail: (id: number | undefined) => ({
+    queryKey: [id],
+    queryFn: id
+      ? async () => {
+        const response = await api.get(`expenses/${id}`);
+        return response.data;
+      }
+      : async () => Promise.resolve(undefined), // Prevent unnecessary call if no userId
+  }),
 })
 
 export const queries = mergeQueryKeys(users, categories, paymentTypes, expenses);

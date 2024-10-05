@@ -13,7 +13,7 @@ import Expense from "./pages/Expense/Expense.tsx";
 import SingleLayout from "./components/Layouts/SingleLayout.tsx";
 import BaseLayout from "./components/Layouts/BaseLayout.tsx";
 import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
-import CreateExpense from "./pages/Expense/CreateExpense.tsx";
+import ExpenseForm from "./pages/Expense/ExpenseForm.tsx";
 import './App.scss';
 import Ledger from "./pages/Ledger.tsx";
 import Account from "./pages/Account.tsx";
@@ -72,7 +72,14 @@ const App: FC = () => {
                 <Route
                   path="/expense/add" element={
                   <ProtectedRoute>
-                    <CreateExpense />
+                    <ExpenseForm />
+                  </ProtectedRoute>
+                }>
+                </Route>
+                <Route
+                  path="/expense/:id" element={
+                  <ProtectedRoute>
+                    <ExpenseForm />
                   </ProtectedRoute>
                 }>
                 </Route>

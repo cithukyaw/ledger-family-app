@@ -37,3 +37,10 @@ export const useExpenses = (dt: string) => {
     ...queries.expenses.all(from, to),
   })
 }
+
+export const useExpenseDetails = (id: number | undefined) => {
+  return useQuery({
+    ...queries.expenses.detail(id),
+    enabled: !!id,  // This ensures the query only runs if id is defined
+  });
+};

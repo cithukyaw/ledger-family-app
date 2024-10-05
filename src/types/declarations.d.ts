@@ -71,6 +71,7 @@ type FormUserValues = {
 }
 
 type FormExpenseValues = {
+  id?: number,
   userId: number,
   date: string,
   title: string,
