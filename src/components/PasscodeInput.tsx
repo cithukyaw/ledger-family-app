@@ -9,9 +9,13 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../state/store.ts";
 import {setOtp, togglePasscode} from "../state/slices/userSlice.ts";
 
-const PasscodeInput: FC<PasscodeInputProps> = ({ action, setValue, clearErrors, errors }: PasscodeInputProps) => {
+const PasscodeInput: FC<PasscodeInputProps> = ({ action, setValue, clearErrors, errors, focused }: PasscodeInputProps) => {
   const {visiblePasscode, otp} = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
+
+  if (typeof focused !== 'boolean') {
+    focused = true;
+  }
 
   const label = action === FORM_ACTION.REGISTER
     ? 'Enter a 6-digit passcode'
@@ -31,14 +35,14 @@ const PasscodeInput: FC<PasscodeInputProps> = ({ action, setValue, clearErrors, 
 
   return (
     <>
-      <div>
-        <Box sx={{py: 2}}>{label}</Box>
+      <Box>
+        { action && <Box sx={{py: 2}}>{label}</Box> }
         <OtpInput
           inputType={visiblePasscode ? 'tel' : 'password'}
           value={otp}
           onChange={handleChange}
           numInputs={6}
-          shouldAutoFocus={true}
+          shouldAutoFocus={focused}
           containerStyle="passcode-input"
           renderSeparator={<span>&nbsp;</span>}
           renderInput={(props) => (
@@ -50,8 +54,8 @@ const PasscodeInput: FC<PasscodeInputProps> = ({ action, setValue, clearErrors, 
           )}
         />
         <Error field={errors.password}/>
-      </div>
-      <Box sx={{my: 2}}>
+      </Box>
+      <Box sx={{my: 2, textAlign: 'center'}}>
         <Link to='#' onClick={handleClickShowPassword}>{visiblePasscode ? 'Hide' : 'Show'} Passcode</Link>
       </Box>
     </>

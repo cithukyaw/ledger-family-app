@@ -1,9 +1,19 @@
 import {FORM_ACTION} from "../lib/constants.ts";
 import {FieldError} from "react-hook-form";
 import React from "react";
+import {UseFormClearErrors, UseFormSetValue} from "react-hook-form/dist/types/form";
+import {FieldErrors} from "react-hook-form/dist/types/errors";
 
 type FormActionProps = {
   action: FORM_ACTION.REGISTER | FORM_ACTION.LOGIN
+}
+
+type PasscodeInputProps = {
+  action?: FORM_ACTION.REGISTER | FORM_ACTION.LOGIN
+  setValue: UseFormSetValue<TFieldValues>,
+  clearErrors: UseFormClearErrors<TFieldValues>,
+  errors: FieldErrors<TFieldValues>,
+  focused?: boolean,
 }
 
 type ErrorProps = {
@@ -68,6 +78,13 @@ type FormEmailValues = {
 type FormUserValues = {
   email: string,
   password: string,
+}
+
+type FormAccountValues = {
+  id?: number,
+  name: string,
+  email: string,
+  password?: string,
 }
 
 type FormExpenseValues = {

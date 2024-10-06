@@ -26,6 +26,10 @@ export const getItemDecrypted = (key: string): JSONValue | null => {
   return value ? CryptoJsAesDecrypt(value) : null;
 };
 
+export const removeItem = (key: string) => {
+  localStorage.removeItem(key);
+};
+
 export const isUserLoggedIn = (): boolean => {
   const user = getItemDecrypted(config.userStoreKey) as User;
   return !!user;

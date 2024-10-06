@@ -95,7 +95,6 @@ const ExpenseForm: FC = () => {
   const submitForm = async (data: FormExpenseValues) => {
     const { date, amount } = data;
     const expDate: string[] = date.split('/');
-    console.log(date);
 
     data.date = `${expDate[2]}-${expDate[1]}-${expDate[0]}`;
     data.amount = Number(amount);
@@ -106,7 +105,6 @@ const ExpenseForm: FC = () => {
     }
 
     query.reset();
-    console.log(data);
     query.mutate(data)
   };
 
