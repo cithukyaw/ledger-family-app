@@ -2,7 +2,7 @@ import {FC} from "react";
 import {Box, Container} from "@mui/material";
 import Navbar from "../../components/Navbar/Navbar.tsx";
 import Header from "../../components/Header/Header.tsx";
-import InfoCard from "../../components/InfoCard.tsx";
+import InfoCard from "../../components/Card/InfoCard.tsx";
 import SavingsIcon from '@mui/icons-material/Savings';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import PaymentIcon from '@mui/icons-material/Payment';

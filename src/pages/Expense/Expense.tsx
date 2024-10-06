@@ -10,7 +10,7 @@ import {useExpenses} from "../../queries/queries.hook.ts";
 import Loading from "../../components/Loading/Loading.tsx";
 import ServerError from "../../components/ServerError.tsx";
 import dayjs from "dayjs";
-import ListCard from "../../components/ListCard.tsx";
+import ListCard from "../../components/Card/ListCard.tsx";
 import {ExpenseType} from "../../types/declarations";
 import LoadingBackdrop from "../../components/Loading/LoadingBackdrop.tsx";
 import MonthNavigator from "../../components/MonthNavigator.tsx";

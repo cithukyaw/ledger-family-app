@@ -2,8 +2,8 @@ import {Avatar, Card, List, ListItem, ListItemAvatar, ListItemText} from "@mui/m
 import ImageIcon from "@mui/icons-material/Image";
 import { deepOrange } from '@mui/material/colors';
 import {FC} from "react";
-import {InfoCardProps} from "../types/declarations";
-import config from "../lib/config.ts";
+import {InfoCardProps} from "../../types/declarations";
+import config from "../../lib/config.ts";
 
 const InfoCard: FC<InfoCardProps> = ({ title, amount, icon }: InfoCardProps) => {
   return (

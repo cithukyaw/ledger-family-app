@@ -2,14 +2,14 @@ import {FC, useState} from "react";
 import {Box, Card, Divider, List, ListItem, ListItemText} from "@mui/material";
 import {grey} from "@mui/material/colors";
 import dayjs from "dayjs";
-import {ListCardProps} from "../types/declarations";
+import {ListCardProps} from "../../types/declarations";
 import {useLongPress} from "@uidotdev/usehooks";
-import ActionDialog from "./ActionDialog.tsx";
+import ActionDialog from "../ActionDialog.tsx";
 import {useNavigate} from "react-router-dom";
-import {useLazyQuery} from "../lib/hooks.ts";
-import mQuery from "../queries/mutations.ts";
+import {useLazyQuery} from "../../lib/hooks.ts";
+import mQuery from "../../queries/mutations.ts";
 import {toast} from "react-toastify";
-import config from "../lib/config.ts";
+import config from "../../lib/config.ts";
 
 const ListCard: FC<ListCardProps> = ({ title, data, setBackdropOpen }: ListCardProps) => {
   const navigate = useNavigate();
