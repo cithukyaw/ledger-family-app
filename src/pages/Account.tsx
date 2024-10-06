@@ -1,5 +1,5 @@
 import {FC, useEffect} from "react";
-import {Box, Button, Container, FormControl, Link, TextField} from "@mui/material";
+import {Box, Button, Container, FormControl, TextField} from "@mui/material";
 import Header from "../components/Header/Header.tsx";
 import Navbar from "../components/Navbar/Navbar.tsx";
 import Error from "../components/Error.tsx";
@@ -56,8 +56,8 @@ const Account: FC = () => {
   );
 
   const queryLogout = useLazyQuery(
-    async () => {
-      // TODO: await mQuery.logout(user.id);
+    async (id: number) => {
+      await mQuery.logout(id);
     },
     {
       onSuccess: () => {
@@ -83,7 +83,7 @@ const Account: FC = () => {
   }
 
   const logout = () => {
-    queryLogout.mutate(null);
+    queryLogout.mutate(user.id);
   };
 
   useEffect(() => {
@@ -151,7 +151,7 @@ const Account: FC = () => {
           </FormControl>
 
           <Box sx={{ mt: 3, mb: 1, textAlign: 'center'}} component="p">
-            <Link component="button" onClick={logout}>Logout</Link>
+            <a href="#" onClick={logout}>Logout</a>
           </Box>
         </Box>
       </Container>

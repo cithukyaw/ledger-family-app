@@ -32,6 +32,11 @@ const register = async<TData = ApiResponse>(formData: FormUserValues): Promise<T
   return response.data;
 }
 
+const logout = async<TData = ApiResponse>(userId: number): Promise<TData> => {
+  const response = await api.post('auth/logout', { id: userId });
+  return response.data;
+}
+
 const updateAccount = async <TData = ApiResponse>(id: number, formData: FormAccountValues): Promise<TData> => {
   const response = await api.patch(`users/${id}`, formData);
   return response.data;
@@ -62,6 +67,7 @@ const mQuery = {
   prerequisiteLogin,
   login,
   register,
+  logout,
   updateAccount,
   createExpense,
   updateExpense,
