@@ -11,7 +11,7 @@ import {apiErrorHandling} from "../../lib/api.ts";
 import mQuery from "../../queries/mutations.ts";
 import {getLoginUser, storeItemEncrypted} from "../../lib/utils.ts";
 import config from "../../lib/config.ts";
-import LoadingBackdrop from "../LoadingBackdrop.tsx";
+import LoadingBackdrop from "../Loading/LoadingBackdrop.tsx";
 import PasscodeInput from "../PasscodeInput.tsx";
 import {useSelector} from "react-redux";
 import {RootState} from "../../state/store.ts";

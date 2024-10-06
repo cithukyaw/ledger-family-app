@@ -9,7 +9,7 @@ import {UserContext} from "../../contexts/userContext.tsx";
 import {useLazyQuery} from "../../lib/hooks.ts";
 import mQuery from "../../queries/mutations.ts";
 import {apiErrorHandling} from "../../lib/api.ts";
-import LoadingBackdrop from "../LoadingBackdrop.tsx";
+import LoadingBackdrop from "../Loading/LoadingBackdrop.tsx";
 
 const FormEmail: FC<FormActionProps> = ({ action }: FormActionProps) => {
   const {email, setEmail} = useContext<UserContextType>(UserContext);

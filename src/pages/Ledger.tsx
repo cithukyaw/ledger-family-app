@@ -6,7 +6,7 @@ import Error from "../components/Error.tsx";
 import {useForm} from "react-hook-form";
 import {FormLedgerValues} from "../types/declarations";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import LoadingBackdrop from "../components/LoadingBackdrop.tsx";
+import LoadingBackdrop from "../components/Loading/LoadingBackdrop.tsx";
 import {getLoginUser} from "../lib/utils.ts";
 import MonthNavigator from "../components/MonthNavigator.tsx";
 import {useLazyQuery} from "../lib/hooks.ts";
@@ -15,7 +15,7 @@ import {toast} from "react-toastify";
 import config from "../lib/config.ts";
 import {apiErrorHandling} from "../lib/api.ts";
 import {useUserLedger} from "../queries/queries.hook.ts";
-import Loading from "../components/Loading.tsx";
+import Loading from "../components/Loading/Loading.tsx";
 import {useSelector} from "react-redux";
 import {RootState} from "../state/store.ts";
 

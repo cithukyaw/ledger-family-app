@@ -17,7 +17,7 @@ import BalanceIcon from '@mui/icons-material/Balance';
 import MonthNavigator from "../../components/MonthNavigator.tsx";
 import {useUserLedger} from "../../queries/queries.hook.ts";
 import {getLoginUser} from "../../lib/utils.ts";
-import Loading from "../../components/Loading.tsx";
+import Loading from "../../components/Loading/Loading.tsx";
 import {useSelector} from "react-redux";
 import {RootState} from "../../state/store.ts";
 

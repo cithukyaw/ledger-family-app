@@ -16,7 +16,7 @@ import {useLazyQuery} from "../lib/hooks.ts";
 import mQuery from "../queries/mutations.ts";
 import config from "../lib/config.ts";
 import {apiErrorHandling} from "../lib/api.ts";
-import LoadingBackdrop from "../components/LoadingBackdrop.tsx";
+import LoadingBackdrop from "../components/Loading/LoadingBackdrop.tsx";
 import {toast} from "react-toastify";
 import {useQueryClient} from "@tanstack/react-query";
 import {queries} from "../queries/queries.ts";

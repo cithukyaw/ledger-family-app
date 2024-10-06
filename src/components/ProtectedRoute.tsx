@@ -3,7 +3,7 @@ import {ChildrenProps, User} from "../types/declarations";
 import {Navigate} from "react-router-dom";
 import axios, {AxiosResponse} from "axios";
 import {getLoginUser, storeItemEncrypted} from "../lib/utils.ts";
-import Loading from "./Loading.tsx";
+import Loading from "./Loading/Loading.tsx";
 import {useUserDetails} from "../queries/queries.hook.ts";
 import config from "../lib/config.ts";
 

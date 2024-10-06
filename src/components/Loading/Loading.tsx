@@ -1,6 +1,6 @@
 import {FC} from "react";
 import {Box, CircularProgress, SxProps} from "@mui/material";
-import {LoadingProps} from "../types/declarations";
+import {LoadingProps} from "../../types/declarations";
 
 const Loading: FC<LoadingProps> = ({ fullScreen = false }: LoadingProps) => {
   const style: SxProps = fullScreen

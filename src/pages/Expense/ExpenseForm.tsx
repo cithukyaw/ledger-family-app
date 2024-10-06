@@ -11,7 +11,7 @@ import dayjs, {Dayjs} from 'dayjs';
 import Error from "../../components/Error.tsx";
 import {CategoryType, FormExpenseValues} from "../../types/declarations";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import Loading from "../../components/Loading.tsx";
+import Loading from "../../components/Loading/Loading.tsx";
 import ServerError from "../../components/ServerError.tsx";
 import {Link, useParams} from "react-router-dom";
 import {useLazyQuery} from "../../lib/hooks.ts";
@@ -20,7 +20,7 @@ import mQuery from "../../queries/mutations.ts";
 import {getLoginUser} from "../../lib/utils.ts";
 import {toast} from "react-toastify";
 import config from "../../lib/config.ts";
-import LoadingBackdrop from "../../components/LoadingBackdrop.tsx";
+import LoadingBackdrop from "../../components/Loading/LoadingBackdrop.tsx";
 
 const ExpenseForm: FC = () => {
   const { id } = useParams<{ id: string }>();
