@@ -1,4 +1,4 @@
-# LedgerFamily app [WIP]
+# LedgerFamily app
 
 A simple application that tracks expenses and manages budget effectively.
 
