@@ -1,7 +1,6 @@
-import {FC, useContext, useEffect, useState} from "react";
+import {FC, useContext, useEffect} from "react";
 import {FormActionProps, FormUserValues, JSONValue, UserContextType, UserWithTokens} from "../../types/declarations";
 import {Box, Button} from "@mui/material";
-import OtpInput from "react-otp-input";
 import Error from "../Error.tsx";
 import {Link, useNavigate} from "react-router-dom";
 import {useForm} from "react-hook-form";
@@ -13,12 +12,14 @@ import mQuery from "../../queries/mutations.ts";
 import {getLoginUser, storeItemEncrypted} from "../../lib/utils.ts";
 import config from "../../lib/config.ts";
 import LoadingBackdrop from "../LoadingBackdrop.tsx";
+import PasscodeInput from "../PasscodeInput.tsx";
+import {useSelector} from "react-redux";
+import {RootState} from "../../state/store.ts";
 
 const FormPasscode: FC<FormActionProps> = ({ action }: FormActionProps) => {
   let {email} = useContext<UserContextType>(UserContext);
   const navigate = useNavigate();
-  const [visiblePasscode, setVisiblePasscode] = useState(false);
-  const [otp, setOtp] = useState('');
+  const {otp} = useSelector((state: RootState) => state.user);
   const {
     formState: {errors},
     setError,
@@ -39,23 +40,7 @@ const FormPasscode: FC<FormActionProps> = ({ action }: FormActionProps) => {
     if (!email) {
       navigate(`/${action}`);
     }
-  }, []);
-
-  const label = action === FORM_ACTION.REGISTER
-    ? 'Enter a 6-digit passcode'
-    : 'Enter your 6-digit passcode';
-
-  const handleClickShowPassword = () => {
-    setVisiblePasscode(!visiblePasscode);
-  };
-
-  const handleChange = (otp: string) => {
-    if (/^\d*$/.test(otp)) {
-      setOtp(otp);
-      setValue("password", otp); // Set passcode value to react-hook-form
-      clearErrors('password'); // Clear errors when passcode changes
-    }
-  };
+  }, [action, email, navigate]);
 
   const query = useLazyQuery(
     async (formData: FormUserValues) => {
@@ -87,29 +72,14 @@ const FormPasscode: FC<FormActionProps> = ({ action }: FormActionProps) => {
       <Box component="form" autoComplete="off">
         <h4>{email} <Link to={`/${action}`}>[Change]</Link></h4>
         <Error field={errors.email}/>
-        <div>
-          <Box sx={{py: 2}}>{label}</Box>
-          <OtpInput
-            inputType={visiblePasscode ? 'tel' : 'password'}
-            value={otp}
-            onChange={handleChange}
-            numInputs={6}
-            shouldAutoFocus={true}
-            containerStyle="passcode-input"
-            renderSeparator={<span>&nbsp;</span>}
-            renderInput={(props) => (
-              <input
-                {...props}
-                pattern="[0-9]*"
-                inputMode="numeric"
-              />
-            )}
-          />
-          <Error field={errors.password}/>
-        </div>
-        <Box sx={{my: 2}}>
-          <Link to='#' onClick={handleClickShowPassword}>{visiblePasscode ? 'Hide' : 'Show'} Passcode</Link>
-        </Box>
+
+        <PasscodeInput
+          action={action}
+          setValue={setValue}
+          clearErrors={clearErrors}
+          errors={errors}
+        />
+
         <div>
           <Button
             onClick={handleSubmit(submitForm)}
