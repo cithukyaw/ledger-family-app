@@ -13,7 +13,7 @@ const Home: FC = () => {
     if (isUserLoggedIn()) {
       navigate('/login/complete');
     }
-  }, []);
+  }, [navigate]);
 
   return (
     <div className="home">
