@@ -4,6 +4,7 @@ import homeImg from '/home.gif'
 import {Link, useNavigate} from "react-router-dom";
 import {isUserLoggedIn} from "../../lib/utils.ts";
 import './Home.scss'
+import Logo from "../../components/Logo.tsx";
 
 const Home: FC = () => {
   const navigate = useNavigate();
@@ -17,11 +18,12 @@ const Home: FC = () => {
   return (
     <div className="home">
       <div>
-        <div>
-          <img src={homeImg} className="logo" alt="" />
-        </div>
+        <Logo/>
         <h1>Ledger Family</h1>
         <p>Track expenses and manage budget effectively</p>
+      </div>
+      <div>
+        <img src={homeImg} className="home-logo" alt=""/>
       </div>
       <div className="buttons">
         <Button fullWidth className="btn-rounded btn-orange" variant="contained" size="large"
