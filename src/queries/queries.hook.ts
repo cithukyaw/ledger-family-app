@@ -30,11 +30,11 @@ export const useUserLedger = (userId: number, date: string) => {
   });
 }
 
-export const useExpenses = (dt: string) => {
+export const useExpenses = (dt: string, category?: number[]) => {
   const from = dayjs(dt).startOf('month');
   const to = dayjs(dt).endOf('month');
   return useQuery({
-    ...queries.expenses.all(from, to),
+    ...queries.expenses.all(from, to, category),
   })
 }
 

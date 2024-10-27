@@ -48,11 +48,14 @@ const paymentTypes = createQueryKeys('paymentTypes', {
 })
 
 const expenses = createQueryKeys('expenses', {
-  all: (from: Dayjs, to: Dayjs) => ({
+  all: (from: Dayjs, to: Dayjs, category?: number[]) => ({
     queryKey: ['expenses', dayjs(from).format('YYYYMMDD'), dayjs(to).format('YYYYMMDD')],
     queryFn: async () => {
       const user = getLoginUser();
-      const queryStr = `userId=${user.id}&from=${dayjs(from).format('YYYY-MM-DD')}&to=${dayjs(to).format('YYYY-MM-DD')}`;
+      const queryStr = `userId=${user.id}
+        &from=${dayjs(from).format('YYYY-MM-DD')}
+        &to=${dayjs(to).format('YYYY-MM-DD')}
+        &category=${category}`;
 
       const response = await api.get(`expenses?${queryStr}`);
 
