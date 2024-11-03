@@ -13,7 +13,7 @@ import {CategoryType, FormExpenseValues} from "../../types/declarations";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import Loading from "../../components/Loading/Loading.tsx";
 import ServerError from "../../components/ServerError.tsx";
-import {Link, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import {useLazyQuery} from "../../lib/hooks.ts";
 import {apiErrorHandling} from "../../lib/api.ts";
 import mQuery from "../../queries/mutations.ts";
@@ -31,6 +31,7 @@ const ExpenseForm: FC = () => {
   const { data: types, isPending: isPendingTypes, isError: isErrorTypes } = usePaymentTypes();
   const { data: expense, isPending: isPendingExpense, isError: isErrorExpense } = useExpenseDetails(expenseId);
 
+  const navigate = useNavigate();
   const [date, setDate] = useState<Dayjs | null>(dayjs());
   const [category, setCategory] = useState<string>('');
   const {
@@ -72,6 +73,7 @@ const ExpenseForm: FC = () => {
         const { id } = formData;
         delete formData.id;
         await mQuery.updateExpense(id, formData);
+        navigate('/expense');
       } else {
         await mQuery.createExpense(formData);
       }
