@@ -28,6 +28,7 @@ import MonthNavigator from "../../components/MonthNavigator.tsx";
 import {useSelector} from "react-redux";
 import {RootState} from "../../state/store.ts";
 import config from "../../lib/config.ts";
+import HeaderLogo from "../../components/Header/HeaderLogo.tsx";
 
 const Expense: FC = () => {
   const { activeMonth } = useSelector((state: RootState) => state.monthNav);
@@ -95,9 +96,12 @@ const Expense: FC = () => {
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        padding: ".55em 1em"
+        padding: ".6em 1em"
       }}>
-        <span>Expenses</span>
+        <Box>
+          <HeaderLogo />
+          <Box component="span">Expenses</Box>
+        </Box>
         <IconButton
           aria-label="open drawer"
           onClick={handleDrawerOpen}
