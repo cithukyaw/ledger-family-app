@@ -38,6 +38,7 @@ type InfoCardProps = {
   title: string,
   amount: number,
   icon?: React.ReactNode,
+  tooltip?: string,
 }
 
 type LoadingProps = {
