@@ -38,3 +38,9 @@ export const isUserLoggedIn = (): boolean => {
 export const getLoginUser = (): User => {
   return getItemDecrypted(config.userStoreKey) as User;
 }
+
+export const kFormatter = (num: number) : string => {
+  return Math.abs(num) > 999
+    ? Math.sign(num) * (Math.round(Math.abs(num) / 100) / 10) + 'K'
+    : (Math.sign(num) * Math.abs(num)).toString();
+}

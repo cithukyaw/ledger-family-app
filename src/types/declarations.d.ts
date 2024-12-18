@@ -60,6 +60,11 @@ type MonthNavigatorProps = {
   setSelectedMonth?: Dispatch<SetStateAction<boolean>>
 }
 
+type ExpenseChartViewProps = {
+  data: Array<ExpenseChartData>,
+  month: string
+}
+
 type UserContextType = {
   email: string;
   setEmail: (email: string) => void;
@@ -165,4 +170,9 @@ type LongPressOptions = {
 type MonthNavState = {
   activeMonth: string,
   nextDisabled: boolean,
+}
+
+type ExpenseChartData = {
+  day: number,
+  amount: number,
 }
