@@ -173,6 +173,6 @@ type MonthNavState = {
 }
 
 type ExpenseChartData = {
-  day: number,
+  day: string,
   amount: number,
 }

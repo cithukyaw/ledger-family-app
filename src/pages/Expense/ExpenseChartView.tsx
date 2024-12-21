@@ -22,7 +22,7 @@ const ExpenseChartView: FC<ExpenseChartViewProps> = ({ data, month }: ExpenseCha
             data: data.map(d => d.day),
             scaleType: 'band',
             id: 'x-axis-id',
-            valueFormatter: (value: number | null) => value !== null ? String(value).padStart(2, '0') : ''
+            valueFormatter: (value: number | null) => value !== null ? dayjs(value).format('DD') : ''
           },
         ]}
         yAxis={[

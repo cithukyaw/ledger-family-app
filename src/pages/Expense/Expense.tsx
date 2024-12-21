@@ -108,11 +108,11 @@ const Expense: FC = () => {
     Object.entries(expenses).forEach(([key, value]) => {
       const totalByDay = value.reduce((total, row) => total + row.amount, 0);
       chartData.push({
-        day: parseInt(dayjs(key).format('d')),
+        day: key,
         amount: totalByDay,
       });
     });
-    chartData.sort((a, b) => a.day - b.day); // sort by day
+    chartData.sort((a, b) => new Date(a.day).getTime() - new Date(b.day).getTime()); // sort by day
   }
 
   return (

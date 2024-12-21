@@ -62,10 +62,11 @@ const expenses = createQueryKeys('expenses', {
       // Organize data grouped by date
       const data: Record<string, ExpenseType[]>  = {};
       response.data.data.map((row: ExpenseType) => {
-        if (typeof data[row.date] === 'undefined') {
-          data[row.date] = [];
+        const key = dayjs(row.date).format('YYYY-MM-DD');
+        if (typeof data[key] === 'undefined') {
+          data[key] = [];
         }
-        data[row.date].push(row);
+        data[key].push(row);
       });
 
       return {
