@@ -32,15 +32,17 @@ import {RootState} from "../../state/store.ts";
 import config from "../../lib/config.ts";
 import HeaderLogo from "../../components/Header/HeaderLogo.tsx";
 import ExpenseChartView from "./ExpenseChartView.tsx";
+import {PAY_TYPE_GROUP} from "../../lib/constants.ts";
 
 const Expense: FC = () => {
   const { activeMonth } = useSelector((state: RootState) => state.monthNav);
   const [backdropOpen, setBackdropOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
+  const [selectedPayType, setSelectedPayType] = useState<string>('');
   const [viewMode, setViewMode] = useState<string>('list');
   const { data: categories, isSuccess: isCategorySuccess } = useCategories();
-  const { data, isPending, isRefetching, isSuccess, isError, refetch } = useExpenses(activeMonth, selectedCategories);
+  const { data, isPending, isRefetching, isSuccess, isError, refetch } = useExpenses(activeMonth, selectedCategories, selectedPayType);
 
   // Use useEffect to trigger refetch after the state has been updated
   useEffect(() => {
@@ -62,6 +64,13 @@ const Expense: FC = () => {
   ) => {
     setSelectedCategories(categories);
   };
+
+  const handlePayTypeSelection = (
+    _event: React.MouseEvent<HTMLElement>,
+    type: string
+  ) => {
+    setSelectedPayType(type);
+  }
 
   const handleViewMode = (
     _event: React.MouseEvent<HTMLElement>,
@@ -145,13 +154,30 @@ const Expense: FC = () => {
                     size="small"
                     value={selectedCategories}
                     onChange={handleCategorySelection}
-                    aria-label="Category Selection"
+                    aria-label="Category Filter"
                     sx={{display: "flex", justifyContent: "center", flexWrap: "wrap", py: ".3em"}}
                 >
                   { categories.map((cat: CategoryType) =>
                     <ToggleButton key={cat.id} value={cat.id} aria-label={cat.name}>{cat.name}</ToggleButton>
                   )}
                 </StyledToggleButtonGroup>
+              </Box>
+              <Box sx={{ py: "1.5em", textAlign: "center" }}>
+                  <Box component="h3" sx={{ mt: 0, mb: 2, textAlign: 'center'}}>Payment Type Filter</Box>
+                  <ToggleButtonGroup
+                      size="small"
+                      value={selectedPayType}
+                      exclusive
+                      onChange={handlePayTypeSelection}
+                      aria-label="Payment Type Filter"
+                  >
+                      <ToggleButton value={PAY_TYPE_GROUP.CASH} aria-label={PAY_TYPE_GROUP.CASH}>
+                          <LocalAtmIcon sx={{marginRight: ".2em"}} color="warning"/> Cash
+                      </ToggleButton>
+                      <ToggleButton value={PAY_TYPE_GROUP.BANK} aria-label={PAY_TYPE_GROUP.BANK}>
+                          <CreditCardIcon sx={{marginRight: ".2em"}} color="warning"/> Bank
+                      </ToggleButton>
+                  </ToggleButtonGroup>
               </Box>
               <Button
                 className="btn-orange"

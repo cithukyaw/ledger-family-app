@@ -5,3 +5,8 @@ export enum FORM_ACTION {
 
 export const ACCESS_TOKEN = 'access';
 export const REFRESH_TOKEN = 'refresh';
+
+export enum PAY_TYPE_GROUP {
+  CASH = 'cash',
+  BANK = 'bank',
+}
