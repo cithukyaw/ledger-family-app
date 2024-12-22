@@ -55,7 +55,7 @@ const Ledger: FC = () => {
     setValue('parentSupport', ledger ? ledger.parentSupport : '');
     setValue('budget', ledger ? ledger.budget : '');
     setValue('exchangeRate', ledger ? ledger.exchangeRate : '');
-    setValue('currency', ledger ? ledger.currency : CURRENCIES.YEN)
+    setValue('currency', ledger ? (ledger.currency || CURRENCIES.YEN) : CURRENCIES.YEN)
   }, [ledger, setValue]);
 
   const handleSubmitBtnClick = () => {
