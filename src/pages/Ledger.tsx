@@ -1,5 +1,5 @@
 import {FC, useEffect} from "react";
-import {Box, Button, Container, FormControl, TextField} from "@mui/material";
+import {Box, Button, Container, FormControl, MenuItem, Select, TextField} from "@mui/material";
 import Header from "../components/Header/Header.tsx";
 import Navbar from "../components/Navbar/Navbar.tsx";
 import Error from "../components/Error.tsx";
@@ -18,6 +18,7 @@ import {useUserLedger} from "../queries/queries.hook.ts";
 import Loading from "../components/Loading/Loading.tsx";
 import {useSelector} from "react-redux";
 import {RootState} from "../state/store.ts";
+import {CURRENCIES} from "../lib/constants.ts";
 
 const Ledger: FC = () => {
   const { activeMonth } = useSelector((state: RootState) => state.monthNav);
@@ -29,6 +30,7 @@ const Ledger: FC = () => {
     clearErrors,
     setError,
     setValue,
+    watch
   } = useForm<FormLedgerValues>();
 
   const {data: ledger, isPending, isSuccess} = useUserLedger(user.id, activeMonth);
@@ -52,6 +54,8 @@ const Ledger: FC = () => {
     setValue('income', ledger ? ledger.income : '');
     setValue('parentSupport', ledger ? ledger.parentSupport : '');
     setValue('budget', ledger ? ledger.budget : '');
+    setValue('exchangeRate', ledger ? ledger.exchangeRate : '');
+    setValue('currency', ledger ? ledger.currency : CURRENCIES.YEN)
   }, [ledger, setValue]);
 
   const handleSubmitBtnClick = () => {
@@ -69,6 +73,9 @@ const Ledger: FC = () => {
     data.income         = Number(data.income);
     data.parentSupport  = Number(data.parentSupport);
     data.budget         = Number(data.budget);
+    if (data.exchangeRate) {
+      data.exchangeRate = Number(data.exchangeRate);
+    }
 
     mutateQuery.reset();
     mutateQuery.mutate(data);
@@ -149,6 +156,39 @@ const Ledger: FC = () => {
                 required fullWidth
               />
               <Error field={errors.budget}/>
+            </FormControl>
+
+            <FormControl fullWidth>
+                <Box component="label">Exchange Rate</Box>
+                <TextField
+                    label="Enter the last exchange rate"
+                    {...register('exchangeRate')}
+                    inputProps={{
+                      type: "number",
+                      inputMode: "numeric",
+                      pattern: "[0-9]*",
+                    }}
+                    variant="outlined"
+                    fullWidth
+                />
+                <Error field={errors.exchangeRate}/>
+            </FormControl>
+
+            <FormControl fullWidth>
+                <Box component="label">Currency</Box>
+                <Select
+                  {...register('currency')}
+                  value={watch('currency') || CURRENCIES.YEN}
+                  onChange={(e) => setValue('currency', e.target.value)}
+                  fullWidth
+                >
+                  {Object.entries(CURRENCIES).map(([key, value]) => (
+                    <MenuItem key={key} value={value}>
+                      {key}
+                    </MenuItem>
+                  ))}
+                </Select>
+                <Error field={errors.currency}/>
             </FormControl>
 
             <FormControl fullWidth>
