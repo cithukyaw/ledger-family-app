@@ -9,7 +9,7 @@ import PaymentIcon from '@mui/icons-material/Payment';
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import FamilyRestroomIcon from '@mui/icons-material/FamilyRestroom';
 import WalletIcon from '@mui/icons-material/Wallet';
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
@@ -35,9 +35,11 @@ const Dashboard: FC = () => {
         { isSuccess &&
           <>
             <InfoCard title="Current" amount={ledger ? ledger.current : 0} icon={<AccountBalanceIcon/>}
-                      tooltip="Previous Balance + Gross Saving - (Parent Support + Budget)" />
+                      tooltip="Previous Balance + Income - (Parent Support + Budget)" />
             <InfoCard title="Income" amount={ledger ? ledger.income : 0} icon={<BusinessCenterIcon/>}
                       tooltip="Monthly Income" />
+            {(ledger && ledger.currency) && <InfoCard title={`Exchange Rate (for 1 ${ledger.currency})`} amount={ledger ? ledger.exchangeRate : 0} icon={<CurrencyExchangeIcon/>}
+                        tooltip="Exchange Rate on Income" />}
             <InfoCard title="Parent Support" amount={ledger ? ledger.parentSupport : 0} icon={<FamilyRestroomIcon/>} />
             <InfoCard title="Budget" amount={ledger ? ledger.budget : 0} icon={<CalculateIcon/>}
                       tooltip="Monthly budget excluding parent support" />
@@ -53,8 +55,8 @@ const Dashboard: FC = () => {
                       tooltip="Budget - Expense (Cash)" />
             <InfoCard title="Net Saving" amount={ledger ? ledger.netSaving : 0} icon={<WalletIcon/>}
                       tooltip="Income - Total Cost" />
-            <InfoCard title="Balance" amount={ledger ? ledger.balance : 0} icon={<AccountBalanceWalletIcon/>}
-                      tooltip="Current - Total Cost" />
+            {/*<InfoCard title="Balance" amount={ledger ? ledger.balance : 0} icon={<AccountBalanceWalletIcon/>}*/}
+            {/*          tooltip="Current - Total Cost" />*/}
           </>
         }
       </Container>
