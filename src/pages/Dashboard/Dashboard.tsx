@@ -5,6 +5,7 @@ import Header from "../../components/Header/Header.tsx";
 import InfoCard from "../../components/Card/InfoCard.tsx";
 import SavingsIcon from '@mui/icons-material/Savings';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import PaymentIcon from '@mui/icons-material/Payment';
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import FamilyRestroomIcon from '@mui/icons-material/FamilyRestroom';
@@ -26,6 +27,11 @@ const Dashboard: FC = () => {
   const user = getLoginUser();
   const {data: ledger, isPending, isSuccess} = useUserLedger(user.id, activeMonth);
 
+  let prevBalance = 0;
+  if (ledger) {
+    prevBalance = ledger.current - ledger.income;
+  }
+
   return (
     <Box className="app">
       <Header title="Dashboard" />
@@ -34,29 +40,84 @@ const Dashboard: FC = () => {
         { isPending && <Loading/>}
         { isSuccess &&
           <>
-            <InfoCard title="Current" amount={ledger ? ledger.current : 0} icon={<AccountBalanceIcon/>}
-                      tooltip="Previous Balance + Income - (Parent Support + Budget)" />
-            <InfoCard title="Income" amount={ledger ? ledger.income : 0} icon={<BusinessCenterIcon/>}
-                      tooltip="Monthly Income" />
-            {(ledger && ledger.currency) && <InfoCard title={`Exchange Rate (for 1 ${ledger.currency})`} amount={ledger ? ledger.exchangeRate : 0} icon={<CurrencyExchangeIcon/>}
-                        tooltip="Exchange Rate on Income" />}
-            <InfoCard title="Parent Support" amount={ledger ? ledger.parentSupport : 0} icon={<FamilyRestroomIcon/>} />
-            <InfoCard title="Budget" amount={ledger ? ledger.budget : 0} icon={<CalculateIcon/>}
-                      tooltip="Monthly budget excluding parent support" />
-            <InfoCard title="Gross Saving" amount={ledger ? ledger.grossSaving : 0} icon={<SavingsIcon/>}
-                      tooltip="Income - (Parent Support + Budget)" />
-            <InfoCard title="Expense (Cash)" amount={ledger ? ledger.expenseCash : 0} icon={<LocalAtmIcon/>}
-                      tooltip="Monthly expense by cash" />
-            <InfoCard title="Expense (Bank)" amount={ledger ? ledger.expenseBank : 0} icon={<PaymentIcon/>}
-                      tooltip="Monthly expense by digital accounts" />
-            <InfoCard title="Total Cost" amount={ledger ? ledger.cost : 0} icon={<MonetizationOnIcon/>}
-                      tooltip="Budget + Parent Support + Expense (Bank)" />
-            <InfoCard title="Budget Balance" amount={ledger ? ledger.budget - ledger.expenseCash : 0} icon={<BalanceIcon/>}
-                      tooltip="Budget - Expense (Cash)" />
-            <InfoCard title="Net Saving" amount={ledger ? ledger.netSaving : 0} icon={<WalletIcon/>}
-                      tooltip="Income - Total Cost" />
-            {/*<InfoCard title="Balance" amount={ledger ? ledger.balance : 0} icon={<AccountBalanceWalletIcon/>}*/}
-            {/*          tooltip="Current - Total Cost" />*/}
+            <InfoCard
+                title="Previous Balance" amount={prevBalance}
+                icon={<AccountBalanceWalletIcon/>}
+            />
+            <InfoCard
+                title="Income"
+                amount={ledger ? ledger.income : 0}
+                icon={<BusinessCenterIcon/>}
+                tooltip="Income from the previous month"
+            />
+            <InfoCard
+                title="Current"
+                amount={ledger ? ledger.current : 0}
+                icon={<AccountBalanceIcon/>}
+                tooltip="Previous Balance + Income"
+            />
+            {
+              (ledger && ledger.currency) &&
+                <InfoCard
+                    title={`Exchange Rate (for 1 ${ledger.currency})`}
+                    amount={ledger ? ledger.exchangeRate : 0}
+                    icon={<CurrencyExchangeIcon/>}
+                    tooltip="Exchange Rate on Income"
+                />
+            }
+            <InfoCard
+                title="Parent Support"
+                amount={ledger ? ledger.parentSupport : 0}
+                icon={<FamilyRestroomIcon/>}
+            />
+            <InfoCard
+                title="Budget"
+                amount={ledger ? ledger.budget : 0}
+                icon={<CalculateIcon/>}
+                tooltip="Monthly budget excluding parent support"
+            />
+            <InfoCard
+                title="Gross Saving"
+                amount={ledger ? ledger.grossSaving : 0}
+                icon={<SavingsIcon/>}
+                tooltip="Income - (Parent Support + Budget)"
+            />
+            <InfoCard
+                title="Expense (Cash)"
+                amount={ledger ? ledger.expenseCash : 0}
+                icon={<LocalAtmIcon/>}
+                tooltip="Monthly expense by cash"
+            />
+            <InfoCard
+                title="Expense (Bank)"
+                amount={ledger ? ledger.expenseBank : 0}
+                icon={<PaymentIcon/>}
+                tooltip="Monthly expense by digital accounts"
+            />
+            <InfoCard
+                title="Total Cost"
+                amount={ledger ? ledger.cost : 0}
+                icon={<MonetizationOnIcon/>}
+                tooltip="Budget + Parent Support + Expense (Bank)"
+            />
+            <InfoCard
+                title="Budget Balance"
+                amount={ledger ? ledger.budget - ledger.expenseCash : 0}
+                icon={<BalanceIcon/>}
+                tooltip="Budget - Expense (Cash)"
+            />
+            <InfoCard
+                title="Net Saving"
+                amount={ledger ? ledger.netSaving : 0}
+                icon={<WalletIcon/>}
+                tooltip="Income - Total Cost"
+            />
+            <InfoCard
+                title="Closing Current"
+                amount={ledger ? prevBalance + ledger.netSaving : 0}
+                icon={<AccountBalanceWalletIcon/>}
+                tooltip="Previous Balance + Net Saving"
+            />
           </>
         }
       </Container>
