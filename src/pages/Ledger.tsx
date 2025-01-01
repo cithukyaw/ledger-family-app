@@ -97,8 +97,8 @@ const Ledger: FC = () => {
             <FormControl fullWidth>
               <Box component="label">Current <span>*</span></Box>
               <TextField
-                label="Enter your current value"
-                {...register('current', {required: 'Enter current value.'})}
+                label="Enter your current amount"
+                {...register('current', {required: 'Enter current amount.'})}
                 inputProps={{
                   type: "number",
                   inputMode: "numeric",
