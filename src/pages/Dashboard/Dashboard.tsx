@@ -51,7 +51,7 @@ const Dashboard: FC = () => {
                 tooltip="Income from the previous month"
             />
             <InfoCard
-                title="Current"
+                title="Opening Current"
                 amount={ledger ? ledger.current : 0}
                 icon={<AccountBalanceIcon/>}
                 tooltip="Previous Balance + Income"
