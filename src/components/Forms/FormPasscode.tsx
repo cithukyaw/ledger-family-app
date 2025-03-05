@@ -47,14 +47,22 @@ const FormPasscode: FC<FormActionProps> = ({ action }: FormActionProps) => {
       let result: UserWithTokens;
       if (action == FORM_ACTION.REGISTER) {
         result = await mQuery.register(formData) as UserWithTokens;
+        console.log(result);
       } else {
         result = await mQuery.login(formData) as UserWithTokens;
+        storeItemEncrypted(config.userStoreKey, result.user as JSONValue)
       }
-
-      storeItemEncrypted(config.userStoreKey, result.user as JSONValue)
     },
     {
-      onSuccess: () => navigate(`/dashboard`),
+      onSuccess: () => {
+        if (action == FORM_ACTION.REGISTER) {
+          // after registration complete, redirect to login
+          navigate(`/login`)
+        } else {
+          // after login complete, redirect to dashboard
+          navigate(`/dashboard`)
+        }
+      },
       onError: err => apiErrorHandling(err, setError)
     }
   );

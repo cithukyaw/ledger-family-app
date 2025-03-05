@@ -25,10 +25,6 @@ const login = async <TData = ApiResponse>(formData: FormUserValues): Promise<TDa
 
 const register = async<TData = ApiResponse>(formData: FormUserValues): Promise<TData> => {
   const response = await api.post('auth/register', formData);
-  if (response.status === 201) {
-    return await login(formData);
-  }
-
   return response.data;
 }
 
