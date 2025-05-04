@@ -12,13 +12,11 @@ import {
   ToggleButtonGroup, toggleButtonGroupClasses,
   Typography
 } from "@mui/material";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import BarChartIcon from '@mui/icons-material/BarChart';
-import {Link} from "react-router-dom";
 import {useCategories, useExpenses} from "../../queries/queries.hook.ts";
 import Loading from "../../components/Loading/Loading.tsx";
 import ServerError from "../../components/ServerError.tsx";
@@ -33,6 +31,7 @@ import config from "../../lib/config.ts";
 import HeaderLogo from "../../components/Header/HeaderLogo.tsx";
 import ExpenseChartView from "./ExpenseChartView.tsx";
 import {PAY_TYPE_GROUP} from "../../lib/constants.ts";
+import AddExpenseButton from "../../components/AddExpenseButton.tsx";
 
 const Expense: FC = () => {
   const { activeMonth } = useSelector((state: RootState) => state.monthNav);
@@ -223,17 +222,7 @@ const Expense: FC = () => {
         </Card>
 
         <Box sx={{margin: "1.5em 0"}}>
-          <Button
-            fullWidth
-            className="btn-rounded btn-orange"
-            size="large"
-            variant="contained"
-            component={Link}
-            to="/expense/add"
-            startIcon={<AddCircleOutlineIcon/>}
-          >
-            Add Expense
-          </Button>
+          <AddExpenseButton/>
         </Box>
 
         { expenseExist &&
@@ -258,18 +247,27 @@ const Expense: FC = () => {
         {isPending || isRefetching
           ? <Loading/>
           : (
-            expenseExist ?
-              (viewMode === 'chart' ?
-                  <ExpenseChartView data={chartData} month={activeMonth} /> :
+            expenseExist ? (
+              <>
+                {viewMode === 'chart' ? (
+                  <ExpenseChartView data={chartData} month={activeMonth} />
+                ) : (
                   Object.entries(expenses).map(([key, value]) => (
                     <ListCard key={key} title={key} data={value as ExpenseType[]} setBackdropOpen={setBackdropOpen}/>
                   ))
-              ) :
+                )}
+                {/* Add Expense button after the chart or list */}
+                <Box sx={{marginTop: "1.5em"}}>
+                  <AddExpenseButton/>
+                </Box>
+              </>
+            ) : (
               <Box sx={{textAlign: "center", marginTop: "4em"}}>
                 <p>Congrats!</p>
                 <p>No expense for {dayjs(activeMonth).format('MMM YYYY')}.</p>
               </Box>
             )
+          )
         }
       </Container>
       <Navbar/>
