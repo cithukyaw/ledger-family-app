@@ -32,3 +32,16 @@ nav {
         background: $primary-color;
     }
 }
+
+// Style for the Fab button
+.fab-button {
+    width: 48px !important;
+    height: 48px !important;
+    background: $warning-color !important; // Match Navbar item normal color
+    color: white !important; // Icon color
+    transition: background 0.3s ease-in-out;
+
+    &:hover {
+        background: $primary-color !important; // Match Navbar item hover color
+    }
+}
