@@ -14,9 +14,14 @@ const Navbar: FC = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPosition = window.innerHeight + window.scrollY;
+      const viewportHeight = window.visualViewport?.height ?? window.innerHeight;
+      const scrollPosition = viewportHeight + window.scrollY;
       const pageHeight = document.documentElement.offsetHeight;
-      setIsBottom(scrollPosition >= pageHeight);
+
+      // Add a small threshold to ensure rounding issues won't impact the check
+      const threshold = 50;
+
+      setIsBottom(scrollPosition + threshold >= pageHeight);
     };
 
     window.addEventListener("scroll", handleScroll);
