@@ -12,6 +12,13 @@ body {
     margin: 0;
     padding: 0;
 
+    .my {
+          font-family: $font-mm !important;
+          &> * {
+              font-family: $font-mm !important;
+          }
+    }
+
     a {
         font-weight: 500;
         color: #646cff;

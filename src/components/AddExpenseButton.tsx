@@ -14,7 +14,7 @@ const AddExpenseButton: FC = () => {
         to="/expense/add"
         startIcon={<AddCircleOutlineIcon />}
     >
-        Add Expense
+      <span className="my">အသုံးစရိတ်ထည့်ရန်</span>
     </Button>
   )
 }

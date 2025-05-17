@@ -135,11 +135,11 @@ const ExpenseForm: FC = () => {
           <ServerError /> :
           <Box component="form">
             <FormControl fullWidth>
-              <Box component="label">Date <span>*</span></Box>
+              <Box component="label" className="my">နေ့စွဲ <span>*</span></Box>
               <LocalizationProvider
                 dateAdapter={AdapterDayjs}>
                 <DatePicker
-                  {...register("date", {required: "Select a date."})}
+                  {...register("date", {required: "နေ့စွဲတစ်ခုကိုရွေးပါ။"})}
                   value={date} // Bind the DatePicker to the date state
                   label="Expense Date"
                   format="DD/MM/YYYY"
@@ -149,7 +149,7 @@ const ExpenseForm: FC = () => {
                   }}
                   slotProps={{
                     textField: {
-                      ...register('date', {required: 'Select a date.'}),
+                      ...register('date', {required: 'နေ့စွဲတစ်ခုကိုရွေးပါ။'}),
                       fullWidth: true,
                     },
                   }}
@@ -160,20 +160,20 @@ const ExpenseForm: FC = () => {
             </FormControl>
 
             <FormControl fullWidth>
-              <Box component="label">Title <span>*</span></Box>
+              <Box component="label" className="my">အကြောင်းအရာ <span>*</span></Box>
               <TextField
                 label="Enter a title about your expense"
-                {...register('title', {required: 'Enter a title.'})}
+                {...register('title', {required: 'အကြောင်းအရာကိုထည့်ပါ။'})}
                 required fullWidth
               ></TextField>
               <Error field={errors.title}/>
             </FormControl>
 
             <FormControl fullWidth>
-              <Box component="label">Amount <span>*</span></Box>
+              <Box component="label" className="my">ငွေပမာဏ <span>*</span></Box>
               <TextField
                 label="Enter your expense amount"
-                {...register('amount', {required: 'Enter expense amount.'})}
+                {...register('amount', {required: 'အသုံးစရိတ်ငွေပမာဏကိုထည့်ပါ။'})}
                 inputProps={{
                   type: "number",
                   inputMode: "numeric",
@@ -186,9 +186,9 @@ const ExpenseForm: FC = () => {
             </FormControl>
 
             <FormControl fullWidth>
-              <Box component="label">Category <span>*</span></Box>
+              <Box component="label" className="my">အမျိုးအစား <span>*</span></Box>
               <TextField
-                {...register('category', {required: 'Select a category.'})}
+                {...register('category', {required: 'အမျိုးအစားတစ်ခုကိုရွေးပါ။'})}
                 select // tell TextField to render select
                 label="Select expense category"
                 onChange={e => setCategory(e.target.value)}
@@ -201,9 +201,9 @@ const ExpenseForm: FC = () => {
             </FormControl>
 
             <FormControl fullWidth>
-              <Box component="label">Payment Type <span>*</span></Box>
+              <Box component="label" className="my">ငွေပေးချေမှုပုံစံ <span>*</span></Box>
               <Select
-                {...register('type', {required: 'Select a payment type.'})}
+                {...register('type', {required: 'ငွေပေးချေမှုပုံစံတစ်ခုကိုရွေးပါ။'})}
                 defaultValue={defaultPayType}
                 fullWidth
               >
@@ -213,7 +213,7 @@ const ExpenseForm: FC = () => {
             </FormControl>
 
             <FormControl fullWidth>
-              <Box component="label">Remarks</Box>
+              <Box component="label" className="my">မှတ်ချက်</Box>
               <TextField
                 label="Additional information about your expense"
                 {...register('remarks')}
@@ -234,11 +234,11 @@ const ExpenseForm: FC = () => {
                 disabled={query.isPending}
                 fullWidth
               >
-                Save Expense
+                <span className="my">အသုံးစရိတ်ထည့်မည်</span>
               </Button>
             </FormControl>
             <Box sx={{ mt: 3, mb: 1, textAlign: 'center'}} component="p">
-              <Link to={`/expense`}>Cancel</Link>
+              <Link to={`/expense`} className="my">နောက်သို့</Link>
             </Box>
           </Box>
         }

@@ -41,82 +41,82 @@ const Dashboard: FC = () => {
         { isSuccess &&
           <>
             <InfoCard
-                title="Previous Balance" amount={prevBalance}
+                title="ပြီးခဲ့သည့်လလက်ကျန်" amount={prevBalance}
                 icon={<AccountBalanceWalletIcon/>}
             />
             <InfoCard
-                title="Income"
+                title="ဝင်ငွေ"
                 amount={ledger ? ledger.income : 0}
                 icon={<BusinessCenterIcon/>}
-                tooltip="Income from the previous month"
+                tooltip="ပြီးခဲ့သည့်လမှဝင်ငွေ"
             />
             <InfoCard
-                title="Opening Current"
+                title="အဖွင့်ငွေစာရင်း"
                 amount={ledger ? ledger.current : 0}
                 icon={<AccountBalanceIcon/>}
-                tooltip="Previous Balance + Income"
+                tooltip="ပြီးခဲ့သည့်လလက်ကျန် + ဝင်ငွေ"
             />
             {
               (ledger && ledger.currency) &&
                 <InfoCard
-                    title={`Exchange Rate (for 1 ${ledger.currency})`}
+                    title={`ငွေလဲနှုန်း (for 1 ${ledger.currency})`}
                     amount={ledger ? ledger.exchangeRate : 0}
                     icon={<CurrencyExchangeIcon/>}
                     tooltip="Exchange Rate on Income"
                 />
             }
             <InfoCard
-                title="Parent Support"
+                title="မိဘထောက်ပံ့ငွေ"
                 amount={ledger ? ledger.parentSupport : 0}
                 icon={<FamilyRestroomIcon/>}
             />
             <InfoCard
-                title="Budget"
+                title="လျာထားအသုံးစရိတ် (ဘတ်ဂျက်)"
                 amount={ledger ? ledger.budget : 0}
                 icon={<CalculateIcon/>}
-                tooltip="Monthly budget excluding parent support"
+                tooltip="ယခုလသုံးစွဲရန်လျာထားငွေ (မိဘထောက်ပံ့ငွေမပါ)"
             />
             <InfoCard
-                title="Gross Saving"
+                title="အကြမ်းဖျဥ်းစုငွေ"
                 amount={ledger ? ledger.grossSaving : 0}
                 icon={<SavingsIcon/>}
-                tooltip="Income - (Parent Support + Budget)"
+                tooltip="ဝင်ငွေ - (မိဘထောက်ပံ့ငွေ + ဘတ်ဂျက်)"
             />
             <InfoCard
-                title="Expense (Cash)"
+                title="အသုံးစရိတ် (ငွေသား)"
                 amount={ledger ? ledger.expenseCash : 0}
                 icon={<LocalAtmIcon/>}
-                tooltip="Monthly expense by cash"
+                tooltip="ယခုလငွေသားအသုံးစရိတ်"
             />
             <InfoCard
-                title="Expense (Bank)"
+                title="အသုံးစရိတ် (ဘဏ်)"
                 amount={ledger ? ledger.expenseBank : 0}
                 icon={<PaymentIcon/>}
-                tooltip="Monthly expense by digital accounts"
+                tooltip="ယခုလဘဏ်အကောင့်များမှအသုံးစရိတ်"
             />
             <InfoCard
-                title="Total Cost"
+                title="စုစုပေါင်းကုန်ကျစရိတ်"
                 amount={ledger ? ledger.cost : 0}
                 icon={<MonetizationOnIcon/>}
-                tooltip="Budget + Parent Support + Expense (Bank)"
+                tooltip="ဘတ်ဂျက် + မိဘထောက်ပံ့ငွေ + အသုံးစရိတ် (ဘဏ်)"
             />
             <InfoCard
-                title="Budget Balance"
+                title="ဘတ်ဂျက်ကျန်ငွေ"
                 amount={ledger ? ledger.budget - ledger.expenseCash : 0}
                 icon={<BalanceIcon/>}
-                tooltip="Budget - Expense (Cash)"
+                tooltip="ဘတ်ဂျက် - အသုံးစရိတ် (ငွေသား)"
             />
             <InfoCard
-                title="Net Saving"
+                title="အသားတင်စုငွေ"
                 amount={ledger ? ledger.netSaving : 0}
                 icon={<WalletIcon/>}
-                tooltip="Income - Total Cost"
+                tooltip="ဝင်ငွေ - စုစုပေါင်းကုန်ကျစရိတ်"
             />
             <InfoCard
-                title="Closing Current"
+                title="အပိတ်ငွေစာရင်း"
                 amount={ledger ? prevBalance + ledger.netSaving : 0}
                 icon={<AccountBalanceWalletIcon/>}
-                tooltip="Previous Balance + Net Saving"
+                tooltip="ပြီးခဲ့သည့်လလက်ကျန် + အသားတင်စုငွေ"
             />
           </>
         }

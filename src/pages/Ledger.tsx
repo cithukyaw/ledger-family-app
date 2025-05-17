@@ -95,10 +95,10 @@ const Ledger: FC = () => {
         { isSuccess &&
           <Box component="form">
             <FormControl fullWidth>
-              <Box component="label">Current <span>*</span></Box>
+              <Box component="label" className="my">အဖွင့်ငွေစာရင်း <span>*</span></Box>
               <TextField
-                label="Enter your current amount"
-                {...register('current', {required: 'Enter current amount.'})}
+                label="Enter your opening current amount"
+                {...register('current', {required: 'အဖွင့်ငွေစာရင်းပမာဏကိုထည့်ပါ။'})}
                 inputProps={{
                   type: "number",
                   inputMode: "numeric",
@@ -111,10 +111,10 @@ const Ledger: FC = () => {
             </FormControl>
 
             <FormControl fullWidth>
-              <Box component="label">Income <span>*</span></Box>
+              <Box component="label" className="my">ဝင်ငွေ <span>*</span></Box>
               <TextField
                 label="Enter your income amount"
-                {...register('income', {required: 'Enter income amount.'})}
+                {...register('income', {required: 'ဝင်ငွေပမာဏကိုထည့်ပါ။'})}
                 inputProps={{
                   type: "number",
                   inputMode: "numeric",
@@ -127,10 +127,10 @@ const Ledger: FC = () => {
             </FormControl>
 
             <FormControl fullWidth>
-              <Box component="label">Parent Support <span>*</span></Box>
+              <Box component="label" className="my">မိဘထောက်ပံ့ငွေ <span>*</span></Box>
               <TextField
                 label="Enter your parent support amount"
-                {...register('parentSupport', {required: 'Enter parent support amount.'})}
+                {...register('parentSupport', {required: 'မိဘထောက်ပံ့ငွေပမာဏကိုထည့်ပါ။'})}
                 inputProps={{
                   type: "number",
                   inputMode: "numeric",
@@ -143,10 +143,10 @@ const Ledger: FC = () => {
             </FormControl>
 
             <FormControl fullWidth>
-              <Box component="label">Budget <span>*</span></Box>
+              <Box component="label" className="my">လျာထားအသုံးစရိတ် <span>*</span></Box>
               <TextField
                 label="Enter your budget amount"
-                {...register('budget', {required: 'Enter budget amount.'})}
+                {...register('budget', {required: 'လျာထားအသုံးစရိတ်ကိုထည့်ပါ။'})}
                 inputProps={{
                   type: "number",
                   inputMode: "numeric",
@@ -159,7 +159,7 @@ const Ledger: FC = () => {
             </FormControl>
 
             <FormControl fullWidth>
-                <Box component="label">Exchange Rate</Box>
+                <Box component="label" className="my">ငွေလဲနှုန်း</Box>
                 <TextField
                     label="Enter the last exchange rate"
                     {...register('exchangeRate')}
@@ -175,7 +175,7 @@ const Ledger: FC = () => {
             </FormControl>
 
             <FormControl fullWidth>
-                <Box component="label">Currency</Box>
+                <Box component="label" className="my">ငွေကြေး</Box>
                 <Select
                   {...register('currency')}
                   value={watch('currency') || CURRENCIES.YEN}
@@ -200,7 +200,7 @@ const Ledger: FC = () => {
                 size="large"
                 fullWidth
               >
-                Save
+                <span className="my">သိမ်းမည်</span>
               </Button>
             </FormControl>
           </Box>

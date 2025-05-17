@@ -171,10 +171,12 @@ const Expense: FC = () => {
                       aria-label="Payment Type Filter"
                   >
                       <ToggleButton value={PAY_TYPE_GROUP.CASH} aria-label={PAY_TYPE_GROUP.CASH}>
-                          <LocalAtmIcon sx={{marginRight: ".2em"}} color="warning"/> Cash
+                          <LocalAtmIcon sx={{marginRight: ".2em"}} color="warning"/>
+                          <span className="my">ငွေသား</span>
                       </ToggleButton>
                       <ToggleButton value={PAY_TYPE_GROUP.BANK} aria-label={PAY_TYPE_GROUP.BANK}>
-                          <CreditCardIcon sx={{marginRight: ".2em"}} color="warning"/> Bank
+                          <CreditCardIcon sx={{marginRight: ".2em"}} color="warning"/>
+                          <span className="my">ဘဏ်မှ</span>
                       </ToggleButton>
                   </ToggleButtonGroup>
               </Box>
@@ -199,7 +201,7 @@ const Expense: FC = () => {
           <CardContent>
             <MonthNavigator/>
             <Typography variant="h5" component="div" sx={{textAlign: "center", fontWeight: "bold"}}>
-              Total {total.toLocaleString()}
+              <span className="my">စုစုပေါင်း</span> {total.toLocaleString()}
             </Typography>
             { selectedCategories.length > 0 &&
               <Box sx={{textAlign: "center", mt: 1}}>{ `(${getSelectedCategoryList()})` }</Box>
@@ -208,13 +210,15 @@ const Expense: FC = () => {
               <Box sx={{margin: "0 2em"}}>
                 <Typography variant="h6" component="div">{totalCash.toLocaleString()}</Typography>
                 <Box sx={{display: "flex", justifyContent: "center"}}>
-                  <LocalAtmIcon sx={{marginRight: ".2em"}} color="warning"/> Cash
+                  <LocalAtmIcon sx={{marginRight: ".2em"}} color="warning"/>
+                  <span className="my">ငွေသား</span>
                 </Box>
               </Box>
               <Box sx={{margin: "0 2em"}}>
                 <Typography variant="h6" component="div">{totalBank.toLocaleString()}</Typography>
                 <Box sx={{display: "flex", justifyContent: "center"}}>
-                  <CreditCardIcon sx={{marginRight: ".2em"}} color="warning"/> Banking
+                  <CreditCardIcon sx={{marginRight: ".2em"}} color="warning"/>
+                  <span className="my">ဘဏ်မှ</span>
                 </Box>
               </Box>
             </Box>

@@ -118,7 +118,7 @@ const ListCard: FC<ListCardProps> = ({ title, data, setBackdropOpen }: ListCardP
               secondaryAction={
                 <ListItemText primary={total.toLocaleString()} />
               }>
-              <ListItemText primary="Total" />
+              <ListItemText className="my" primary="စုစုပေါင်း" />
             </ListItem>
           </List>
         </Card>

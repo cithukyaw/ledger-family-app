@@ -15,6 +15,11 @@ const InfoCard: FC<InfoCardProps> = ({ title, amount, icon, tooltip }: InfoCardP
       </ListItemAvatar>
     )
   }
+
+  const getTitle = (title: string) => {
+    return <span className="my">{title}</span>
+  }
+
   return (
     <Card sx={{ marginTop: "1em" }}>
       <List>
@@ -25,7 +30,7 @@ const InfoCard: FC<InfoCardProps> = ({ title, amount, icon, tooltip }: InfoCardP
             </Tooltip>
             : getAvatar(icon)
           }
-          <ListItemText primary={ `${amount.toLocaleString()} ${config.currencyUnit}` } secondary={title} />
+          <ListItemText primary={ `${amount.toLocaleString()} ${config.currencyUnit}` } secondary={getTitle(title)} />
         </ListItem>
       </List>
     </Card>
