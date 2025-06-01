@@ -56,6 +56,7 @@ const Ledger: FC = () => {
     setValue('budget', ledger ? ledger.budget : '');
     setValue('exchangeRate', ledger ? ledger.exchangeRate : '');
     setValue('currency', ledger ? (ledger.currency || CURRENCIES.YEN) : CURRENCIES.YEN)
+    setValue('remarks', ledger ? ledger.remarks : '');
   }, [ledger, setValue]);
 
   const handleSubmitBtnClick = () => {
@@ -76,6 +77,7 @@ const Ledger: FC = () => {
     if (data.exchangeRate) {
       data.exchangeRate = Number(data.exchangeRate);
     }
+    data.remarks        = data.remarks?.trim();
 
     mutateQuery.reset();
     mutateQuery.mutate(data);
@@ -189,6 +191,19 @@ const Ledger: FC = () => {
                   ))}
                 </Select>
                 <Error field={errors.currency}/>
+            </FormControl>
+
+            <FormControl fullWidth>
+              <Box component="label" className="my">မှတ်ချက်</Box>
+              <TextField
+                label="Enter your remarks"
+                {...register('remarks')}
+                multiline
+                rows={2}
+                variant="outlined"
+                fullWidth
+              />
+              <Error field={errors.remarks}/>
             </FormControl>
 
             <FormControl fullWidth>

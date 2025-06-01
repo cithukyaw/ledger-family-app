@@ -114,6 +114,7 @@ type FormLedgerValues = {
   budget: number,
   exchangeRate?: number,
   currency?: string,
+  remarks?: string,
 }
 
 // type FormErrorType = Omit<ApiValidationError, 'field'> & {
