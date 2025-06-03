@@ -48,7 +48,7 @@ const paymentTypes = createQueryKeys('paymentTypes', {
 })
 
 const expenses = createQueryKeys('expenses', {
-  all: (from: Dayjs, to: Dayjs, category?: number[], payType?: string) => ({
+  all: (from: Dayjs, to: Dayjs, category?: number[], payType?: string, keyword?: string) => ({
     queryKey: ['expenses', dayjs(from).format('YYYYMMDD'), dayjs(to).format('YYYYMMDD')],
     queryFn: async () => {
       const user = getLoginUser();
@@ -60,6 +60,9 @@ const expenses = createQueryKeys('expenses', {
       }
       if (payType) {
         queryStr += `&paymentType=${payType}`;
+      }
+      if (keyword) {
+        queryStr += `&keyword=${keyword}`;
       }
 
       const response = await api.get(`expenses?${queryStr}`);

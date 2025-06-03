@@ -7,7 +7,7 @@ import {
   CardContent,
   Container,
   Drawer,
-  IconButton, styled,
+  IconButton, styled, TextField,
   ToggleButton,
   ToggleButtonGroup, toggleButtonGroupClasses,
   Typography
@@ -39,9 +39,10 @@ const Expense: FC = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
   const [selectedPayType, setSelectedPayType] = useState<string>('');
+  const [keyword, setKeyword] = useState<string>('');
   const [viewMode, setViewMode] = useState<string>('list');
   const { data: categories, isSuccess: isCategorySuccess } = useCategories();
-  const { data, isPending, isRefetching, isSuccess, isError, refetch } = useExpenses(activeMonth, selectedCategories, selectedPayType);
+  const { data, isPending, isRefetching, isSuccess, isError, refetch } = useExpenses(activeMonth, selectedCategories, selectedPayType, keyword);
 
   // Use useEffect to trigger refetch after the state has been updated
   useEffect(() => {
@@ -69,6 +70,10 @@ const Expense: FC = () => {
     type: string
   ) => {
     setSelectedPayType(type);
+  }
+
+  const handleKeywordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setKeyword(event.target.value);
   }
 
   const handleViewMode = (
@@ -147,7 +152,7 @@ const Expense: FC = () => {
         <Drawer open={drawerOpen} anchor="top" onClose={handleDrawerOpen}>
           <Container>
             <Box sx={{ py: "1.5em" }}>
-              <Box component="h3" sx={{ mt: 0, mb: 1, textAlign: 'center'}}>Category Filter</Box>
+              <Box component="h4" sx={{ mt: 0, mb: 1, textAlign: 'center'}}>Categories</Box>
               <Box>
                 <StyledToggleButtonGroup
                     size="small"
@@ -161,14 +166,14 @@ const Expense: FC = () => {
                   )}
                 </StyledToggleButtonGroup>
               </Box>
-              <Box sx={{ py: "1.5em", textAlign: "center" }}>
-                  <Box component="h3" sx={{ mt: 0, mb: 2, textAlign: 'center'}}>Payment Type Filter</Box>
+              <Box sx={{ pt: "0.2em", textAlign: "center" }}>
+                  <Box component="h4" sx={{ my: 1, textAlign: 'center'}}>Payment Type</Box>
                   <ToggleButtonGroup
                       size="small"
                       value={selectedPayType}
                       exclusive
                       onChange={handlePayTypeSelection}
-                      aria-label="Payment Type Filter"
+                      aria-label="Payment Type"
                   >
                       <ToggleButton value={PAY_TYPE_GROUP.CASH} aria-label={PAY_TYPE_GROUP.CASH}>
                           <LocalAtmIcon sx={{marginRight: ".2em"}} color="warning"/>
@@ -179,6 +184,16 @@ const Expense: FC = () => {
                           <span className="my">ဘဏ်မှ</span>
                       </ToggleButton>
                   </ToggleButtonGroup>
+              </Box>
+              <Box sx={{ pt: "0.2em", pb: "1em", textAlign: "center" }}>
+                <Box component="h4" sx={{ my: 1, textAlign: 'center'}}>Keyword</Box>
+                <TextField
+                  label="Enter any keyword"
+                  type="search"
+                  value={keyword}
+                  onChange={handleKeywordChange}
+                  fullWidth
+                ></TextField>
               </Box>
               <Button
                 className="btn-orange"
