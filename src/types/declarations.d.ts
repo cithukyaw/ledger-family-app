@@ -61,8 +61,12 @@ type MonthNavigatorProps = {
 }
 
 type ExpenseChartViewProps = {
-  data: Array<ExpenseChartData>,
+  data: Array<ExpenseBarChartData>,
   month: string
+}
+
+type ExpenseCategoryPieChartProps = {
+  data: Array<ExpensePieChartData>
 }
 
 type UserContextType = {
@@ -175,7 +179,12 @@ type MonthNavState = {
   nextDisabled: boolean,
 }
 
-type ExpenseChartData = {
+type ExpenseBarChartData = {
   day: string,
   amount: number,
+}
+
+type ExpensePieChartData = {
+  label: string,
+  value: number,
 }

@@ -77,8 +77,19 @@ const expenses = createQueryKeys('expenses', {
         data[key].push(row);
       });
 
+      // Organize data grouped by category
+      const dataByCategory: Record<string, ExpenseType[]>  = {};
+      response.data.data.map((row: ExpenseType) => {
+        const key = row.category.name
+        if (typeof dataByCategory[key] === 'undefined') {
+          dataByCategory[key] = [];
+        }
+        dataByCategory[key].push(row);
+      });
+
       return {
         data,
+        dataByCategory,
         meta: response.data.meta
       }
     }

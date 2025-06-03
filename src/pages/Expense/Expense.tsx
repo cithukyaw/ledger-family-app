@@ -22,7 +22,7 @@ import Loading from "../../components/Loading/Loading.tsx";
 import ServerError from "../../components/ServerError.tsx";
 import dayjs from "dayjs";
 import ListCard from "../../components/Card/ListCard.tsx";
-import {CategoryType, ExpenseChartData, ExpenseType} from "../../types/declarations";
+import {CategoryType, ExpenseBarChartData, ExpensePieChartData, ExpenseType} from "../../types/declarations";
 import LoadingBackdrop from "../../components/Loading/LoadingBackdrop.tsx";
 import MonthNavigator from "../../components/MonthNavigator.tsx";
 import {useSelector} from "react-redux";
@@ -32,6 +32,7 @@ import HeaderLogo from "../../components/Header/HeaderLogo.tsx";
 import ExpenseChartView from "./ExpenseChartView.tsx";
 import {PAY_TYPE_GROUP} from "../../lib/constants.ts";
 import AddExpenseButton from "../../components/AddExpenseButton.tsx";
+import ExpenseCategoryPieChart from "./ExpenseCategoryPieChart.tsx";
 
 const Expense: FC = () => {
   const { activeMonth } = useSelector((state: RootState) => state.monthNav);
@@ -110,22 +111,34 @@ const Expense: FC = () => {
   }
 
   const expenses = isSuccess ? data.data : [];
+  const expensesByCat = isSuccess ? data.dataByCategory : [];
   const expenseExist = isSuccess ? Object.entries(expenses).length > 0 : false;
   const total = isSuccess ? data.meta.total : 0;
   const totalCash = isSuccess ? data.meta.totalCash : 0;
   const totalBank = isSuccess ? data.meta.totalBank : 0;
+  const barChartData: ExpenseBarChartData[] = [];
+  const pieChartData: ExpensePieChartData[] = [];
 
-  // Prepare data for chart
-  const chartData: ExpenseChartData[] = [];
   if (expenseExist) {
+    // Prepare bar chart data for expenses by day
     Object.entries(expenses).forEach(([key, value]) => {
       const totalByDay = value.reduce((total, row) => total + row.amount, 0);
-      chartData.push({
+      barChartData.push({
         day: key,
         amount: totalByDay,
       });
     });
-    chartData.sort((a, b) => new Date(a.day).getTime() - new Date(b.day).getTime()); // sort by day
+    barChartData.sort((a, b) => new Date(a.day).getTime() - new Date(b.day).getTime()); // sort by day
+
+    // Prepare pie chart data for expenses by category
+    Object.entries(expensesByCat).forEach(([key, value]) => {
+      console.log(key, value)
+      const totalByCat = value.reduce((total, row) => total + row.amount, 0);
+      pieChartData.push({
+        label: key,
+        value: totalByCat,
+      });
+    });
   }
 
   return (
@@ -269,7 +282,10 @@ const Expense: FC = () => {
             expenseExist ? (
               <>
                 {viewMode === 'chart' ? (
-                  <ExpenseChartView data={chartData} month={activeMonth} />
+                  <>
+                    <ExpenseChartView data={barChartData} month={activeMonth} />
+                    <ExpenseCategoryPieChart data={pieChartData} />
+                    </>
                 ) : (
                   Object.entries(expenses).map(([key, value]) => (
                     <ListCard key={key} title={key} data={value as ExpenseType[]} setBackdropOpen={setBackdropOpen}/>
