@@ -128,17 +128,17 @@ const Expense: FC = () => {
         amount: totalByDay,
       });
     });
-    barChartData.sort((a, b) => new Date(a.day).getTime() - new Date(b.day).getTime()); // sort by day
+    barChartData.sort((a, b) => new Date(a.day).getTime() - new Date(b.day).getTime()); // asc sort by day
 
     // Prepare pie chart data for expenses by category
     Object.entries(expensesByCat).forEach(([key, value]) => {
-      console.log(key, value)
       const totalByCat = value.reduce((total, row) => total + row.amount, 0);
       pieChartData.push({
         label: key,
         value: totalByCat,
       });
     });
+    pieChartData.sort((a, b) => b.value - a.value); // desc sort by value
   }
 
   return (
