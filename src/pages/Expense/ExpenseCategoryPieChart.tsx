@@ -61,7 +61,7 @@ const ExpenseCategoryPieChart: FC<ExpenseCategoryPieChartProps> = ({ data }: Exp
               cy: "40%",
             },
           ]}
-          margin={{ top: 20, right: 20, bottom: 60, left: 20 }}
+          margin={{ top: 20, right: 20, bottom: 70, left: 20 }}
           colors={colors}
         >
           <PiePlot />
