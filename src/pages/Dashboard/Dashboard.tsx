@@ -27,9 +27,11 @@ const Dashboard: FC = () => {
   const user = getLoginUser();
   const {data: ledger, isPending, isSuccess} = useUserLedger(user.id, activeMonth);
 
-  let prevBalance = 0;
+  let opening = 0
+  let budgetBalance = 0
   if (ledger) {
-    prevBalance = ledger.current - ledger.income;
+    opening = ledger.current + ledger.income
+    budgetBalance = ledger.budget - ledger.expenseCash
   }
 
   return (
@@ -41,20 +43,21 @@ const Dashboard: FC = () => {
         { isSuccess &&
           <>
             <InfoCard
-                title="ပြီးခဲ့သည့်လလက်ကျန်" amount={prevBalance}
-                icon={<AccountBalanceWalletIcon/>}
+              title="အဖွင့်ငွေစာရင်း (ဝင်ငွေမပါ)"
+              amount={ledger ? ledger.current : 0}
+              icon={<AccountBalanceIcon/>}
+              tooltip="ရေတွက်စာရင်းရှိငွေ (ငွေသား + ဘဏ်)"
             />
             <InfoCard
-                title="ဝင်ငွေ"
-                amount={ledger ? ledger.income : 0}
-                icon={<BusinessCenterIcon/>}
-                tooltip="ပြီးခဲ့သည့်လမှဝင်ငွေ"
+              title="ဝင်ငွေ"
+              amount={ledger ? ledger.income : 0}
+              icon={<BusinessCenterIcon/>}
+              tooltip="ပြီးခဲ့သည့်လမှဝင်ငွေ"
             />
             <InfoCard
-                title="အဖွင့်ငွေစာရင်း"
-                amount={ledger ? ledger.current : 0}
+                title="အဖွင့်ငွေစာရင်း (ဝင်ငွေအပါ)"
+                amount={opening}
                 icon={<AccountBalanceIcon/>}
-                tooltip="ပြီးခဲ့သည့်လလက်ကျန် + ဝင်ငွေ"
             />
             {
               (ledger && ledger.currency) &&
@@ -102,7 +105,7 @@ const Dashboard: FC = () => {
             />
             <InfoCard
                 title="ဘတ်ဂျက်ကျန်ငွေ"
-                amount={ledger ? ledger.budget - ledger.expenseCash : 0}
+                amount={budgetBalance}
                 icon={<BalanceIcon/>}
                 tooltip="ဘတ်ဂျက် - အသုံးစရိတ် (ငွေသား)"
             />
@@ -113,8 +116,19 @@ const Dashboard: FC = () => {
                 tooltip="ဝင်ငွေ - စုစုပေါင်းကုန်ကျစရိတ်"
             />
             <InfoCard
+              title="စာရင်းကျန်ငွေ"
+              amount={ledger ? ledger.balance : 0}
+              icon={<WalletIcon/>}
+              tooltip="အဖွင့်ငွေစာရင်း (ဝင်ငွေအပါ) - စုစုပေါင်းကုန်ကျစရိတ်"
+            />
+            <InfoCard
+              title="အပိုဝင်ငွေ"
+              amount={ledger ? ledger.passiveIncome : 0}
+              icon={<AccountBalanceWalletIcon/>}
+            />
+            <InfoCard
                 title="အပိတ်ငွေစာရင်း"
-                amount={ledger ? prevBalance + ledger.netSaving : 0}
+                amount={ledger ? ledger.nextOpening : 0}
                 icon={<AccountBalanceWalletIcon/>}
                 tooltip="ပြီးခဲ့သည့်လလက်ကျန် + အသားတင်စုငွေ"
             />

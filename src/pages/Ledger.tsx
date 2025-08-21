@@ -52,8 +52,10 @@ const Ledger: FC = () => {
   useEffect(() => {
     setValue('current', ledger ? ledger.current : '');
     setValue('income', ledger ? ledger.income : '');
+    setValue('incomePenny', ledger ? ledger.incomePenny : '');
     setValue('parentSupport', ledger ? ledger.parentSupport : '');
     setValue('budget', ledger ? ledger.budget : '');
+    setValue('passiveIncome', ledger ? ledger.passiveIncome : '');
     setValue('exchangeRate', ledger ? ledger.exchangeRate : '');
     setValue('currency', ledger ? (ledger.currency || CURRENCIES.YEN) : CURRENCIES.YEN)
     setValue('remarks', ledger ? ledger.remarks : '');
@@ -74,6 +76,18 @@ const Ledger: FC = () => {
     data.income         = Number(data.income);
     data.parentSupport  = Number(data.parentSupport);
     data.budget         = Number(data.budget);
+    const incomePennyVal = (data as Record<string, unknown>).incomePenny;
+    if (incomePennyVal !== undefined && incomePennyVal !== null && incomePennyVal !== '') {
+      data.incomePenny = Number(incomePennyVal as number);
+    } else {
+      delete data.incomePenny;
+    }
+    const passiveIncomeVal = (data as Record<string, unknown>).passiveIncome;
+    if (passiveIncomeVal !== undefined && passiveIncomeVal !== null && passiveIncomeVal !== '') {
+      data.passiveIncome = Number(passiveIncomeVal as number);
+    } else {
+      delete data.passiveIncome;
+    }
     if (data.exchangeRate) {
       data.exchangeRate = Number(data.exchangeRate);
     }
@@ -97,7 +111,7 @@ const Ledger: FC = () => {
         { isSuccess &&
           <Box component="form">
             <FormControl fullWidth>
-              <Box component="label" className="my">အဖွင့်ငွေစာရင်း <span>*</span></Box>
+              <Box component="label" className="my">အဖွင့်ငွေစာရင်း (ဝင်ငွေမပါ) <span>*</span></Box>
               <TextField
                 label="Enter your opening current amount"
                 {...register('current', {required: 'အဖွင့်ငွေစာရင်းပမာဏကိုထည့်ပါ။'})}
@@ -126,6 +140,22 @@ const Ledger: FC = () => {
                 required fullWidth
               />
               <Error field={errors.income}/>
+            </FormControl>
+
+            <FormControl fullWidth>
+              <Box component="label" className="my">ဝင်ငွေအစွန်းထွက်</Box>
+              <TextField
+                label="Enter your penny from your income"
+                {...register('incomePenny')}
+                inputProps={{
+                  type: "number",
+                  inputMode: "numeric",
+                  pattern: "[0-9]*",
+                }}
+                variant="outlined"
+                fullWidth
+              />
+              <Error field={errors.incomePenny}/>
             </FormControl>
 
             <FormControl fullWidth>
@@ -158,6 +188,22 @@ const Ledger: FC = () => {
                 required fullWidth
               />
               <Error field={errors.budget}/>
+            </FormControl>
+
+            <FormControl fullWidth>
+              <Box component="label" className="my">အပိုဝင်ငွေ</Box>
+              <TextField
+                label="Enter your passive income in this month"
+                {...register('passiveIncome')}
+                inputProps={{
+                  type: "number",
+                  inputMode: "numeric",
+                  pattern: "[0-9]*",
+                }}
+                variant="outlined"
+                fullWidth
+              />
+              <Error field={errors.passiveIncome}/>
             </FormControl>
 
             <FormControl fullWidth>
