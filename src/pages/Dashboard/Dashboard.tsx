@@ -10,7 +10,6 @@ import PaymentIcon from '@mui/icons-material/Payment';
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import FamilyRestroomIcon from '@mui/icons-material/FamilyRestroom';
 import WalletIcon from '@mui/icons-material/Wallet';
-import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
@@ -59,15 +58,6 @@ const Dashboard: FC = () => {
                 amount={opening}
                 icon={<AccountBalanceIcon/>}
             />
-            {
-              (ledger && ledger.currency) &&
-                <InfoCard
-                    title={`ငွေလဲနှုန်း (for 1 ${ledger.currency})`}
-                    amount={ledger ? ledger.exchangeRate : 0}
-                    icon={<CurrencyExchangeIcon/>}
-                    tooltip="Exchange Rate on Income"
-                />
-            }
             <InfoCard
                 title="မိဘထောက်ပံ့ငွေ"
                 amount={ledger ? ledger.parentSupport : 0}
