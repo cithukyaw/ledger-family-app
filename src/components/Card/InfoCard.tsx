@@ -5,11 +5,13 @@ import React, {FC} from "react";
 import {InfoCardProps} from "../../types/declarations";
 import config from "../../lib/config.ts";
 
-const InfoCard: FC<InfoCardProps> = ({ title, amount, icon, tooltip }: InfoCardProps) => {
+const InfoCard: FC<InfoCardProps> = ({ title, amount, icon, tooltip, color }: InfoCardProps) => {
+  color = color || deepOrange[400]
+
   const getAvatar = (icon?: React.ReactNode) => {
     return (
       <ListItemAvatar>
-        <Avatar sx={{ bgcolor: deepOrange[400] }}>
+        <Avatar sx={{ bgcolor: color }}>
           { icon ? icon : <ImageIcon /> }
         </Avatar>
       </ListItemAvatar>

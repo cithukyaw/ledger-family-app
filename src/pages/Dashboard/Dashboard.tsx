@@ -20,6 +20,7 @@ import {getLoginUser} from "../../lib/utils.ts";
 import Loading from "../../components/Loading/Loading.tsx";
 import {useSelector} from "react-redux";
 import {RootState} from "../../state/store.ts";
+import {green, grey, red} from "@mui/material/colors";
 
 const Dashboard: FC = () => {
   const { activeMonth } = useSelector((state: RootState) => state.monthNav);
@@ -57,6 +58,7 @@ const Dashboard: FC = () => {
                 title="အဖွင့်ငွေစာရင်း (ဝင်ငွေအပါ)"
                 amount={opening}
                 icon={<AccountBalanceIcon/>}
+                tooltip="အဖွင့်ငွေစာရင်း + ဝင်ငွေ"
             />
             <InfoCard
                 title="မိဘထောက်ပံ့ငွေ"
@@ -91,24 +93,27 @@ const Dashboard: FC = () => {
                 title="စုစုပေါင်းကုန်ကျစရိတ်"
                 amount={ledger ? ledger.cost : 0}
                 icon={<MonetizationOnIcon/>}
+                color={red[800]}
                 tooltip="ဘတ်ဂျက် + မိဘထောက်ပံ့ငွေ + အသုံးစရိတ် (ဘဏ်)"
             />
             <InfoCard
                 title="ဘတ်ဂျက်ကျန်ငွေ"
                 amount={budgetBalance}
                 icon={<BalanceIcon/>}
+                color={grey[900]}
                 tooltip="ဘတ်ဂျက် - အသုံးစရိတ် (ငွေသား)"
             />
             <InfoCard
                 title="အသားတင်စုငွေ"
                 amount={ledger ? ledger.netSaving : 0}
                 icon={<WalletIcon/>}
+                color={green[700]}
                 tooltip="ဝင်ငွေ - စုစုပေါင်းကုန်ကျစရိတ်"
             />
             <InfoCard
               title="စာရင်းကျန်ငွေ"
               amount={ledger ? ledger.balance : 0}
-              icon={<WalletIcon/>}
+              icon={<BalanceIcon/>}
               tooltip="အဖွင့်ငွေစာရင်း (ဝင်ငွေအပါ) - စုစုပေါင်းကုန်ကျစရိတ်"
             />
             <InfoCard
@@ -117,10 +122,10 @@ const Dashboard: FC = () => {
               icon={<AccountBalanceWalletIcon/>}
             />
             <InfoCard
-                title="အပိတ်ငွေစာရင်း"
-                amount={ledger ? ledger.nextOpening : 0}
-                icon={<AccountBalanceWalletIcon/>}
-                tooltip="ပြီးခဲ့သည့်လလက်ကျန် + အသားတင်စုငွေ"
+              title="အပိတ်ငွေစာရင်း"
+              amount={ledger ? ledger.nextOpening : 0}
+              icon={<AccountBalanceIcon/>}
+              tooltip="စာရင်းကျန်ငွေ + အသားတင်စုငွေ"
             />
           </>
         }
