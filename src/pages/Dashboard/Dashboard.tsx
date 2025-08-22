@@ -21,17 +21,27 @@ import Loading from "../../components/Loading/Loading.tsx";
 import {useSelector} from "react-redux";
 import {RootState} from "../../state/store.ts";
 import {green, grey, red} from "@mui/material/colors";
+import dayjs from "dayjs";
+import config from "../../lib/config.ts";
 
 const Dashboard: FC = () => {
   const { activeMonth } = useSelector((state: RootState) => state.monthNav);
+  const prevMonth = dayjs(activeMonth).subtract(1, 'month').startOf('month').format(config.dateFormat);
   const user = getLoginUser();
   const {data: ledger, isPending, isSuccess} = useUserLedger(user.id, activeMonth);
+  const {data: prevLedger} = useUserLedger(user.id, prevMonth);
 
   let opening = 0
   let budgetBalance = 0
+  let current = 0;
+  let diff = 0;
   if (ledger) {
     opening = ledger.current + ledger.income
     budgetBalance = ledger.budget - ledger.expenseCash
+    current = ledger.current
+    if (prevLedger) {
+      diff = current - prevLedger.nextOpening;
+    }
   }
 
   return (
@@ -42,9 +52,21 @@ const Dashboard: FC = () => {
         { isPending && <Loading/>}
         { isSuccess &&
           <>
+            { prevLedger &&
+              <Box sx={{ textAlign: 'center'}}>
+                <Box sx={{ fontSize: '0.8rem' }}>ပြီးခဲ့သည့်လအပိတ်ငွေစာရင်း</Box>
+                <Box>
+                  { `${prevLedger.nextOpening.toLocaleString()} ${config.currencyUnit}` }
+                  <Box component="span" sx={{ px: '0.3rem', color: diff > 0 ? 'green' : 'red' }}>
+                    ({diff > 0 ? '+' : ''}{diff.toLocaleString()})
+                  </Box>
+                </Box>
+              </Box>
+            }
+
             <InfoCard
               title="အဖွင့်ငွေစာရင်း (ဝင်ငွေမပါ)"
-              amount={ledger ? ledger.current : 0}
+              amount={current}
               icon={<AccountBalanceIcon/>}
               tooltip="ရေတွက်စာရင်းရှိငွေ (ငွေသား + ဘဏ်)"
             />
