@@ -1,5 +1,5 @@
 import {FC} from "react";
-import {Box, Container} from "@mui/material";
+import {Box, Container, Tooltip} from "@mui/material";
 import Navbar from "../../components/Navbar/Navbar.tsx";
 import Header from "../../components/Header/Header.tsx";
 import InfoCard from "../../components/Card/InfoCard.tsx";
@@ -40,7 +40,9 @@ const Dashboard: FC = () => {
     budgetBalance = ledger.budget - ledger.expenseCash
     current = ledger.current
     if (prevLedger) {
-      diff = current - prevLedger.nextOpening;
+      // the difference between this month current and the previous month balance
+      // incomePenny is already included in current, so subtract it from current
+      diff = current - prevLedger.nextOpening - ledger.incomePenny;
     }
   }
 
@@ -57,9 +59,11 @@ const Dashboard: FC = () => {
                 <Box sx={{ fontSize: '0.8rem' }}>ပြီးခဲ့သည့်လအပိတ်ငွေစာရင်း</Box>
                 <Box>
                   { `${prevLedger.nextOpening.toLocaleString()} ${config.currencyUnit}` }
-                  <Box component="span" sx={{ px: '0.3rem', color: diff > 0 ? 'green' : 'red' }}>
-                    ({diff > 0 ? '+' : ''}{diff.toLocaleString()})
-                  </Box>
+                  <Tooltip title="ledger.current - prevLedger.nextOpening - ledger.incomePenny" enterTouchDelay={0} leaveTouchDelay={3000} arrow>
+                    <Box component="span" sx={{ px: '0.3rem', color: diff >= 0 ? 'green' : 'red' }}>
+                      ({diff > 0 ? '+' : ''}{diff.toLocaleString()})
+                    </Box>
+                  </Tooltip>
                 </Box>
               </Box>
             }
@@ -68,24 +72,25 @@ const Dashboard: FC = () => {
               title="အဖွင့်ငွေစာရင်း (ဝင်ငွေမပါ)"
               amount={current}
               icon={<AccountBalanceIcon/>}
-              tooltip="ရေတွက်စာရင်းရှိငွေ (ငွေသား + ဘဏ်)"
+              tooltip="ရေတွက်စာရင်းရှိ ငွေသားနှင့်ဘဏ်စုစုပေါင်း (current)"
             />
             <InfoCard
               title="ဝင်ငွေ"
               amount={ledger ? ledger.income : 0}
               icon={<BusinessCenterIcon/>}
-              tooltip="ပြီးခဲ့သည့်လမှဝင်ငွေ"
+              tooltip="ပြီးခဲ့သည့်လမှဝင်ငွေ (income)"
             />
             <InfoCard
                 title="အဖွင့်ငွေစာရင်း (ဝင်ငွေအပါ)"
                 amount={opening}
                 icon={<AccountBalanceIcon/>}
-                tooltip="အဖွင့်ငွေစာရင်း + ဝင်ငွေ"
+                tooltip="အဖွင့်ငွေစာရင်း (current) + ဝင်ငွေ (income)"
             />
             <InfoCard
                 title="မိဘထောက်ပံ့ငွေ"
                 amount={ledger ? ledger.parentSupport : 0}
                 icon={<FamilyRestroomIcon/>}
+                tooltip="parentSupport"
             />
             <InfoCard
                 title="လျာထားအသုံးစရိတ် (ဘတ်ဂျက်)"
@@ -103,51 +108,52 @@ const Dashboard: FC = () => {
                 title="အသုံးစရိတ် (ငွေသား)"
                 amount={ledger ? ledger.expenseCash : 0}
                 icon={<LocalAtmIcon/>}
-                tooltip="ယခုလငွေသားအသုံးစရိတ်"
+                tooltip="ယခုလငွေသားအသုံးစရိတ် (expenseCash)"
             />
             <InfoCard
                 title="အသုံးစရိတ် (ဘဏ်)"
                 amount={ledger ? ledger.expenseBank : 0}
                 icon={<PaymentIcon/>}
-                tooltip="ယခုလဘဏ်အကောင့်များမှအသုံးစရိတ်"
+                tooltip="ယခုလဘဏ်မှအသုံးစရိတ် (expenseBank)"
             />
             <InfoCard
                 title="စုစုပေါင်းကုန်ကျစရိတ်"
                 amount={ledger ? ledger.cost : 0}
                 icon={<MonetizationOnIcon/>}
                 color={red[800]}
-                tooltip="ဘတ်ဂျက် + မိဘထောက်ပံ့ငွေ + အသုံးစရိတ် (ဘဏ်)"
+                tooltip="cost: ဘတ်ဂျက် + မိဘထောက်ပံ့ငွေ + ဘဏ်အသုံးစရိတ်"
             />
             <InfoCard
                 title="ဘတ်ဂျက်ကျန်ငွေ"
                 amount={budgetBalance}
-                icon={<BalanceIcon/>}
+                icon={<CalculateIcon/>}
                 color={grey[900]}
-                tooltip="ဘတ်ဂျက် - အသုံးစရိတ် (ငွေသား)"
+                tooltip="ဘတ်ဂျက် (budget) - အသုံးစရိတ်ငွေသား (expenseCash)"
             />
             <InfoCard
                 title="အသားတင်စုငွေ"
                 amount={ledger ? ledger.netSaving : 0}
                 icon={<WalletIcon/>}
                 color={green[700]}
-                tooltip="ဝင်ငွေ - စုစုပေါင်းကုန်ကျစရိတ်"
+                tooltip="netSaving: ဝင်ငွေ - စုစုပေါင်းကုန်ကျစရိတ်"
             />
             <InfoCard
               title="စာရင်းကျန်ငွေ"
               amount={ledger ? ledger.balance : 0}
               icon={<BalanceIcon/>}
-              tooltip="အဖွင့်ငွေစာရင်း (ဝင်ငွေအပါ) - စုစုပေါင်းကုန်ကျစရိတ်"
+              tooltip="balance: အဖွင့်ငွေစာရင်း (ဝင်ငွေအပါ) - စုစုပေါင်းကုန်ကျစရိတ်"
             />
             <InfoCard
               title="အပိုဝင်ငွေ"
               amount={ledger ? ledger.passiveIncome : 0}
               icon={<AccountBalanceWalletIcon/>}
+              tooltip="passiveIncome"
             />
             <InfoCard
               title="အပိတ်ငွေစာရင်း"
               amount={ledger ? ledger.nextOpening : 0}
               icon={<AccountBalanceIcon/>}
-              tooltip="စာရင်းကျန်ငွေ + အသားတင်စုငွေ"
+              tooltip="စာရင်းကျန်ငွေ (balance) + အပိုဝင်ငွေ (passiveIncome)"
             />
           </>
         }
