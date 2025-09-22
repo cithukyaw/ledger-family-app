@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from "react";
+import React, { FC, useEffect, useState } from "react";
 import Navbar from "../../components/Navbar/Navbar.tsx";
 import {
   Box,
@@ -17,20 +17,20 @@ import CreditCardIcon from '@mui/icons-material/CreditCard';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import BarChartIcon from '@mui/icons-material/BarChart';
-import {useCategories, useExpenses} from "../../queries/queries.hook.ts";
+import { useCategories, useExpenses } from "../../queries/queries.hook.ts";
 import Loading from "../../components/Loading/Loading.tsx";
 import ServerError from "../../components/ServerError.tsx";
 import dayjs from "dayjs";
 import ListCard from "../../components/Card/ListCard.tsx";
-import {CategoryType, ExpenseBarChartData, ExpensePieChartData, ExpenseType} from "../../types/declarations";
+import { CategoryType, ExpenseBarChartData, ExpensePieChartData, ExpenseType } from "../../types/declarations";
 import LoadingBackdrop from "../../components/Loading/LoadingBackdrop.tsx";
 import MonthNavigator from "../../components/MonthNavigator.tsx";
-import {useSelector} from "react-redux";
-import {RootState} from "../../state/store.ts";
+import { useSelector } from "react-redux";
+import { RootState } from "../../state/store.ts";
 import config from "../../lib/config.ts";
 import HeaderLogo from "../../components/Header/HeaderLogo.tsx";
 import ExpenseChartView from "./ExpenseChartView.tsx";
-import {PAY_TYPE_GROUP} from "../../lib/constants.ts";
+import { PAY_TYPE_GROUP } from "../../lib/constants.ts";
 import AddExpenseButton from "../../components/AddExpenseButton.tsx";
 import ExpenseCategoryPieChart from "./ExpenseCategoryPieChart.tsx";
 
@@ -161,45 +161,45 @@ const Expense: FC = () => {
         </IconButton>
       </Box>
 
-      { isCategorySuccess &&
+      {isCategorySuccess &&
         <Drawer open={drawerOpen} anchor="top" onClose={handleDrawerOpen}>
           <Container>
             <Box sx={{ py: "1.5em" }}>
-              <Box component="h4" sx={{ mt: 0, mb: 1, textAlign: 'center'}}>Categories</Box>
+              <Box component="h4" sx={{ mt: 0, mb: 1, textAlign: 'center' }}>Categories</Box>
               <Box>
                 <StyledToggleButtonGroup
-                    size="small"
-                    value={selectedCategories}
-                    onChange={handleCategorySelection}
-                    aria-label="Category Filter"
-                    sx={{display: "flex", justifyContent: "center", flexWrap: "wrap", py: ".3em"}}
+                  size="small"
+                  value={selectedCategories}
+                  onChange={handleCategorySelection}
+                  aria-label="Category Filter"
+                  sx={{ display: "flex", justifyContent: "center", flexWrap: "wrap", py: ".3em" }}
                 >
-                  { categories.map((cat: CategoryType) =>
+                  {categories.map((cat: CategoryType) =>
                     <ToggleButton key={cat.id} value={cat.id} aria-label={cat.name}>{cat.name}</ToggleButton>
                   )}
                 </StyledToggleButtonGroup>
               </Box>
               <Box sx={{ pt: "0.2em", textAlign: "center" }}>
-                  <Box component="h4" sx={{ my: 1, textAlign: 'center'}}>Payment Type</Box>
-                  <ToggleButtonGroup
-                      size="small"
-                      value={selectedPayType}
-                      exclusive
-                      onChange={handlePayTypeSelection}
-                      aria-label="Payment Type"
-                  >
-                      <ToggleButton value={PAY_TYPE_GROUP.CASH} aria-label={PAY_TYPE_GROUP.CASH}>
-                          <LocalAtmIcon sx={{marginRight: ".2em"}} color="warning"/>
-                          <span className="my">ငွေသား</span>
-                      </ToggleButton>
-                      <ToggleButton value={PAY_TYPE_GROUP.BANK} aria-label={PAY_TYPE_GROUP.BANK}>
-                          <CreditCardIcon sx={{marginRight: ".2em"}} color="warning"/>
-                          <span className="my">ဘဏ်မှ</span>
-                      </ToggleButton>
-                  </ToggleButtonGroup>
+                <Box component="h4" sx={{ my: 1, textAlign: 'center' }}>Payment Type</Box>
+                <ToggleButtonGroup
+                  size="small"
+                  value={selectedPayType}
+                  exclusive
+                  onChange={handlePayTypeSelection}
+                  aria-label="Payment Type"
+                >
+                  <ToggleButton value={PAY_TYPE_GROUP.CASH} aria-label={PAY_TYPE_GROUP.CASH}>
+                    <LocalAtmIcon sx={{ marginRight: ".2em" }} color="warning" />
+                    <span className="my">ငွေသား</span>
+                  </ToggleButton>
+                  <ToggleButton value={PAY_TYPE_GROUP.BANK} aria-label={PAY_TYPE_GROUP.BANK}>
+                    <CreditCardIcon sx={{ marginRight: ".2em" }} color="warning" />
+                    <span className="my">ဘဏ်မှ</span>
+                  </ToggleButton>
+                </ToggleButtonGroup>
               </Box>
               <Box sx={{ pt: "0.2em", pb: "1em", textAlign: "center" }}>
-                <Box component="h4" sx={{ my: 1, textAlign: 'center'}}>Keyword</Box>
+                <Box component="h4" sx={{ my: 1, textAlign: 'center' }}>Keyword</Box>
                 <TextField
                   label="Enter any keyword"
                   type="search"
@@ -216,7 +216,7 @@ const Expense: FC = () => {
               >
                 Apply Filter
               </Button>
-              <Box sx={{ textAlign: 'center', mb: 0}} component="p">
+              <Box sx={{ textAlign: 'center', mb: 0 }} component="p">
                 <a href="#" onClick={handleDrawerOpen}>Close</a>
               </Box>
             </Box>
@@ -225,27 +225,27 @@ const Expense: FC = () => {
       }
 
       <Container maxWidth="lg">
-        <Card sx={{mt: "1.5em"}}>
+        <Card sx={{ mt: "1.5em" }}>
           <CardContent>
-            <MonthNavigator/>
-            <Typography variant="h5" component="div" sx={{textAlign: "center", fontWeight: "bold"}}>
+            <MonthNavigator />
+            <Typography variant="h5" component="div" sx={{ textAlign: "center", fontWeight: "bold" }}>
               <span className="my">စုစုပေါင်း</span> {total.toLocaleString()}
             </Typography>
-            { selectedCategories.length > 0 &&
-              <Box sx={{textAlign: "center", mt: 1}}>{ `(${getSelectedCategoryList()})` }</Box>
+            {selectedCategories.length > 0 &&
+              <Box sx={{ textAlign: "center", mt: 1 }}>{`(${getSelectedCategoryList()})`}</Box>
             }
-            <Box sx={{display: "flex", justifyContent: "center", textAlign: "center", marginTop: "1em"}}>
-              <Box sx={{margin: "0 2em"}}>
+            <Box sx={{ display: "flex", justifyContent: "center", textAlign: "center", marginTop: "1em" }}>
+              <Box sx={{ margin: "0 2em" }}>
                 <Typography variant="h6" component="div">{totalCash.toLocaleString()}</Typography>
-                <Box sx={{display: "flex", justifyContent: "center"}}>
-                  <LocalAtmIcon sx={{marginRight: ".2em"}} color="warning"/>
+                <Box sx={{ display: "flex", justifyContent: "center" }}>
+                  <LocalAtmIcon sx={{ marginRight: ".2em" }} color="warning" />
                   <span className="my">ငွေသား</span>
                 </Box>
               </Box>
-              <Box sx={{margin: "0 2em"}}>
+              <Box sx={{ margin: "0 2em" }}>
                 <Typography variant="h6" component="div">{totalBank.toLocaleString()}</Typography>
-                <Box sx={{display: "flex", justifyContent: "center"}}>
-                  <CreditCardIcon sx={{marginRight: ".2em"}} color="warning"/>
+                <Box sx={{ display: "flex", justifyContent: "center" }}>
+                  <CreditCardIcon sx={{ marginRight: ".2em" }} color="warning" />
                   <span className="my">ဘဏ်မှ</span>
                 </Box>
               </Box>
@@ -253,12 +253,12 @@ const Expense: FC = () => {
           </CardContent>
         </Card>
 
-        <Box sx={{margin: "1.5em 0"}}>
-          <AddExpenseButton/>
+        <Box sx={{ margin: "1.5em 0" }}>
+          <AddExpenseButton />
         </Box>
 
-        { expenseExist &&
-          <Box sx={{textAlign: "right"}}>
+        {expenseExist &&
+          <Box sx={{ textAlign: "right" }}>
             <ToggleButtonGroup
               size="small"
               value={viewMode}
@@ -277,7 +277,7 @@ const Expense: FC = () => {
         }
 
         {isPending || isRefetching
-          ? <Loading/>
+          ? <Loading />
           : (
             expenseExist ? (
               <>
@@ -285,19 +285,19 @@ const Expense: FC = () => {
                   <>
                     <ExpenseChartView data={barChartData} month={activeMonth} />
                     <ExpenseCategoryPieChart data={pieChartData} />
-                    </>
+                  </>
                 ) : (
                   Object.entries(expenses).map(([key, value]) => (
-                    <ListCard key={key} title={key} data={value as ExpenseType[]} setBackdropOpen={setBackdropOpen}/>
+                    <ListCard key={key} title={key} data={value as ExpenseType[]} setBackdropOpen={setBackdropOpen} />
                   ))
                 )}
                 {/* Add Expense button after the chart or list */}
-                <Box sx={{marginTop: "1.5em"}}>
-                  <AddExpenseButton/>
+                <Box sx={{ marginTop: "1.5em" }}>
+                  <AddExpenseButton />
                 </Box>
               </>
             ) : (
-              <Box sx={{textAlign: "center", marginTop: "4em"}}>
+              <Box sx={{ textAlign: "center", marginTop: "4em" }}>
                 <p>Congrats!</p>
                 <p>No expense for {dayjs(activeMonth).format('MMM YYYY')}.</p>
               </Box>
@@ -305,8 +305,8 @@ const Expense: FC = () => {
           )
         }
       </Container>
-      <Navbar/>
-      <LoadingBackdrop open={backdropOpen}/>
+      <Navbar />
+      <LoadingBackdrop open={backdropOpen} />
     </Box>
   );
 }

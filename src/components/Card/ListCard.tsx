@@ -11,7 +11,7 @@ import mQuery from "../../queries/mutations.ts";
 import {toast} from "react-toastify";
 import config from "../../lib/config.ts";
 
-const ListCard: FC<ListCardProps> = ({ title, data, setBackdropOpen }: ListCardProps) => {
+const ListCard: FC<ListCardProps> = ({ title, data, setBackdropOpen, type = 'expense' }: ListCardProps) => {
   const navigate = useNavigate();
   const initialValue = 0;
   const total = data.reduce((accumulator, row) => accumulator + row.amount, initialValue);
@@ -23,18 +23,23 @@ const ListCard: FC<ListCardProps> = ({ title, data, setBackdropOpen }: ListCardP
 
   const deleteQuery = useLazyQuery(
     async (id: number) => {
-      await mQuery.deleteExpense(id); // post to server
+      if (type === 'passive-income') {
+        await mQuery.deletePassiveIncome(id);
+      } else {
+        await mQuery.deleteExpense(id);
+      }
     },
     {
       onSuccess: () => {
         const updatedData = listData.filter(row => row.id !== selectedId);
         setListData(updatedData);
-        toast.success('Expense deleted!', config.toastOptions);
-        setBackdropOpen(false);
+        const itemType = type === 'passive-income' ? 'Passive income' : 'Expense';
+        toast.success(`${itemType} deleted!`, config.toastOptions);
+        setBackdropOpen && setBackdropOpen(false);
       },
       onError: () => {
         toast.error('Failed to delete!', config.toastOptions);
-        setBackdropOpen(false);
+        setBackdropOpen && setBackdropOpen(false);
       }
     }
   );
@@ -55,9 +60,10 @@ const ListCard: FC<ListCardProps> = ({ title, data, setBackdropOpen }: ListCardP
     console.log(action, selectedId, selectedTitle);
 
     if (action === 'edit') {
-      navigate(`/expense/${selectedId}`)
+      const editPath = type === 'passive-income' ? `/passive-income/${selectedId}` : `/expense/${selectedId}`;
+      navigate(editPath);
     } else if (action === 'delete') {
-      setBackdropOpen(true);
+      setBackdropOpen && setBackdropOpen(true);
       deleteQuery.mutate(selectedId);
     }
   };

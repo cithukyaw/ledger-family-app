@@ -106,4 +106,43 @@ const expenses = createQueryKeys('expenses', {
   }),
 })
 
-export const queries = mergeQueryKeys(users, categories, paymentTypes, expenses);
+const passiveIncomes = createQueryKeys('passiveIncomes', {
+  all: (from: Dayjs, to: Dayjs) => ({
+    queryKey: ['passive-incomes', dayjs(from).format('YYYYMMDD'), dayjs(to).format('YYYYMMDD')],
+    queryFn: async () => {
+      const user = getLoginUser();
+
+      let queryStr = `userId=${user.id}`;
+      queryStr += `&from=${dayjs(from).format('YYYY-MM-DD')}&to=${dayjs(to).format('YYYY-MM-DD')}`;
+
+      const response = await api.get(`passive-incomes?${queryStr}`);
+
+      // Organize data grouped by date
+      const data: Record<string, ExpenseType[]>  = {};
+      response.data.data.map((row: ExpenseType) => {
+        const key = dayjs(row.date).format('YYYY-MM-DD');
+        if (typeof data[key] === 'undefined') {
+          data[key] = [];
+        }
+        data[key].push(row);
+      });
+
+      return {
+        data,
+        meta: response.data.meta
+      }
+    }
+  }),
+  // Get passive income details by id
+  detail: (id: number | undefined) => ({
+    queryKey: [id],
+    queryFn: id
+      ? async () => {
+        const response = await api.get(`passive-incomes/${id}`);
+        return response.data;
+      }
+      : async () => Promise.resolve(undefined), // Prevent unnecessary call if no userId
+  }),
+})
+
+export const queries = mergeQueryKeys(users, categories, paymentTypes, expenses, passiveIncomes);

@@ -7,10 +7,10 @@ import {ExpenseChartViewProps} from "../../types/declarations";
 import dayjs from "dayjs";
 import { Box } from '@mui/material';
 
-const ExpenseChartView: FC<ExpenseChartViewProps> = ({ data, month }: ExpenseChartViewProps) => {
+const ExpenseChartView: FC<ExpenseChartViewProps> = ({ data, month, title = 'ရက်အလိုက်အသုံးစရိတ်' }: ExpenseChartViewProps) => {
   return (
     <>
-      <Box component="h3" sx={{ textAlign: 'center', mt: 1, mb: 0 }}>ရက်အလိုက်အသုံးစရိတ်</Box>
+      <Box component="h3" sx={{ textAlign: 'center', mt: 1, mb: 0 }}>{title}</Box>
       <div style={{ width: '100%', height: '400px' }}>
         <ResponsiveChartContainer
           series={[

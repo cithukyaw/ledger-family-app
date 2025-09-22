@@ -1,5 +1,5 @@
-import {FC, useEffect, useState} from "react";
-import {useLocation, NavLink, NavLinkRenderProps} from "react-router-dom";
+import { FC, useEffect, useState } from "react";
+import { useLocation, NavLink, NavLinkRenderProps } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import WalletIcon from '@mui/icons-material/Wallet';
@@ -22,7 +22,7 @@ const Navbar: FC = () => {
       const threshold = 50;
 
       setIsBottom(scrollPosition + threshold >= pageHeight);
-    };
+    };``
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -50,7 +50,7 @@ const Navbar: FC = () => {
           <div>Account</div>
         </NavLink>
       </nav>
-      {location.pathname !== "/expense/add" && ( // Hide Fab button on /expense/add
+      {location.pathname !== "/expense/add" && !location.pathname.startsWith("/passive-income") && ( // Hide Fab button on /expense/add and passive-income pages
         <Fab
           className="fab-button"
           color="primary"

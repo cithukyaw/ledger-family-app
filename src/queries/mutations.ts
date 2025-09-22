@@ -58,6 +58,21 @@ const saveLedger = async <TData = ApiResponse>(formData: FormLedgerValues): Prom
   return response.data;
 }
 
+const createPassiveIncome = async <TData = ApiResponse>(formData: FormExpenseValues): Promise<TData> => {
+  const response = await api.post('passive-incomes', formData);
+  return response.data;
+}
+
+const updatePassiveIncome = async <TData = ApiResponse>(id: number, formData: FormExpenseValues): Promise<TData> => {
+  const response = await api.put(`passive-incomes/${id}`, formData);
+  return response.data;
+}
+
+const deletePassiveIncome = async (id: number): Promise<void> => {
+  const response = await api.delete(`passive-incomes/${id}`);
+  return response.data;
+}
+
 const mQuery = {
   checkAvailability,
   prerequisiteLogin,
@@ -69,6 +84,9 @@ const mQuery = {
   updateExpense,
   deleteExpense,
   saveLedger,
+  createPassiveIncome,
+  updatePassiveIncome,
+  deletePassiveIncome,
 }
 
 export default mQuery;

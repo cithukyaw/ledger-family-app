@@ -1,23 +1,25 @@
 import { FC } from 'react'
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home/Home.tsx";
 import RegisterEmail from "./pages/Register/RegisterEmail.tsx";
 import LoginEmail from "./pages/Login/LoginEmail.tsx";
 import RegisterPasscode from "./pages/Register/RegisterPasscode.tsx";
 import LoginPasscode from "./pages/Login/LoginPasscode.tsx";
 import Dashboard from "./pages/Dashboard/Dashboard.tsx";
-import {UserProvider} from "./contexts/userContext.tsx";
-import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import { UserProvider } from "./contexts/userContext.tsx";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
 import Expense from "./pages/Expense/Expense.tsx";
 import SingleLayout from "./components/Layouts/SingleLayout.tsx";
 import BaseLayout from "./components/Layouts/BaseLayout.tsx";
-import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import ExpenseForm from "./pages/Expense/ExpenseForm.tsx";
-import './App.scss';
 import Ledger from "./pages/Ledger.tsx";
 import Account from "./pages/Account.tsx";
-import {createTheme, ThemeProvider} from "@mui/material";
+import PassiveIncome from "./pages/PassiveIncome/PassiveIncome.tsx";
+import PassiveIncomeForm from "./pages/PassiveIncome/PassiveIncomeForm.tsx";
+import { createTheme, ThemeProvider } from "@mui/material";
+import './App.scss';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -64,38 +66,59 @@ const App: FC = () => {
                 </Route>
                 <Route
                   path="/expense" element={
-                  <ProtectedRoute>
-                    <Expense />
-                  </ProtectedRoute>
-                }>
+                    <ProtectedRoute>
+                      <Expense />
+                    </ProtectedRoute>
+                  }>
                 </Route>
                 <Route
                   path="/expense/add" element={
-                  <ProtectedRoute>
-                    <ExpenseForm />
-                  </ProtectedRoute>
-                }>
+                    <ProtectedRoute>
+                      <ExpenseForm />
+                    </ProtectedRoute>
+                  }>
                 </Route>
                 <Route
                   path="/expense/:id" element={
-                  <ProtectedRoute>
-                    <ExpenseForm />
-                  </ProtectedRoute>
-                }>
+                    <ProtectedRoute>
+                      <ExpenseForm />
+                    </ProtectedRoute>
+                  }>
+                </Route>
+                <Route
+                  path="/passive-income" element={
+                    <ProtectedRoute>
+                      <PassiveIncome />
+                    </ProtectedRoute>
+                  }>
+                </Route>
+                <Route
+                  path="/passive-income/add" element={
+                    <ProtectedRoute>
+                      <PassiveIncomeForm />
+                    </ProtectedRoute>
+                  }>
+                </Route>
+                <Route
+                  path="/passive-income/:id" element={
+                    <ProtectedRoute>
+                      <PassiveIncomeForm />
+                    </ProtectedRoute>
+                  }>
                 </Route>
                 <Route
                   path="/ledger" element={
-                  <ProtectedRoute>
-                    <Ledger />
-                  </ProtectedRoute>
-                }>
+                    <ProtectedRoute>
+                      <Ledger />
+                    </ProtectedRoute>
+                  }>
                 </Route>
                 <Route
                   path="/account" element={
-                  <ProtectedRoute>
-                    <Account />
-                  </ProtectedRoute>
-                }>
+                    <ProtectedRoute>
+                      <Account />
+                    </ProtectedRoute>
+                  }>
                 </Route>
               </Route>
             </Routes>

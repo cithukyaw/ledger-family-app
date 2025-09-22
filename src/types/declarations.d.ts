@@ -31,7 +31,8 @@ type HeaderProps = {
 type ListCardProps = {
   title: string,
   data: Array<ExpenseType>,
-  setBackdropOpen?: Dispatch<SetStateAction<boolean>>
+  setBackdropOpen?: Dispatch<SetStateAction<boolean>>,
+  type?: 'expense' | 'passive-income'
 }
 
 type InfoCardProps = {
@@ -40,6 +41,7 @@ type InfoCardProps = {
   icon?: React.ReactNode,
   tooltip?: string,
   color?: string,
+  navigateTo?: string,
 }
 
 type LoadingProps = {
@@ -63,7 +65,8 @@ type MonthNavigatorProps = {
 
 type ExpenseChartViewProps = {
   data: Array<ExpenseBarChartData>,
-  month: string
+  month: string,
+  title?: string
 }
 
 type ExpenseCategoryPieChartProps = {
