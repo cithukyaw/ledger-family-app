@@ -1,24 +1,17 @@
 import {FC, useEffect, useState} from "react";
 import Navbar from "../../components/Navbar/Navbar.tsx";
-import {
-  Box,
-  Card,
-  CardContent,
-  Container,
-  Typography
-} from "@mui/material";
+import {Box, Card, CardContent, Container, Typography} from "@mui/material";
 import {usePassiveIncomes} from "../../queries/queries.hook.ts";
 import Loading from "../../components/Loading/Loading.tsx";
 import ServerError from "../../components/ServerError.tsx";
 import dayjs from "dayjs";
 import ListCard from "../../components/Card/ListCard.tsx";
-import {ExpenseBarChartData, ExpenseType} from "../../types/declarations";
+import {ExpenseType} from "../../types/declarations";
 import LoadingBackdrop from "../../components/Loading/LoadingBackdrop.tsx";
 import MonthNavigator from "../../components/MonthNavigator.tsx";
 import {useSelector} from "react-redux";
 import {RootState} from "../../state/store.ts";
 import config from "../../lib/config.ts";
-import ExpenseChartView from "../Expense/ExpenseChartView.tsx";
 import AddPassiveIncomeButton from "../../components/AddPassiveIncomeButton.tsx";
 import Header from "../../components/Header/Header.tsx";
 
@@ -39,19 +32,6 @@ const PassiveIncome: FC = () => {
   const passiveIncomes = isSuccess ? data.data : [];
   const passiveIncomeExist = isSuccess ? Object.entries(passiveIncomes).length > 0 : false;
   const total = isSuccess ? data.meta.total : 0;
-  const barChartData: ExpenseBarChartData[] = [];
-
-  if (passiveIncomeExist) {
-    // Prepare bar chart data for passive incomes by day
-    Object.entries(passiveIncomes).forEach(([key, value]) => {
-      const totalByDay = value.reduce((total, row) => total + row.amount, 0);
-      barChartData.push({
-        day: key,
-        amount: totalByDay,
-      });
-    });
-    barChartData.sort((a, b) => new Date(a.day).getTime() - new Date(b.day).getTime()); // asc sort by day
-  }
 
   return (
     <Box className="app">
@@ -76,7 +56,6 @@ const PassiveIncome: FC = () => {
           : (
             passiveIncomeExist ? (
               <>
-                <ExpenseChartView data={barChartData} month={activeMonth} title="ရက်အလိုက်အပိုဝင်ငွေ" />
                 {Object.entries(passiveIncomes).map(([key, value]) => (
                   <ListCard key={key} title={key} data={value as ExpenseType[]} setBackdropOpen={setBackdropOpen} type="passive-income"/>
                 ))}
