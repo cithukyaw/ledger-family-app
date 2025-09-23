@@ -148,6 +148,7 @@ const Dashboard: FC = () => {
               amount={ledger ? ledger.passiveIncome : 0}
               icon={<AccountBalanceWalletIcon/>}
               tooltip="passiveIncome"
+              navigateTo="/passive-income"
             />
             <InfoCard
               title="အပိတ်ငွေစာရင်း"

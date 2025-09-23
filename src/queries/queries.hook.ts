@@ -44,3 +44,18 @@ export const useExpenseDetails = (id: number | undefined) => {
     enabled: !!id,  // This ensures the query only runs if id is defined
   });
 };
+
+export const usePassiveIncomes = (dt: string) => {
+  const from = dayjs(dt).startOf('month');
+  const to = dayjs(dt).endOf('month');
+  return useQuery({
+    ...queries.passiveIncomes.all(from, to),
+  })
+}
+
+export const usePassiveIncomeDetails = (id: number | undefined) => {
+  return useQuery({
+    ...queries.passiveIncomes.detail(id),
+    enabled: !!id,  // This ensures the query only runs if id is defined
+  });
+};
