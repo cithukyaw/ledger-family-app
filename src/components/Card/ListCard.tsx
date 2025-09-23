@@ -35,11 +35,11 @@ const ListCard: FC<ListCardProps> = ({ title, data, setBackdropOpen, type = 'exp
         setListData(updatedData);
         const itemType = type === 'passive-income' ? 'Passive income' : 'Expense';
         toast.success(`${itemType} deleted!`, config.toastOptions);
-        setBackdropOpen && setBackdropOpen(false);
+        setBackdropOpen?.(false);
       },
       onError: () => {
         toast.error('Failed to delete!', config.toastOptions);
-        setBackdropOpen && setBackdropOpen(false);
+        setBackdropOpen?.(false);
       }
     }
   );
@@ -57,13 +57,12 @@ const ListCard: FC<ListCardProps> = ({ title, data, setBackdropOpen, type = 'exp
   const handleActionDialogClose = (action: string) => {
     setEditable(false);
     setSelectedAction(action);
-    console.log(action, selectedId, selectedTitle);
 
     if (action === 'edit') {
       const editPath = type === 'passive-income' ? `/passive-income/${selectedId}` : `/expense/${selectedId}`;
       navigate(editPath);
     } else if (action === 'delete') {
-      setBackdropOpen && setBackdropOpen(true);
+      setBackdropOpen?.(true);
       deleteQuery.mutate(selectedId);
     }
   };
@@ -108,10 +107,13 @@ const ListCard: FC<ListCardProps> = ({ title, data, setBackdropOpen, type = 'exp
                     {/*  </ListItemIcon>*/}
                     {/*</Collapse>*/}
 
-                    <ListItemText
-                      primary={row.title}
-                      secondary={TwoLinesText(row.category.name, row.remarks, 'text-warning')}
-                    />
+                    { row.category ?
+                      <ListItemText
+                        primary={row.title}
+                        secondary={TwoLinesText(row.category.name, row.remarks, 'text-warning')}
+                      />
+                      : <ListItemText primary={row.title} />
+                    }
                   </ListItem>
                   <Divider />
                 </Box>

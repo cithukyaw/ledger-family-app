@@ -1,6 +1,6 @@
 import {Avatar, Card, List, ListItem, ListItemAvatar, ListItemText, Tooltip, IconButton} from "@mui/material";
 import ImageIcon from "@mui/icons-material/Image";
-import VisibilityIcon from "@mui/icons-material/Visibility";
+import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import { deepOrange } from '@mui/material/colors';
 import React, {FC} from "react";
 import {InfoCardProps} from "../../types/declarations";
@@ -34,9 +34,9 @@ const InfoCard: FC<InfoCardProps> = ({ title, amount, icon, tooltip, color, navi
                 component={Link}
                 to={navigateTo}
                 aria-label="View details"
-                sx={{ color: 'primary.main' }}
+                sx={{ color: color }}
               >
-                <VisibilityIcon />
+                <ArrowCircleRightIcon sx={{ width: "1.5em", height: "1.5em" }} />
               </IconButton>
             ) : null
           }

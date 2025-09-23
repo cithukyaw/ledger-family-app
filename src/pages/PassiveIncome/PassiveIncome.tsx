@@ -18,7 +18,6 @@ import MonthNavigator from "../../components/MonthNavigator.tsx";
 import {useSelector} from "react-redux";
 import {RootState} from "../../state/store.ts";
 import config from "../../lib/config.ts";
-import HeaderLogo from "../../components/Header/HeaderLogo.tsx";
 import ExpenseChartView from "../Expense/ExpenseChartView.tsx";
 import AddPassiveIncomeButton from "../../components/AddPassiveIncomeButton.tsx";
 import Header from "../../components/Header/Header.tsx";
