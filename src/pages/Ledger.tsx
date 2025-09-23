@@ -55,7 +55,6 @@ const Ledger: FC = () => {
     setValue('incomePenny', ledger ? ledger.incomePenny : '');
     setValue('parentSupport', ledger ? ledger.parentSupport : '');
     setValue('budget', ledger ? ledger.budget : '');
-    setValue('passiveIncome', ledger ? ledger.passiveIncome : '');
     setValue('exchangeRate', ledger ? ledger.exchangeRate : '');
     setValue('currency', ledger ? (ledger.currency || CURRENCIES.YEN) : CURRENCIES.YEN)
     setValue('remarks', ledger ? ledger.remarks : '');
@@ -82,16 +81,11 @@ const Ledger: FC = () => {
     } else {
       delete data.incomePenny;
     }
-    const passiveIncomeVal = (data as Record<string, unknown>).passiveIncome;
-    if (passiveIncomeVal !== undefined && passiveIncomeVal !== null && passiveIncomeVal !== '') {
-      data.passiveIncome = Number(passiveIncomeVal as number);
-    } else {
-      delete data.passiveIncome;
-    }
+
     if (data.exchangeRate) {
       data.exchangeRate = Number(data.exchangeRate);
     }
-    data.remarks        = data.remarks?.trim();
+    data.remarks = data.remarks?.trim();
 
     mutateQuery.reset();
     mutateQuery.mutate(data);
@@ -107,8 +101,8 @@ const Ledger: FC = () => {
       <Header title="Ledger" />
       <Container maxWidth="lg">
         <MonthNavigator />
-        { isPending && <Loading/>}
-        { isSuccess &&
+        {isPending && <Loading />}
+        {isSuccess &&
           <Box component="form">
             <FormControl fullWidth>
               <Box component="label" className="my">အဖွင့်ငွေစာရင်း (ဝင်ငွေမပါ) <span>*</span></Box>
@@ -191,10 +185,10 @@ const Ledger: FC = () => {
             </FormControl>
 
             <FormControl fullWidth>
-              <Box component="label" className="my">အပိုဝင်ငွေ</Box>
+              <Box component="label" className="my">ငွေလဲနှုန်း</Box>
               <TextField
-                label="Enter your passive income in this month"
-                {...register('passiveIncome')}
+                label="Enter the last exchange rate"
+                {...register('exchangeRate')}
                 inputProps={{
                   type: "number",
                   inputMode: "numeric",
@@ -203,40 +197,24 @@ const Ledger: FC = () => {
                 variant="outlined"
                 fullWidth
               />
-              <Error field={errors.passiveIncome}/>
+              <Error field={errors.exchangeRate} />
             </FormControl>
 
             <FormControl fullWidth>
-                <Box component="label" className="my">ငွေလဲနှုန်း</Box>
-                <TextField
-                    label="Enter the last exchange rate"
-                    {...register('exchangeRate')}
-                    inputProps={{
-                      type: "number",
-                      inputMode: "numeric",
-                      pattern: "[0-9]*",
-                    }}
-                    variant="outlined"
-                    fullWidth
-                />
-                <Error field={errors.exchangeRate}/>
-            </FormControl>
-
-            <FormControl fullWidth>
-                <Box component="label" className="my">ငွေကြေး</Box>
-                <Select
-                  {...register('currency')}
-                  value={watch('currency') || CURRENCIES.YEN}
-                  onChange={(e) => setValue('currency', e.target.value)}
-                  fullWidth
-                >
-                  {Object.entries(CURRENCIES).map(([key, value]) => (
-                    <MenuItem key={key} value={value}>
-                      {key}
-                    </MenuItem>
-                  ))}
-                </Select>
-                <Error field={errors.currency}/>
+              <Box component="label" className="my">ငွေကြေး</Box>
+              <Select
+                {...register('currency')}
+                value={watch('currency') || CURRENCIES.YEN}
+                onChange={(e) => setValue('currency', e.target.value)}
+                fullWidth
+              >
+                {Object.entries(CURRENCIES).map(([key, value]) => (
+                  <MenuItem key={key} value={value}>
+                    {key}
+                  </MenuItem>
+                ))}
+              </Select>
+              <Error field={errors.currency} />
             </FormControl>
 
             <FormControl fullWidth>
