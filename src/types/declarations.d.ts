@@ -112,6 +112,15 @@ type FormExpenseValues = {
   remarks: string,
 }
 
+type FormPassiveIncomeValues = {
+  id?: number,
+  userId: number,
+  date: string,
+  title: string,
+  amount: number,
+  type: string,
+}
+
 type FormLedgerValues = {
   id?: number,
   userId: number,
@@ -170,6 +179,18 @@ type ExpenseType = {
   title: string,
   amount: number,
   remarks?: string,
+  createdAt: string,
+  updatedAt?: string,
+  deletedAt?: string
+}
+
+type PassiveIncomeType = {
+  id: number,
+  userId: number,
+  date: string,
+  title: string,
+  amount: number,
+  type: string,
   createdAt: string,
   updatedAt?: string,
   deletedAt?: string

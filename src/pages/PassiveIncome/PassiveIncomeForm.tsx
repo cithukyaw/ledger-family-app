@@ -9,7 +9,7 @@ import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 import dayjs, {Dayjs} from 'dayjs';
 import Error from "../../components/Error.tsx";
-import {FormExpenseValues} from "../../types/declarations";
+import {FormPassiveIncomeValues} from "../../types/declarations";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import Loading from "../../components/Loading/Loading.tsx";
 import ServerError from "../../components/ServerError.tsx";
@@ -40,7 +40,7 @@ const PassiveIncomeForm: FC = () => {
     formState: {errors},
     handleSubmit,
     reset,
-  } = useForm<FormExpenseValues>();
+  } = useForm<FormPassiveIncomeValues>();
 
   const today = dayjs();
   const user = getLoginUser();
@@ -61,7 +61,7 @@ const PassiveIncomeForm: FC = () => {
   }, [passiveIncome, setDate, setValue]);
 
   const query = useLazyQuery(
-    async (formData: FormExpenseValues) => {
+    async (formData: FormPassiveIncomeValues) => {
       // post to server
       if (formData.id) {
         const { id } = formData;
@@ -87,7 +87,7 @@ const PassiveIncomeForm: FC = () => {
     }
   );
 
-  const submitForm = async (data: FormExpenseValues) => {
+  const submitForm = async (data: FormPassiveIncomeValues) => {
     const { date, amount } = data;
     const incomeDate: string[] = date.split('/');
 

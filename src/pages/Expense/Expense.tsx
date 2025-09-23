@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, {FC, useEffect, useState} from "react";
 import Navbar from "../../components/Navbar/Navbar.tsx";
 import {
   Box,
@@ -7,9 +7,12 @@ import {
   CardContent,
   Container,
   Drawer,
-  IconButton, styled, TextField,
+  IconButton,
+  styled,
+  TextField,
   ToggleButton,
-  ToggleButtonGroup, toggleButtonGroupClasses,
+  ToggleButtonGroup,
+  toggleButtonGroupClasses,
   Typography
 } from "@mui/material";
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
@@ -17,20 +20,20 @@ import CreditCardIcon from '@mui/icons-material/CreditCard';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import BarChartIcon from '@mui/icons-material/BarChart';
-import { useCategories, useExpenses } from "../../queries/queries.hook.ts";
+import {useCategories, useExpenses} from "../../queries/queries.hook.ts";
 import Loading from "../../components/Loading/Loading.tsx";
 import ServerError from "../../components/ServerError.tsx";
 import dayjs from "dayjs";
 import ListCard from "../../components/Card/ListCard.tsx";
-import { CategoryType, ExpenseBarChartData, ExpensePieChartData, ExpenseType } from "../../types/declarations";
+import {CategoryType, ExpenseBarChartData, ExpensePieChartData, ExpenseType} from "../../types/declarations";
 import LoadingBackdrop from "../../components/Loading/LoadingBackdrop.tsx";
 import MonthNavigator from "../../components/MonthNavigator.tsx";
-import { useSelector } from "react-redux";
-import { RootState } from "../../state/store.ts";
+import {useSelector} from "react-redux";
+import {RootState} from "../../state/store.ts";
 import config from "../../lib/config.ts";
 import HeaderLogo from "../../components/Header/HeaderLogo.tsx";
 import ExpenseChartView from "./ExpenseChartView.tsx";
-import { PAY_TYPE_GROUP } from "../../lib/constants.ts";
+import {PAY_TYPE_GROUP} from "../../lib/constants.ts";
 import AddExpenseButton from "../../components/AddExpenseButton.tsx";
 import ExpenseCategoryPieChart from "./ExpenseCategoryPieChart.tsx";
 

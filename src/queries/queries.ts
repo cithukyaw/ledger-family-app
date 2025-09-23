@@ -2,7 +2,7 @@ import {createQueryKeys, mergeQueryKeys} from "@lukemorales/query-key-factory";
 import api from "../lib/api.ts";
 import dayjs, {Dayjs} from "dayjs";
 import {getLoginUser} from "../lib/utils.ts";
-import {ExpenseType} from "../types/declarations";
+import {ExpenseType, PassiveIncomeType} from "../types/declarations";
 
 const users = createQueryKeys('users', {
   // Get user details by userId
@@ -118,8 +118,8 @@ const passiveIncomes = createQueryKeys('passiveIncomes', {
       const response = await api.get(`passive-incomes?${queryStr}`);
 
       // Organize data grouped by date
-      const data: Record<string, ExpenseType[]>  = {};
-      response.data.data.map((row: ExpenseType) => {
+      const data: Record<string, PassiveIncomeType[]>  = {};
+      response.data.data.map((row: PassiveIncomeType) => {
         const key = dayjs(row.date).format('YYYY-MM-DD');
         if (typeof data[key] === 'undefined') {
           data[key] = [];
