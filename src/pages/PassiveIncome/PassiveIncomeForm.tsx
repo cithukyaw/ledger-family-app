@@ -30,8 +30,13 @@ const PassiveIncomeForm: FC = () => {
   const { data: types, isPending: isPendingTypes, isError: isErrorTypes } = usePaymentTypes();
   const { data: passiveIncome, isPending: isPendingPassiveIncome, isError: isErrorPassiveIncome } = usePassiveIncomeDetails(passiveIncomeId);
 
+  const today = dayjs();
+  const user = getLoginUser();
+  const defaultPayType = 'cash';
+
   const navigate = useNavigate();
   const [date, setDate] = useState<Dayjs | null>(dayjs());
+  const [payType, setPayType] = useState<string>(defaultPayType);
   const {
     register,
     setError,
@@ -42,23 +47,21 @@ const PassiveIncomeForm: FC = () => {
     reset,
   } = useForm<FormPassiveIncomeValues>();
 
-  const today = dayjs();
-  const user = getLoginUser();
-  const defaultPayType = 'cash';
-
   useEffect(() => {
     const incomeDate = passiveIncome ? dayjs(passiveIncome.date).format(dateFormat) : dayjs().format(dateFormat);
+    const type = passiveIncome ? passiveIncome.type : defaultPayType;
 
     setValue('date', incomeDate);
     setValue('title', passiveIncome ? passiveIncome.title : '');
     setValue('amount', passiveIncome ? passiveIncome.amount : '');
-    setValue('type', passiveIncome ? passiveIncome.type : defaultPayType);
+    setValue('type', type);
 
+    setPayType(type);
     if (passiveIncome) {
       setDate(dayjs(passiveIncome.date));
     }
 
-  }, [passiveIncome, setDate, setValue]);
+  }, [passiveIncome, setDate, setPayType, setValue]);
 
   const query = useLazyQuery(
     async (formData: FormPassiveIncomeValues) => {
@@ -78,6 +81,7 @@ const PassiveIncomeForm: FC = () => {
           toast.success('Passive income updated!', config.toastOptions);
         } else {
           reset(); // form reset
+          setPayType(defaultPayType); // Reset payment type to default
           toast.success('Passive income added!', config.toastOptions);
         }
       },
@@ -182,7 +186,8 @@ const PassiveIncomeForm: FC = () => {
               <Box component="label" className="my">ငွေပေးချေမှုပုံစံ <span>*</span></Box>
               <Select
                 {...register('type', {required: 'ငွေပေးချေမှုပုံစံတစ်ခုကိုရွေးပါ။'})}
-                defaultValue={defaultPayType}
+                value={payType}
+                onChange={e => setPayType(e.target.value)}
                 fullWidth
               >
                 {Object.entries(types).map(([key, name]) => <MenuItem key={key} value={key}>{name as string}</MenuItem>)}

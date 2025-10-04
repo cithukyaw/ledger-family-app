@@ -31,9 +31,14 @@ const ExpenseForm: FC = () => {
   const { data: types, isPending: isPendingTypes, isError: isErrorTypes } = usePaymentTypes();
   const { data: expense, isPending: isPendingExpense, isError: isErrorExpense } = useExpenseDetails(expenseId);
 
+  const today = dayjs();
+  const user = getLoginUser();
+  const defaultPayType = 'cash';
+
   const navigate = useNavigate();
   const [date, setDate] = useState<Dayjs | null>(dayjs());
   const [category, setCategory] = useState<string>('');
+  const [payType, setPayType] = useState<string>(defaultPayType);
   const {
     register,
     setError,
@@ -44,27 +49,25 @@ const ExpenseForm: FC = () => {
     reset,
   } = useForm<FormExpenseValues>();
 
-  const today = dayjs();
-  const user = getLoginUser();
-  const defaultPayType = 'cash';
-
   useEffect(() => {
     const expDate = expense ? dayjs(expense.date).format(dateFormat) : dayjs().format(dateFormat);
     const category = expense ? expense.categoryId : '';
+    const type = expense ? expense.type : defaultPayType;
 
     setValue('date', expDate);
     setValue('title', expense ? expense.title : '');
     setValue('amount', expense ? expense.amount : '');
     setValue('category', category);
-    setValue('type', expense ? expense.type : defaultPayType);
+    setValue('type', type);
     setValue('remarks', expense && expense.remarks ? expense.remarks : '');
 
     setCategory(category);
+    setPayType(type);
     if (expense) {
       setDate(dayjs(expense.date));
     }
 
-  }, [expense, setDate, setCategory, setValue]);
+  }, [expense, setDate, setCategory, setPayType, setValue]);
 
   const query = useLazyQuery(
     async (formData: FormExpenseValues) => {
@@ -85,6 +88,7 @@ const ExpenseForm: FC = () => {
         } else {
           reset(); // form reset
           setCategory(''); // This resets the local state
+          setPayType(defaultPayType); // Reset payment type to default
           toast.success('Expense added!', config.toastOptions);
         }
       },
@@ -204,7 +208,8 @@ const ExpenseForm: FC = () => {
               <Box component="label" className="my">ငွေပေးချေမှုပုံစံ <span>*</span></Box>
               <Select
                 {...register('type', {required: 'ငွေပေးချေမှုပုံစံတစ်ခုကိုရွေးပါ။'})}
-                defaultValue={defaultPayType}
+                value={payType}
+                onChange={e => setPayType(e.target.value)}
                 fullWidth
               >
                 {Object.entries(types).map(([key, name]) => <MenuItem key={key} value={key}>{name as string}</MenuItem>)}
