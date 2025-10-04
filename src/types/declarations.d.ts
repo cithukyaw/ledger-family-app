@@ -129,7 +129,7 @@ type FormLedgerValues = {
   income: number,
   incomePenny?: number,
   parentSupport: number,
-  budget: number,
+  budget?: number,
   passiveIncome?: number,
   exchangeRate?: number,
   currency?: string,

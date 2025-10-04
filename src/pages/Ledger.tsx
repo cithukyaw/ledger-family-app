@@ -169,17 +169,17 @@ const Ledger: FC = () => {
             </FormControl>
 
             <FormControl fullWidth>
-              <Box component="label" className="my">လျာထားအသုံးစရိတ် <span>*</span></Box>
+              <Box component="label" className="my">လျာထားအသုံးစရိတ်</Box>
               <TextField
                 label="Enter your budget amount"
-                {...register('budget', {required: 'လျာထားအသုံးစရိတ်ကိုထည့်ပါ။'})}
+                {...register('budget')}
                 inputProps={{
                   type: "number",
                   inputMode: "numeric",
                   pattern: "[0-9]*",
                 }}
                 variant="outlined"
-                required fullWidth
+                fullWidth
               />
               <Error field={errors.budget}/>
             </FormControl>
