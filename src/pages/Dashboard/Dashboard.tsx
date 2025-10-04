@@ -3,7 +3,6 @@ import {Box, Container, Tooltip} from "@mui/material";
 import Navbar from "../../components/Navbar/Navbar.tsx";
 import Header from "../../components/Header/Header.tsx";
 import InfoCard from "../../components/Card/InfoCard.tsx";
-import SavingsIcon from '@mui/icons-material/Savings';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import PaymentIcon from '@mui/icons-material/Payment';
@@ -98,12 +97,12 @@ const Dashboard: FC = () => {
                 icon={<CalculateIcon/>}
                 tooltip="ယခုလသုံးစွဲရန်လျာထားငွေ (မိဘထောက်ပံ့ငွေမပါ)"
             />
-            <InfoCard
-                title="အကြမ်းဖျဥ်းစုငွေ"
-                amount={ledger ? ledger.grossSaving : 0}
-                icon={<SavingsIcon/>}
-                tooltip="ဝင်ငွေ - (မိဘထောက်ပံ့ငွေ + ဘတ်ဂျက်)"
-            />
+            {/*<InfoCard*/}
+            {/*    title="အကြမ်းဖျဥ်းစုငွေ"*/}
+            {/*    amount={ledger ? ledger.grossSaving : 0}*/}
+            {/*    icon={<SavingsIcon/>}*/}
+            {/*    tooltip="ဝင်ငွေ - (မိဘထောက်ပံ့ငွေ + ဘတ်ဂျက်)"*/}
+            {/*/>*/}
             <InfoCard
                 title="အသုံးစရိတ် (ငွေသား)"
                 amount={ledger ? ledger.expenseCash : 0}
