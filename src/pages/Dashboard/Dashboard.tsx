@@ -133,7 +133,7 @@ const Dashboard: FC = () => {
                 title="အသားတင်စုငွေ"
                 amount={ledger ? ledger.netSaving : 0}
                 icon={<WalletIcon/>}
-                color={green[700]}
+                color={green[500]}
                 tooltip="netSaving: ဝင်ငွေ - စုစုပေါင်းကုန်ကျစရိတ်"
             />
             <InfoCard
@@ -148,6 +148,13 @@ const Dashboard: FC = () => {
               icon={<AccountBalanceWalletIcon/>}
               tooltip="passiveIncome"
               navigateTo="/passive-income"
+            />
+            <InfoCard
+              title="စုငွေစုစုပေါင်း"
+              amount={ledger ? ledger.totalSaving : 0}
+              icon={<WalletIcon/>}
+              color={green[700]}
+              tooltip="totalSaving: အသားတင်စုငွေ (netSaving) + အပိုဝင်ငွေ (passiveIncome)"
             />
             <InfoCard
               title="အပိတ်ငွေစာရင်း"
