@@ -1,7 +1,7 @@
 import {Avatar, Card, List, ListItem, ListItemAvatar, ListItemText, Tooltip, IconButton} from "@mui/material";
 import ImageIcon from "@mui/icons-material/Image";
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
-import { deepOrange } from '@mui/material/colors';
+import {deepOrange, red} from '@mui/material/colors';
 import React, {FC} from "react";
 import {InfoCardProps} from "../../types/declarations";
 import config from "../../lib/config.ts";
@@ -47,7 +47,11 @@ const InfoCard: FC<InfoCardProps> = ({ title, amount, icon, tooltip, color, navi
             </Tooltip>
             : getAvatar(icon)
           }
-          <ListItemText primary={ `${amount.toLocaleString()} ${config.currencyUnit}` } secondary={getTitle(title)} />
+          <ListItemText
+            primary={ `${amount.toLocaleString()} ${config.currencyUnit}` }
+            secondary={getTitle(title)}
+            primaryTypographyProps={amount < 0 ? { sx: { color: red[800] } } : undefined}
+          />
         </ListItem>
       </List>
     </Card>
