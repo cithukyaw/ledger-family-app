@@ -32,12 +32,14 @@ const Dashboard: FC = () => {
 
   let opening = 0
   let budgetBalance = 0
+  let totalCost = 0;
   let current = 0;
   let diff = 0;
   if (ledger) {
     opening = ledger.current + ledger.income
     budgetBalance = ledger.budget - ledger.expenseCash
     current = ledger.current
+    totalCost = ledger.parentSupport + ledger.expenseCash + ledger.expenseBank
     if (prevLedger) {
       // the difference between this month current and the previous month balance
       // incomePenny is already included in current, so subtract it from current
@@ -117,10 +119,10 @@ const Dashboard: FC = () => {
             />
             <InfoCard
                 title="စုစုပေါင်းကုန်ကျစရိတ်"
-                amount={ledger ? ledger.cost : 0}
+                amount={totalCost}
                 icon={<MonetizationOnIcon/>}
                 color={red[800]}
-                tooltip="cost: ဘတ်ဂျက် + မိဘထောက်ပံ့ငွေ + ဘဏ်အသုံးစရိတ်"
+                tooltip="cost: မိဘထောက်ပံ့ငွေ + အသုံးစရိတ်ငွေသား + ဘဏ်အသုံးစရိတ်"
             />
             <InfoCard
                 title="ဘတ်ဂျက်ကျန်ငွေ"
